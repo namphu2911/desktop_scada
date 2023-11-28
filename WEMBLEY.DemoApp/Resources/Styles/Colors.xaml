@@ -1,0 +1,41 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Color x:Key="ColorValuePrimary">#228BC6</Color>
+    <Color x:Key="ColorValuePrimaryL1">#18506F</Color>
+    <Color x:Key="ColorValueHightlighted">#237575</Color>
+    
+    <Color x:Key="ColorValueGreen">#3EB17F</Color>
+    <Color x:Key="ColorValueDeepGreen">#068842</Color>
+    <Color x:Key="ColorValueRed">#ED5152</Color>
+    <Color x:Key="ColorValueYellow">#FAAF24</Color>
+    <Color x:Key="ColorValuePurple">#8B72C8</Color>
+    <Color x:Key="ColorValueGray">#BBBBBB</Color>
+
+    <SolidColorBrush x:Key="ColorPrimaryD1" Color="#050b1e"/>
+    <SolidColorBrush x:Key="ColorPrimary" Color="#228BC6"/>
+    <SolidColorBrush x:Key="ColorPrimaryL1" Color="#18506F"/>
+    <SolidColorBrush x:Key="ColorPrimaryGreen" Color="#3EB17F"/>
+    <SolidColorBrush x:Key="ColorPrimaryRed" Color="#ED5152"/>
+    <SolidColorBrush x:Key="ColorPrimaryYellow" Color="#FAAF24"/>
+    <SolidColorBrush x:Key="ColorPrimaryPurple" Color="#8B72C8"/>
+    <SolidColorBrush x:Key="ColorPrimaryGray" Color="#BBBBBB"/>
+    
+    
+    <SolidColorBrush x:Key="ColorPrimaryOn" Color="#ffffff"/>
+
+    <SolidColorBrush x:Key="ColorError" Color="#b00020"/>
+    <SolidColorBrush x:Key="ColorErrorOn" Color="#ffffff"/>
+
+    <SolidColorBrush x:Key="ColorBackground" Color="#ffffff"/>
+    <SolidColorBrush x:Key="ColorBackgroundOn" Color="#000000"/>
+
+    <SolidColorBrush x:Key="ColorSurface" Color="#ffffff"/>
+    <SolidColorBrush x:Key="ColorSurfaceOn" Color="#000000"/>
+    <SolidColorBrush x:Key="ColorGray" Color="#ececec"/>
+
+    <SolidColorBrush x:Key="ColorPrimary3DModel" Color="{StaticResource ColorValuePrimary}" Opacity="0.9"/>
+    <SolidColorBrush x:Key="ColorHightlighted3DModel" Color="{StaticResource ColorValueHightlighted}" Opacity="0.9"/>
+    <SolidColorBrush x:Key="ColorSoftHightlighted3DModel" Color="{StaticResource ColorValueHightlighted}" Opacity="0.2"/>
+    <SolidColorBrush x:Key="ColorGray3DModel" Color="{StaticResource ColorValueGray}" Opacity="0.2"/>
+</ResourceDictionary>

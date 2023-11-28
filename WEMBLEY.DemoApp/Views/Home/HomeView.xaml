@@ -1,0 +1,491 @@
+﻿<UserControl x:Class="WEMBLEY.DemoApp.Views.Home.HomeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WEMBLEY.DemoApp.Views.Home"
+             mc:Ignorable="d" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+             xmlns:machinesinline="clr-namespace:WEMBLEY.DemoApp.Views.MachinesInLine" 
+             xmlns:home="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Home;assembly=WEMBLEY.DemoApp.Core" 
+             d:DataContext="{d:DesignInstance Type=home:HomeViewModel}"
+             Background="{StaticResource ColorBackground}"
+             d:DesignHeight="725" d:DesignWidth="1280">
+    <materialDesign:Card>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Margin="10"  Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
+                <TextBlock Padding="10"
+                           Background="{StaticResource ColorPrimaryGreen}"
+                           Style="{StaticResource NoteBarLabel}"
+                           Text="RUN" />
+                <TextBlock Padding="10"
+                           Background="{StaticResource ColorPrimaryRed}"
+                           Style="{StaticResource NoteBarLabel}"
+                           Text="ALARM" />
+                <TextBlock Padding="10"
+                           Background="{StaticResource ColorPrimaryYellow}"
+                           Style="{StaticResource NoteBarLabel}"
+                           Text="IDLE" />
+                <TextBlock Padding="10"
+                           Background="{StaticResource ColorPrimaryPurple}"
+                           Style="{StaticResource NoteBarLabel}"
+                           Text="SETUP" />
+                <TextBlock Padding="10"
+                           Background="{StaticResource ColorPrimaryGray}"
+                           Style="{StaticResource NoteBarLabel}"
+                           Text="OFF" />
+
+            </StackPanel>
+
+            <TabControl Grid.Row="1"
+                        TabStripPlacement="Left"
+                        Style="{StaticResource MaterialDesignFilledTabControl}"
+                        materialDesign:ColorZoneAssist.Background="{StaticResource ColorBackground}">
+
+                <TabItem 
+                    Style="{StaticResource LineStyle}" 
+                    Background="{StaticResource ColorPrimaryGreen}"
+                    Height="330" Width="700">
+                    <TabItem.Header>
+                        <HeaderedContentControl 
+                            VerticalAlignment="Top" 
+                            Margin="5,5,5,5" 
+                            Width="690" Height="310">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid Grid.Row="0">
+                                    <TextBlock 
+                                        Grid.Column="0" 
+                                        Style="{StaticResource LineTitle}"
+                                        Text="Line 1: Nút chặn" />
+                                </Grid>
+
+                                <materialDesign:Card 
+                                    UniformCornerRadius="15" 
+                                    Margin="10,0,25,0" 
+                                    Grid.Row="1"
+                                    Padding="5">
+                                    <Grid >
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+
+                                        <Grid Grid.Row="0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Grid.Column="0" 
+                                                Style="{StaticResource LineLabel}"
+                                                Text="Hiệu năng: " />
+                                            <ProgressBar 
+                                                    Grid.Column="1" 
+                                                    Value="75" Name="pbStatus" 
+                                                    Height="35"
+                                                    Width="300"
+                                                    Style="{StaticResource ProgressBarStyle}">
+                                                <ProgressBar.Clip>
+                                                    <RectangleGeometry RadiusX="15" RadiusY="15" Rect="0,0,300,35"/>
+                                                </ProgressBar.Clip>
+                                            </ProgressBar>
+                                            <TextBlock 
+                                                    Grid.Column="1"  
+                                                    Style="{StaticResource ProgressBarText}"
+                                                    Text="{Binding ElementName=pbStatus, Path=Value, StringFormat={}{0:0}%}" />
+
+                                        </Grid>
+
+                                        <Grid Grid.Row="1">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Grid.Column="0" 
+                                               Style="{StaticResource LineLabel}"
+                                               Text="Tổng SL: " />
+                                            <Border Grid.Column="1" 
+                                                    BorderThickness="2,2,2,2" 
+                                                    BorderBrush="Black" 
+                                                    CornerRadius="15,15,15,15" 
+                                                    Margin="10,10,10,5">
+                                                <TextBlock 
+                                                   Style="{StaticResource LineLabel}"
+                                                   Text="1000" />
+                                            </Border>
+
+                                            <TextBlock Grid.Column="2" 
+                                               Style="{StaticResource LineLabel}"
+                                               Text="SL đạt: " />
+                                            <Border 
+                                                Grid.Column="3" 
+                                                BorderThickness="2,2,2,2" 
+                                                BorderBrush="Black" 
+                                                CornerRadius="15,15,15,15" 
+                                                Margin="10,10,10,5">
+                                                <TextBlock 
+                                                   Style="{StaticResource LineLabel}"
+                                                   Text="750" />
+                                            </Border>
+
+                                            <TextBlock Grid.Column="4" 
+                                               Style="{StaticResource LineLabel}"
+                                               Text="SL lỗi: " />
+                                            <Border Grid.Column="5"
+                                                    BorderThickness="2,2,2,2" 
+                                                    BorderBrush="Black" 
+                                                    CornerRadius="15,15,15,15" 
+                                                    Margin="10,10,10,5">
+                                                <TextBlock 
+                                                   Style="{StaticResource LineLabel}"
+                                                   Text="250" />
+                                            </Border>
+                                        </Grid>
+
+                                        <Grid Grid.Row="2">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock 
+                                                Grid.Column="0" 
+                                                Style="{StaticResource LineLabel}"
+                                                Text="Thời gian hoạt động: " />
+                                            <Border Grid.Column="1" 
+                                                    BorderThickness="2,2,2,2" 
+                                                    BorderBrush="Black" 
+                                                    CornerRadius="15" >
+                                                <TextBlock 
+                                                   Style="{StaticResource LineLabel}"
+                                                   Text="14:30:30" />
+                                            </Border>
+                                        </Grid>
+
+                                        <Grid Grid.Row="3">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock 
+                                                Grid.Column="0" 
+                                                Style="{StaticResource LineLabel}"
+                                                Text="Tên sản phẩm: " />
+                                            <ComboBox Grid.Column="1"
+                                                  Margin="5"
+                                                  materialDesign:HintAssist.Hint="Tên sản phẩm"
+                                                  Style="{StaticResource ComboBox}"
+                                                  ItemsSource="{Binding ItemIds}"
+                                                  Text="{Binding ItemId}">
+                                                <ComboBox.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <VirtualizingStackPanel />
+                                                    </ItemsPanelTemplate>
+                                                </ComboBox.ItemsPanel>
+                                            </ComboBox>
+
+                                            <TextBlock 
+                                                Grid.Column="2" 
+                                                Style="{StaticResource LineLabel}"
+                                                Text="Mã Ref: " />
+                                            <ComboBox Grid.Column="3"
+                                                  Margin="5"
+                                                  materialDesign:HintAssist.Hint="Mã Ref"
+                                                  Style="{StaticResource ComboBox}"
+                                                  ItemsSource="{Binding ItemIds}"
+                                                  Text="{Binding ItemId}">
+                                                <ComboBox.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <VirtualizingStackPanel />
+                                                    </ItemsPanelTemplate>
+                                                </ComboBox.ItemsPanel>
+                                            </ComboBox>
+                                        </Grid>
+
+                                        <Grid Grid.Row="4">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock 
+                                                Grid.Column="0" 
+                                                Style="{StaticResource LineLabel}"
+                                                Text="Mã lô: " />
+                                            <Border Grid.Column="1" 
+                                                    BorderThickness="2,2,2,2" 
+                                                    BorderBrush="Black" 
+                                                    CornerRadius="15" HorizontalAlignment="Left" VerticalAlignment="Center" >
+                                                <TextBlock 
+                                                   Style="{StaticResource LineLabel}"
+                                                   Text="A0001" />
+                                            </Border>
+
+                                            <TextBlock 
+                                                Grid.Column="2" 
+                                                Style="{StaticResource LineLabel}"
+                                                Text="Cỡ lô: " />
+                                            <Border Grid.Column="3" 
+                                                    BorderThickness="2,2,2,2" 
+                                                    BorderBrush="Black" 
+                                                    CornerRadius="15" VerticalAlignment="Center" HorizontalAlignment="Left" >
+                                                <TextBlock 
+                                                   Style="{StaticResource LineLabel}"
+                                                   Text="25000" />
+                                            </Border>
+                                        </Grid>
+                                    </Grid>
+                                </materialDesign:Card>
+                            </Grid>
+                        </HeaderedContentControl>
+                    </TabItem.Header>
+                    <machinesinline:MachinesInLine1View DataContext="{Binding MachinesInLine1}"/>
+                </TabItem>
+
+                <TabItem 
+                    Style="{StaticResource LineStyle}" 
+                    Background="{StaticResource ColorPrimaryRed}"
+                    Height="330" Width="700">
+                    <TabItem.Header>
+                        <HeaderedContentControl 
+                            VerticalAlignment="Top" 
+                            Margin="5,5,5,5" 
+                            Width="690" Height="310">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid Grid.Row="0">
+                                    <TextBlock 
+                                        Grid.Column="0" 
+                                        Style="{StaticResource LineTitle}"
+                                        Text="Line 2: Ống máu chân không" />
+                                </Grid>
+
+                                <materialDesign:Card 
+                                    UniformCornerRadius="15" 
+                                    Margin="10,0,25,0" 
+                                    Grid.Row="1"
+                                    Padding="5">
+                                    <Grid >
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+
+                                        <Grid Grid.Row="0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Grid.Column="0" 
+                                                Style="{StaticResource LineLabel}"
+                                                Text="Hiệu năng: " />
+                                            <ProgressBar 
+                                                    Grid.Column="1" 
+                                                    Value="85" Name="pbStatus2" 
+                                                    Height="35"
+                                                    Width="300"
+                                                    Style="{StaticResource ProgressBarStyle}">
+                                                <ProgressBar.Clip>
+                                                    <RectangleGeometry RadiusX="15" RadiusY="15" Rect="0,0,300,35"/>
+                                                </ProgressBar.Clip>
+                                            </ProgressBar>
+                                            <TextBlock 
+                                                    Grid.Column="1"  
+                                                    Style="{StaticResource ProgressBarText}"
+                                                    Text="{Binding ElementName=pbStatus2, Path=Value, StringFormat={}{0:0}%}" />
+
+                                        </Grid>
+
+                                        <Grid Grid.Row="1">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Grid.Column="0" 
+                                               Style="{StaticResource LineLabel}"
+                                               Text="Tổng SL: " />
+                                            <Border Grid.Column="1" 
+                                                    BorderThickness="2,2,2,2" 
+                                                    BorderBrush="Black" 
+                                                    CornerRadius="15,15,15,15" 
+                                                    Margin="10,10,10,5">
+                                                <TextBlock 
+                                                   Style="{StaticResource LineLabel}"
+                                                   Text="1000" />
+                                            </Border>
+
+                                            <TextBlock Grid.Column="2" 
+                                               Style="{StaticResource LineLabel}"
+                                               Text="SL đạt: " />
+                                            <Border 
+                                                Grid.Column="3" 
+                                                BorderThickness="2,2,2,2" 
+                                                BorderBrush="Black" 
+                                                CornerRadius="15,15,15,15" 
+                                                Margin="10,10,10,5">
+                                                <TextBlock 
+                                                   Style="{StaticResource LineLabel}"
+                                                   Text="850" />
+                                            </Border>
+
+                                            <TextBlock Grid.Column="4" 
+                                               Style="{StaticResource LineLabel}"
+                                               Text="SL lỗi: " />
+                                            <Border Grid.Column="5"
+                                                    BorderThickness="2,2,2,2" 
+                                                    BorderBrush="Black" 
+                                                    CornerRadius="15,15,15,15" 
+                                                    Margin="10,10,10,5">
+                                                <TextBlock 
+                                                   Style="{StaticResource LineLabel}"
+                                                   Text="150" />
+                                            </Border>
+                                        </Grid>
+
+                                        <Grid Grid.Row="2">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock 
+                                                Grid.Column="0" 
+                                                Style="{StaticResource LineLabel}"
+                                                Text="Thời gian hoạt động: " />
+                                            <Border Grid.Column="1" 
+                                                    BorderThickness="2,2,2,2" 
+                                                    BorderBrush="Black" 
+                                                    CornerRadius="15" >
+                                                <TextBlock 
+                                                   Style="{StaticResource LineLabel}"
+                                                   Text="14:30:30" />
+                                            </Border>
+                                        </Grid>
+
+                                        <Grid Grid.Row="3">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock 
+                                                Grid.Column="0" 
+                                                Style="{StaticResource LineLabel}"
+                                                Text="Tên sản phẩm: " />
+                                            <ComboBox Grid.Column="1"
+                                                  Margin="5"
+                                                  materialDesign:HintAssist.Hint="Tên sản phẩm"
+                                                  Style="{StaticResource ComboBox}"
+                                                  ItemsSource="{Binding ItemIds}"
+                                                  Text="{Binding ItemId}">
+                                                <ComboBox.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <VirtualizingStackPanel />
+                                                    </ItemsPanelTemplate>
+                                                </ComboBox.ItemsPanel>
+                                            </ComboBox>
+
+                                            <TextBlock 
+                                                Grid.Column="2" 
+                                                Style="{StaticResource LineLabel}"
+                                                Text="Mã Ref: " />
+                                            <ComboBox Grid.Column="3"
+                                                  Margin="5"
+                                                  materialDesign:HintAssist.Hint="Mã Ref"
+                                                  Style="{StaticResource ComboBox}"
+                                                  ItemsSource="{Binding ItemIds}"
+                                                  Text="{Binding ItemId}">
+                                                <ComboBox.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <VirtualizingStackPanel />
+                                                    </ItemsPanelTemplate>
+                                                </ComboBox.ItemsPanel>
+                                            </ComboBox>
+                                        </Grid>
+
+                                        <Grid Grid.Row="4">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock 
+                                                Grid.Column="0" 
+                                                Style="{StaticResource LineLabel}"
+                                                Text="Mã lô: " />
+                                            <Border Grid.Column="1" 
+                                                    BorderThickness="2,2,2,2" 
+                                                    BorderBrush="Black" 
+                                                    CornerRadius="15" HorizontalAlignment="Left" VerticalAlignment="Center" >
+                                                <TextBlock 
+                                                   Style="{StaticResource LineLabel}"
+                                                   Text="A0001" />
+                                            </Border>
+
+                                            <TextBlock 
+                                                Grid.Column="2" 
+                                                Style="{StaticResource LineLabel}"
+                                                Text="Cỡ lô: " />
+                                            <Border Grid.Column="3" 
+                                                    BorderThickness="2,2,2,2" 
+                                                    BorderBrush="Black" 
+                                                    CornerRadius="15" VerticalAlignment="Center" HorizontalAlignment="Left" >
+                                                <TextBlock 
+                                                   Style="{StaticResource LineLabel}"
+                                                   Text="25000" />
+                                            </Border>
+                                        </Grid>
+                                    </Grid>
+                                </materialDesign:Card>
+                            </Grid>
+                        </HeaderedContentControl>
+                    </TabItem.Header>
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </materialDesign:Card>
+</UserControl>

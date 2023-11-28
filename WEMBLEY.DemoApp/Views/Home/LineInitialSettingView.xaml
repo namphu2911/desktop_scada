@@ -1,0 +1,176 @@
+﻿<UserControl x:Class="WEMBLEY.DemoApp.Views.Home.LineInitialSettingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WEMBLEY.DemoApp.Views.Home"
+             mc:Ignorable="d" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             Background="{StaticResource ColorBackground}"
+             d:DesignHeight="725" d:DesignWidth="1280">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <materialDesign:Card Grid.Row="0" 
+                                     Background="{StaticResource ColorSurface}"
+                                     Margin="10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" 
+                       Margin="10"
+                       Style="{StaticResource FieldLabel}"
+                       Text="Line"/>
+
+                    <ComboBox Grid.Row="0" Grid.Column="1"
+                      Margin="10"
+                      materialDesign:HintAssist.Hint="Line"
+                      Style="{StaticResource ComboBox}"
+                      ItemsSource="{Binding ItemIds}"
+                      Text="{Binding ItemId}">
+                        <ComboBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel />
+                            </ItemsPanelTemplate>
+                        </ComboBox.ItemsPanel>
+                    </ComboBox>
+
+                    <TextBlock Grid.Row="0" Grid.Column="2" 
+                       Margin="10"
+                       Style="{StaticResource FieldLabel}" 
+                       Text="Tên sản phẩm"/>
+
+                    <ComboBox Grid.Row="0" Grid.Column="3"
+                      Margin="10"
+                      materialDesign:HintAssist.Hint="Tên sản phẩm"
+                      Style="{StaticResource ComboBox}"
+                      ItemsSource="{Binding ItemNames}"
+                      Text="{Binding ItemName}">
+                        <ComboBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel />
+                            </ItemsPanelTemplate>
+                        </ComboBox.ItemsPanel>
+                    </ComboBox>
+
+                    <TextBlock Grid.Row="0" Grid.Column="4" 
+                       Margin="10"
+                       Style="{StaticResource FieldLabel}"
+                       Text="Mã Ref"/>
+
+                    <ComboBox Grid.Row="0" Grid.Column="5"
+                      Margin="10"
+                      materialDesign:HintAssist.Hint="Mã Ref"
+                      Style="{StaticResource ComboBox}"
+                      ItemsSource="{Binding Receivers}"
+                      Text="{Binding Receiver}">
+                        <ComboBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel />
+                            </ItemsPanelTemplate>
+                        </ComboBox.ItemsPanel>
+                    </ComboBox>
+                </Grid>
+
+
+
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" 
+                       Margin="10"
+                       Style="{StaticResource FieldLabel}"
+                       Text="Mã lô"/>
+                    <ComboBox Grid.Column="1"
+                      Margin="10,0,9,0"
+                      materialDesign:HintAssist.Hint="Mã lô"
+                      Style="{StaticResource ComboBox}"
+                      ItemsSource="{Binding PurchaseOrderNumbers}"
+                      Text="{Binding PurchaseOrderNumber}">
+                        <ComboBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel />
+                            </ItemsPanelTemplate>
+                        </ComboBox.ItemsPanel>
+                    </ComboBox>
+                    
+                    <TextBlock Grid.Row="0" Grid.Column="2" 
+                       Margin="10"
+                       Style="{StaticResource FieldLabel}"
+                       Text="Cỡ lô"/>
+                    <ComboBox Grid.Column="3"
+                      Margin="10,0,9,0"
+                      materialDesign:HintAssist.Hint="Cỡ lô"
+                      Style="{StaticResource ComboBox}"
+                      ItemsSource="{Binding PurchaseOrderNumbers}"
+                      Text="{Binding PurchaseOrderNumber}">
+                        <ComboBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel />
+                            </ItemsPanelTemplate>
+                        </ComboBox.ItemsPanel>
+                    </ComboBox>
+
+                    <Button Grid.Row="0" Grid.Column="8"
+                    Margin="10"
+                    Style="{StaticResource ButtonPrimary}" materialDesign:ButtonAssist.CornerRadius="10"
+                    Content="Thêm"
+                    HorizontalAlignment="Center"
+                    Width="115">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding LoadHistoryGoodsIssueEntryCommand}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+
+                </Grid>
+            </Grid>
+        </materialDesign:Card>
+
+        <Grid Grid.Row="1">
+            <materialDesign:Card Grid.Column="1" 
+                                     Background="{StaticResource ColorSurface}"
+                                     Margin="10">
+                <DataGrid Style="{StaticResource MaterialDesignDataGrid}"
+                          Background="{StaticResource ColorSurface}"
+                          IsReadOnly="True"
+                          ItemsSource="{Binding HistoryFinishedProductIssueEntries}"
+                          AutoGenerateColumns="False"
+                          SelectionUnit="FullRow"
+                          SelectionMode="Single">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Line" Width="*" Binding="{Binding ItemClassId}"/>
+                        <DataGridTextColumn Header="Tên sản phẩm" Width="*" Binding="{Binding ItemId}"/>
+                        <DataGridTextColumn Header="Mã Ref" Width="*" Binding="{Binding ItemName}"/>
+                        <DataGridTextColumn Header="Mã lô" Width="*" Binding="{Binding Unit}"/>
+                        <DataGridTextColumn Header="Cỡ lô" Width="*" Binding="{Binding PurchaseOrderNumber}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </materialDesign:Card>
+        </Grid>
+    </Grid>
+        
+</UserControl>
