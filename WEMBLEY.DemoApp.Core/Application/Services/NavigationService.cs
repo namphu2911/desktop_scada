@@ -3,26 +3,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WEMBLEY.DemoApp.Core.Application.Stores;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.SeedWork;
 using WEMBLEY.DemoApp.Core.Domain.Services;
 
 namespace WEMBLEY.DemoApp.Core.Application.Services
 {
-    public class NavigationService<TViewModel> : INavigationService<TViewModel> where TViewModel : IViewModel
+    public class NavigationService : BaseViewModel, INavigationService
     {
-        private readonly NavigationStore _navigationStore;
-        private readonly TViewModel _createViewModel;
+        private BaseViewModel _currentViewModel;
+        private readonly Func<Type, BaseViewModel> _viewModelFactory;
 
-        public NavigationService(NavigationStore navigationStore, TViewModel createViewModel)
+        public BaseViewModel CurrentViewModel
         {
-            _navigationStore = navigationStore;
-            _createViewModel = createViewModel;
+            get => _currentViewModel;
+            set
+            {
+                _currentViewModel = value;
+                OnPropertyChanged();
+            }
         }
 
-        public void Navigate()
+        public NavigationService(Func<Type, BaseViewModel> viewModelFactory)
         {
-            _navigationStore.CurrentViewModel = _createViewModel;
+            _viewModelFactory = viewModelFactory;
+        }
+
+        public void NavigateTo<TViewModel>() where TViewModel : BaseViewModel
+        {
+            BaseViewModel viewModel =  _viewModelFactory.Invoke(typeof(TViewModel));
+            CurrentViewModel = viewModel;
         }
     }
 }

@@ -8,9 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using WEMBLEY.DemoApp.Core.Application.Services;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Home;
-using WEMBLEY.DemoApp.Core.Domain.Services;
+using WEMBLEY.DemoApp.Core.Application.ViewModels.Line1;
+using WEMBLEY.DemoApp.Core.Application.ViewModels.MachinesInLine;
 using WEMBLEY.DemoApp.HostBuiders;
 
 namespace WEMBLEY.DemoApp
@@ -33,15 +33,13 @@ namespace WEMBLEY.DemoApp
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
         {
             return Host.CreateDefaultBuilder(args)
-                .AddNavigation()
-                .AddViewModels();
+                .AddServices()
+                .AddViewModels()
+                .AddNavigation();
         }
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            INavigationService initialNavigationService = _host.Services.GetRequiredService<INavigationService<HomeNavigationViewModel>>();
-            initialNavigationService.Navigate();
-
             _host.Start();
 
             MainWindow window = _host.Services.GetRequiredService<MainWindow>();

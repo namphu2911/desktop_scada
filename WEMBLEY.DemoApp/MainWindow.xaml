@@ -10,12 +10,18 @@
         xmlns:views="clr-namespace:WEMBLEY.DemoApp.Views.Home"
         xmlns:homes="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Home;assembly=WEMBLEY.DemoApp.Core" 
         xmlns:line1="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line1;assembly=WEMBLEY.DemoApp.Core" 
-        xmlns:line1Views="clr-namespace:WEMBLEY.DemoApp.Views.Line1"
+        xmlns:line1Views="clr-namespace:WEMBLEY.DemoApp.Views.Line1" xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:viewmodels="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels;assembly=WEMBLEY.DemoApp.Core" d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
         Background="{StaticResource ColorBackground}"
         WindowStartupLocation="CenterScreen"
         Title="WEMBLY Demo App" Height="800" Width="1300">
 
-    <ContentControl Content="{Binding CurrentViewModel}">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <prism:InvokeCommandAction Command="{Binding LoadMainWindowCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    
+    <ContentControl Content="{Binding NavigationService.CurrentViewModel}">
         <ContentControl.Resources>
             <DataTemplate DataType="{x:Type homes:HomeNavigationViewModel}">
                 <views:HomeNavigationView />

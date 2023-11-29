@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:WEMBLEY.DemoApp.Views.MachinesInLine"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:machinesinline="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.MachinesInLine;assembly=WEMBLEY.DemoApp.Core" d:DataContext="{d:DesignInstance Type=machinesinline:MachinesInLine1ViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="600"
              Background="{StaticResource ColorBackground}"

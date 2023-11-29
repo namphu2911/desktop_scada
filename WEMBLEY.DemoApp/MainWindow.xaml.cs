@@ -20,10 +20,9 @@ namespace WEMBLEY.DemoApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow(Object dataContext)
+        public MainWindow()
         {
             InitializeComponent();
-            DataContext = dataContext;
         }
     }
 }

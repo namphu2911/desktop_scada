@@ -5,12 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WEMBLEY.DemoApp.Core.Application.Stores;
 using WEMBLEY.DemoApp.Core.Application.ViewModels;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Home;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Line1;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.MachinesInLine;
-using WEMBLEY.DemoApp.Core.Domain.Services;
 
 namespace WEMBLEY.DemoApp.HostBuiders
 {
@@ -20,27 +18,18 @@ namespace WEMBLEY.DemoApp.HostBuiders
         {
             host.ConfigureServices(services =>
             {
-                services.AddTransient<HomeNavigationViewModel>();
-                services.AddTransient<HomeViewModel>();
-                services.AddTransient<LineInitialSettingViewModel>();
+                services.AddSingleton<HomeNavigationViewModel>();
+                services.AddSingleton<HomeViewModel>();
+                services.AddSingleton<LineInitialSettingViewModel>();
 
-                services.AddTransient<MachinesInLine1ViewModel>();
-                services.AddTransient<StopperMachineViewModel>();
-                //services.AddTransient<StopperMachineViewModel>((IServiceProvider serviceProvider) =>
-                //{
-                //    using var scope = serviceProvider.CreateScope();
-
-                //    var navigationStore = scope.ServiceProvider.GetService<NavigationStore>();
-                //    var homeNavigationService = scope.ServiceProvider.GetService<INavigationService<HomeNavigationViewModel>>();
-
-                //    return new StopperMachineViewModel(
-                //        navigationStore,
-                //        homeNavigationService);
-                //});
-
-                services.AddTransient<MainViewModel>();
-
-                services.AddSingleton<MainWindow>(s => new MainWindow(s.GetRequiredService<MainViewModel>()));
+                services.AddSingleton<MachinesInLine1ViewModel>();
+                services.AddSingleton<StopperMachineViewModel>();
+                
+                services.AddSingleton<MainViewModel>();
+                services.AddSingleton<MainWindow>((IServiceProvider serviceProvider) => new MainWindow
+                {
+                    DataContext = serviceProvider.GetRequiredService<MainViewModel>()
+                });
             });
 
             return host;

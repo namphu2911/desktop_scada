@@ -25,7 +25,7 @@
                     Width="115" VerticalAlignment="Stretch">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
-                        <i:InvokeCommandAction Command="{Binding LoadDeviceEntriesCommand}" />
+                        <i:InvokeCommandAction Command="{Binding NavigateBackToHomeViewCommand}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Button>

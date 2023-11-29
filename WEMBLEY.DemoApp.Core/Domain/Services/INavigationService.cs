@@ -9,10 +9,8 @@ namespace WEMBLEY.DemoApp.Core.Domain.Services
 {
     public interface INavigationService
     {
-        void Navigate();
-    }
+        public BaseViewModel CurrentViewModel { get; }
 
-    public interface INavigationService<TViewModel> : INavigationService where TViewModel : IViewModel
-    {
+        void NavigateTo<T>() where T : BaseViewModel;
     }
 }

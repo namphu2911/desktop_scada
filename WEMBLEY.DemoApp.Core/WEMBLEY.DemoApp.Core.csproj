@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Application\NewFolder\" />
     <Folder Include="Domain\Exceptions\" />
     <Folder Include="Domain\Dtos\" />
     <Folder Include="Domain\Models\" />
@@ -15,6 +14,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageReference Include="LiveCharts.Core" Version="0.9.8" />
   </ItemGroup>
 
