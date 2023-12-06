@@ -8,9 +8,18 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
              xmlns:machinesinline="clr-namespace:WEMBLEY.DemoApp.Views.MachinesInLine" 
              xmlns:home="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Home;assembly=WEMBLEY.DemoApp.Core" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
+             xmlns:prism="http://prismlibrary.com/"
              d:DataContext="{d:DesignInstance Type=home:HomeViewModel}"
              Background="{StaticResource ColorBackground}"
              d:DesignHeight="725" d:DesignWidth="1280">
+    
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <prism:InvokeCommandAction Command="{Binding LoadHomeViewCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    
     <materialDesign:Card>
         <Grid>
             <Grid.RowDefinitions>
@@ -18,24 +27,24 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <StackPanel Margin="10"  Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
-                <TextBlock Padding="10"
+            <StackPanel Margin="5,5,10,5"  Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
+                <TextBlock 
                            Background="{StaticResource ColorPrimaryGreen}"
                            Style="{StaticResource NoteBarLabel}"
                            Text="RUN" />
-                <TextBlock Padding="10"
+                <TextBlock 
                            Background="{StaticResource ColorPrimaryRed}"
                            Style="{StaticResource NoteBarLabel}"
                            Text="ALARM" />
-                <TextBlock Padding="10"
+                <TextBlock 
                            Background="{StaticResource ColorPrimaryYellow}"
                            Style="{StaticResource NoteBarLabel}"
                            Text="IDLE" />
-                <TextBlock Padding="10"
+                <TextBlock 
                            Background="{StaticResource ColorPrimaryPurple}"
                            Style="{StaticResource NoteBarLabel}"
                            Text="SETUP" />
-                <TextBlock Padding="10"
+                <TextBlock 
                            Background="{StaticResource ColorPrimaryGray}"
                            Style="{StaticResource NoteBarLabel}"
                            Text="OFF" />
@@ -49,13 +58,13 @@
 
                 <TabItem 
                     Style="{StaticResource LineStyle}" 
-                    Background="{StaticResource ColorPrimaryGreen}"
-                    Height="330" Width="700">
+                    Background="{Binding ColorBack}"
+                    Height="310" Width="700">
                     <TabItem.Header>
                         <HeaderedContentControl 
                             VerticalAlignment="Top" 
-                            Margin="5,5,5,5" 
-                            Width="690" Height="310">
+                            Margin="5" 
+                            Width="650" Height="270">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*"/>
@@ -71,7 +80,6 @@
 
                                 <materialDesign:Card 
                                     UniformCornerRadius="15" 
-                                    Margin="10,0,25,0" 
                                     Grid.Row="1"
                                     Padding="5">
                                     <Grid >
@@ -95,18 +103,18 @@
                                                 Text="Hiệu năng: " />
                                             <ProgressBar 
                                                     Grid.Column="1" 
-                                                    Value="75" Name="pbStatus" 
-                                                    Height="35"
+                                                    Value="{Binding HerapinCapEfficiency}" Name="pbStatus" 
+                                                    Height="30"
                                                     Width="300"
                                                     Style="{StaticResource ProgressBarStyle}">
                                                 <ProgressBar.Clip>
-                                                    <RectangleGeometry RadiusX="15" RadiusY="15" Rect="0,0,300,35"/>
+                                                    <RectangleGeometry RadiusX="15" RadiusY="15" Rect="0,0,300,30"/>
                                                 </ProgressBar.Clip>
                                             </ProgressBar>
                                             <TextBlock 
                                                     Grid.Column="1"  
                                                     Style="{StaticResource ProgressBarText}"
-                                                    Text="{Binding ElementName=pbStatus, Path=Value, StringFormat={}{0:0}%}" />
+                                                    Text="{Binding ElementName=pbStatus, Path=Value, StringFormat={}{0:0.##}%}" />
 
                                         </Grid>
 
@@ -124,13 +132,11 @@
                                                Style="{StaticResource LineLabel}"
                                                Text="Tổng SL: " />
                                             <Border Grid.Column="1" 
-                                                    BorderThickness="2,2,2,2" 
-                                                    BorderBrush="Black" 
-                                                    CornerRadius="15,15,15,15" 
-                                                    Margin="10,10,10,5">
+                                                    Style="{StaticResource ValueBorder}"
+                                                    Width="auto">
                                                 <TextBlock 
-                                                   Style="{StaticResource LineLabel}"
-                                                   Text="1000" />
+                                                   Style="{StaticResource LineValue}"
+                                                   Text="{Binding HerapinCapAllCount}" />
                                             </Border>
 
                                             <TextBlock Grid.Column="2" 
@@ -138,26 +144,22 @@
                                                Text="SL đạt: " />
                                             <Border 
                                                 Grid.Column="3" 
-                                                BorderThickness="2,2,2,2" 
-                                                BorderBrush="Black" 
-                                                CornerRadius="15,15,15,15" 
-                                                Margin="10,10,10,5">
+                                                Style="{StaticResource ValueBorder}"
+                                                Width="auto">
                                                 <TextBlock 
-                                                   Style="{StaticResource LineLabel}"
-                                                   Text="750" />
+                                                   Style="{StaticResource LineValue}"
+                                                   Text="{Binding HerapinCapGoodCount}" />
                                             </Border>
 
                                             <TextBlock Grid.Column="4" 
                                                Style="{StaticResource LineLabel}"
                                                Text="SL lỗi: " />
                                             <Border Grid.Column="5"
-                                                    BorderThickness="2,2,2,2" 
-                                                    BorderBrush="Black" 
-                                                    CornerRadius="15,15,15,15" 
-                                                    Margin="10,10,10,5">
+                                                    Style="{StaticResource ValueBorder}"
+                                                    Width="auto">
                                                 <TextBlock 
-                                                   Style="{StaticResource LineLabel}"
-                                                   Text="250" />
+                                                   Style="{StaticResource LineValue}"
+                                                   Text="{Binding HerapinCapBadCount}" />
                                             </Border>
                                         </Grid>
 
@@ -173,19 +175,18 @@
                                                 Style="{StaticResource LineLabel}"
                                                 Text="Thời gian hoạt động: " />
                                             <Border Grid.Column="1" 
-                                                    BorderThickness="2,2,2,2" 
-                                                    BorderBrush="Black" 
-                                                    CornerRadius="15" >
+                                                    Style="{StaticResource ValueBorder}"
+                                                    Width="auto">
                                                 <TextBlock 
-                                                   Style="{StaticResource LineLabel}"
-                                                   Text="14:30:30" />
+                                                   Style="{StaticResource LineValue}"
+                                                   Text="{Binding HerapinCapDurationTime, StringFormat=hh\\:mm\\:ss}" />
                                             </Border>
                                         </Grid>
 
                                         <Grid Grid.Row="3">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="auto"/>
-                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="1.3*"/>
                                                 <ColumnDefinition Width="auto"/>
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
@@ -194,35 +195,51 @@
                                                 Grid.Column="0" 
                                                 Style="{StaticResource LineLabel}"
                                                 Text="Tên sản phẩm: " />
-                                            <ComboBox Grid.Column="1"
+                                            <Border Grid.Column="1" 
+                                                    Style="{StaticResource ValueBorder}"
+                                                    Width="auto">
+                                                <TextBlock 
+                                                   Style="{StaticResource LineValue}"
+                                                   Text="{Binding HerapinCapProductName}" />
+                                            </Border>
+                                            
+                                            <!--<ComboBox Grid.Column="1"
                                                   Margin="5"
                                                   materialDesign:HintAssist.Hint="Tên sản phẩm"
                                                   Style="{StaticResource ComboBox}"
-                                                  ItemsSource="{Binding ItemIds}"
-                                                  Text="{Binding ItemId}">
+                                                  ItemsSource="{Binding HerapinCapProductNames, UpdateSourceTrigger=PropertyChanged}"
+                                                  Text="{Binding HerapinCapProductName}">
                                                 <ComboBox.ItemsPanel>
                                                     <ItemsPanelTemplate>
                                                         <VirtualizingStackPanel />
                                                     </ItemsPanelTemplate>
                                                 </ComboBox.ItemsPanel>
-                                            </ComboBox>
+                                            </ComboBox>-->
 
                                             <TextBlock 
                                                 Grid.Column="2" 
                                                 Style="{StaticResource LineLabel}"
                                                 Text="Mã Ref: " />
-                                            <ComboBox Grid.Column="3"
+                                            <Border Grid.Column="3" 
+                                                    Style="{StaticResource ValueBorder}"
+                                                    Width="auto">
+                                                <TextBlock 
+                                                   Style="{StaticResource LineValue}"
+                                                   Text="{Binding HerapinCapReferenceName}" />
+                                            </Border>
+                                            
+                                            <!--<ComboBox Grid.Column="3"
                                                   Margin="5"
                                                   materialDesign:HintAssist.Hint="Mã Ref"
                                                   Style="{StaticResource ComboBox}"
-                                                  ItemsSource="{Binding ItemIds}"
-                                                  Text="{Binding ItemId}">
+                                                  ItemsSource="{Binding HerapinCapReferenceNamesFilled, UpdateSourceTrigger=PropertyChanged}"
+                                                  Text="{Binding HerapinCapReferenceName}">
                                                 <ComboBox.ItemsPanel>
                                                     <ItemsPanelTemplate>
                                                         <VirtualizingStackPanel />
                                                     </ItemsPanelTemplate>
                                                 </ComboBox.ItemsPanel>
-                                            </ComboBox>
+                                            </ComboBox>-->
                                         </Grid>
 
                                         <Grid Grid.Row="4">
@@ -238,12 +255,11 @@
                                                 Style="{StaticResource LineLabel}"
                                                 Text="Mã lô: " />
                                             <Border Grid.Column="1" 
-                                                    BorderThickness="2,2,2,2" 
-                                                    BorderBrush="Black" 
-                                                    CornerRadius="15" HorizontalAlignment="Left" VerticalAlignment="Center" >
+                                                    Style="{StaticResource ValueBorder}"
+                                                    Width="auto">
                                                 <TextBlock 
-                                                   Style="{StaticResource LineLabel}"
-                                                   Text="A0001" />
+                                                   Style="{StaticResource LineValue}"
+                                                   Text="{Binding HerapinCapLotId}" />
                                             </Border>
 
                                             <TextBlock 
@@ -251,12 +267,11 @@
                                                 Style="{StaticResource LineLabel}"
                                                 Text="Cỡ lô: " />
                                             <Border Grid.Column="3" 
-                                                    BorderThickness="2,2,2,2" 
-                                                    BorderBrush="Black" 
-                                                    CornerRadius="15" VerticalAlignment="Center" HorizontalAlignment="Left" >
+                                                    Style="{StaticResource ValueBorder}"
+                                                    Width="auto">
                                                 <TextBlock 
-                                                   Style="{StaticResource LineLabel}"
-                                                   Text="25000" />
+                                                   Style="{StaticResource LineValue}"
+                                                   Text="{Binding HerapinCapLotSize}" />
                                             </Border>
                                         </Grid>
                                     </Grid>
@@ -270,12 +285,12 @@
                 <TabItem 
                     Style="{StaticResource LineStyle}" 
                     Background="{StaticResource ColorPrimaryRed}"
-                    Height="330" Width="700">
+                   Height="310" Width="700">
                     <TabItem.Header>
                         <HeaderedContentControl 
                             VerticalAlignment="Top" 
-                            Margin="5,5,5,5" 
-                            Width="690" Height="310">
+                            Margin="5" 
+                            Width="650" Height="270">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*"/>
@@ -291,7 +306,6 @@
 
                                 <materialDesign:Card 
                                     UniformCornerRadius="15" 
-                                    Margin="10,0,25,0" 
                                     Grid.Row="1"
                                     Padding="5">
                                     <Grid >
@@ -303,181 +317,165 @@
                                             <RowDefinition Height="*"/>
                                         </Grid.RowDefinitions>
 
-                                        <Grid Grid.Row="0">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="auto"/>
-                                                <ColumnDefinition Width="auto"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
+                                        <Grid >
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
 
-                                            <TextBlock Grid.Column="0" 
+                                            <Grid Grid.Row="0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="auto"/>
+                                                    <ColumnDefinition Width="auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <TextBlock Grid.Column="0" 
                                                 Style="{StaticResource LineLabel}"
                                                 Text="Hiệu năng: " />
-                                            <ProgressBar 
+                                                <ProgressBar 
                                                     Grid.Column="1" 
-                                                    Value="85" Name="pbStatus2" 
-                                                    Height="35"
+                                                    Value="75.36" Name="pbStatus1" 
+                                                    Height="30"
                                                     Width="300"
                                                     Style="{StaticResource ProgressBarStyle}">
-                                                <ProgressBar.Clip>
-                                                    <RectangleGeometry RadiusX="15" RadiusY="15" Rect="0,0,300,35"/>
-                                                </ProgressBar.Clip>
-                                            </ProgressBar>
-                                            <TextBlock 
+                                                    <ProgressBar.Clip>
+                                                        <RectangleGeometry RadiusX="15" RadiusY="15" Rect="0,0,300,30"/>
+                                                    </ProgressBar.Clip>
+                                                </ProgressBar>
+                                                <TextBlock 
                                                     Grid.Column="1"  
                                                     Style="{StaticResource ProgressBarText}"
-                                                    Text="{Binding ElementName=pbStatus2, Path=Value, StringFormat={}{0:0}%}" />
+                                                    Text="{Binding ElementName=pbStatus1, Path=Value, StringFormat={}{0:0.##}%}" />
 
-                                        </Grid>
+                                            </Grid>
 
-                                        <Grid Grid.Row="1">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="auto"/>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="auto"/>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="auto"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
+                                            <Grid Grid.Row="1">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
 
-                                            <TextBlock Grid.Column="0" 
+                                                <TextBlock Grid.Column="0" 
                                                Style="{StaticResource LineLabel}"
                                                Text="Tổng SL: " />
-                                            <Border Grid.Column="1" 
-                                                    BorderThickness="2,2,2,2" 
-                                                    BorderBrush="Black" 
-                                                    CornerRadius="15,15,15,15" 
-                                                    Margin="10,10,10,5">
-                                                <TextBlock 
-                                                   Style="{StaticResource LineLabel}"
+                                                <Border Grid.Column="1" 
+                                                    Style="{StaticResource ValueBorder}">
+                                                    <TextBlock 
+                                                   Style="{StaticResource LineValue}"
                                                    Text="1000" />
-                                            </Border>
+                                                </Border>
 
-                                            <TextBlock Grid.Column="2" 
+                                                <TextBlock Grid.Column="2" 
                                                Style="{StaticResource LineLabel}"
                                                Text="SL đạt: " />
-                                            <Border 
+                                                <Border 
                                                 Grid.Column="3" 
-                                                BorderThickness="2,2,2,2" 
-                                                BorderBrush="Black" 
-                                                CornerRadius="15,15,15,15" 
-                                                Margin="10,10,10,5">
-                                                <TextBlock 
-                                                   Style="{StaticResource LineLabel}"
-                                                   Text="850" />
-                                            </Border>
+                                                Style="{StaticResource ValueBorder}">
+                                                    <TextBlock 
+                                                   Style="{StaticResource LineValue}"
+                                                   Text="750" />
+                                                </Border>
 
-                                            <TextBlock Grid.Column="4" 
+                                                <TextBlock Grid.Column="4" 
                                                Style="{StaticResource LineLabel}"
                                                Text="SL lỗi: " />
-                                            <Border Grid.Column="5"
-                                                    BorderThickness="2,2,2,2" 
-                                                    BorderBrush="Black" 
-                                                    CornerRadius="15,15,15,15" 
-                                                    Margin="10,10,10,5">
+                                                <Border Grid.Column="5"
+                                                    Style="{StaticResource ValueBorder}">
+                                                    <TextBlock 
+                                                   Style="{StaticResource LineValue}"
+                                                   Text="250" />
+                                                </Border>
+                                            </Grid>
+
+                                            <Grid Grid.Row="2">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="auto"/>
+                                                    <ColumnDefinition Width="auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+
                                                 <TextBlock 
-                                                   Style="{StaticResource LineLabel}"
-                                                   Text="150" />
-                                            </Border>
-                                        </Grid>
-
-                                        <Grid Grid.Row="2">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="auto"/>
-                                                <ColumnDefinition Width="auto"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-
-                                            <TextBlock 
                                                 Grid.Column="0" 
                                                 Style="{StaticResource LineLabel}"
                                                 Text="Thời gian hoạt động: " />
-                                            <Border Grid.Column="1" 
-                                                    BorderThickness="2,2,2,2" 
-                                                    BorderBrush="Black" 
-                                                    CornerRadius="15" >
-                                                <TextBlock 
-                                                   Style="{StaticResource LineLabel}"
+                                                <Border Grid.Column="1" 
+                                                    Style="{StaticResource ValueBorder}"
+                                                    Width="auto">
+                                                    <TextBlock 
+                                                   Style="{StaticResource LineValue}"
                                                    Text="14:30:30" />
-                                            </Border>
-                                        </Grid>
+                                                </Border>
+                                            </Grid>
 
-                                        <Grid Grid.Row="3">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="auto"/>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="auto"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
+                                            <Grid Grid.Row="3">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
 
-                                            <TextBlock 
+                                                <TextBlock 
                                                 Grid.Column="0" 
                                                 Style="{StaticResource LineLabel}"
                                                 Text="Tên sản phẩm: " />
-                                            <ComboBox Grid.Column="1"
-                                                  Margin="5"
-                                                  materialDesign:HintAssist.Hint="Tên sản phẩm"
-                                                  Style="{StaticResource ComboBox}"
-                                                  ItemsSource="{Binding ItemIds}"
-                                                  Text="{Binding ItemId}">
-                                                <ComboBox.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <VirtualizingStackPanel />
-                                                    </ItemsPanelTemplate>
-                                                </ComboBox.ItemsPanel>
-                                            </ComboBox>
+                                                <Border Grid.Column="3" 
+                                                    Style="{StaticResource ValueBorder}">
+                                                    <TextBlock 
+                                                   Style="{StaticResource LineValue}"
+                                                   Text="" />
+                                                </Border>
 
-                                            <TextBlock 
+                                                <TextBlock 
                                                 Grid.Column="2" 
                                                 Style="{StaticResource LineLabel}"
                                                 Text="Mã Ref: " />
-                                            <ComboBox Grid.Column="3"
-                                                  Margin="5"
-                                                  materialDesign:HintAssist.Hint="Mã Ref"
-                                                  Style="{StaticResource ComboBox}"
-                                                  ItemsSource="{Binding ItemIds}"
-                                                  Text="{Binding ItemId}">
-                                                <ComboBox.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <VirtualizingStackPanel />
-                                                    </ItemsPanelTemplate>
-                                                </ComboBox.ItemsPanel>
-                                            </ComboBox>
-                                        </Grid>
+                                                <Border Grid.Column="3" 
+                                                    Style="{StaticResource ValueBorder}">
+                                                    <TextBlock 
+                                                   Style="{StaticResource LineValue}"
+                                                   Text="" />
+                                                </Border>
+                                            </Grid>
 
-                                        <Grid Grid.Row="4">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="auto"/>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="auto"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
+                                            <Grid Grid.Row="4">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
 
-                                            <TextBlock 
+                                                <TextBlock 
                                                 Grid.Column="0" 
                                                 Style="{StaticResource LineLabel}"
                                                 Text="Mã lô: " />
-                                            <Border Grid.Column="1" 
-                                                    BorderThickness="2,2,2,2" 
-                                                    BorderBrush="Black" 
-                                                    CornerRadius="15" HorizontalAlignment="Left" VerticalAlignment="Center" >
-                                                <TextBlock 
-                                                   Style="{StaticResource LineLabel}"
+                                                <Border Grid.Column="1" 
+                                                    Style="{StaticResource ValueBorder}">
+                                                    <TextBlock 
+                                                   Style="{StaticResource LineValue}"
                                                    Text="A0001" />
-                                            </Border>
+                                                </Border>
 
-                                            <TextBlock 
+                                                <TextBlock 
                                                 Grid.Column="2" 
                                                 Style="{StaticResource LineLabel}"
                                                 Text="Cỡ lô: " />
-                                            <Border Grid.Column="3" 
-                                                    BorderThickness="2,2,2,2" 
-                                                    BorderBrush="Black" 
-                                                    CornerRadius="15" VerticalAlignment="Center" HorizontalAlignment="Left" >
-                                                <TextBlock 
-                                                   Style="{StaticResource LineLabel}"
+                                                <Border Grid.Column="3" 
+                                                    Style="{StaticResource ValueBorder}">
+                                                    <TextBlock 
+                                                   Style="{StaticResource LineValue}"
                                                    Text="25000" />
-                                            </Border>
+                                                </Border>
+                                            </Grid>
                                         </Grid>
                                     </Grid>
                                 </materialDesign:Card>

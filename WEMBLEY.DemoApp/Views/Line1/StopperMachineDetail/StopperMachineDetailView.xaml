@@ -7,6 +7,7 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
+             xmlns:stoppermachinedetail="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail;assembly=WEMBLEY.DemoApp.Core" d:DataContext="{d:DesignInstance Type=stoppermachinedetail:StopperMachineDetailViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="720" d:DesignWidth="1280"
              Background="{StaticResource ColorBackground}"
@@ -19,14 +20,14 @@
                 <TabItem.Header >
                     <TextBlock Style="{StaticResource HeaderText}" Text="GIÁM SÁT"/>
                 </TabItem.Header>
-                <local:StopperMachineMonitorView/>
+                <local:StopperMachineMonitorView DataContext="{Binding StopperMachineMonitor}"/>
             </TabItem>
 
             <TabItem Height="55" MaxWidth="800" Style="{StaticResource TabItem2layerRowStyle}">
                 <TabItem.Header >
                     <TextBlock Style="{StaticResource HeaderText}" Text="LỊCH SỬ LỖI"/>
                 </TabItem.Header>
-                <local:StopperMachineFaultHistoryView/>
+                <local:StopperMachineFaultHistoryView DataContext="{Binding StopperMachineFault}"/>
             </TabItem>
         </TabControl>
     </Grid>

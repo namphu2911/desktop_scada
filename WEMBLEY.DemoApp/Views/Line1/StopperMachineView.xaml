@@ -18,11 +18,16 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
-            <Button Margin="10"
-                    Style="{StaticResource ButtonPrimary}" materialDesign:ButtonAssist.CornerRadius="10"
-                    Content="BACK"
+            <Button Margin="5,5,0,5"
+                    Style="{StaticResource ButtonNavigateBack}" 
+                    materialDesign:ButtonAssist.CornerRadius="10"
                     HorizontalAlignment="Left"
-                    Width="115" VerticalAlignment="Stretch">
+                    VerticalAlignment="Stretch">
+                <materialDesign:PackIcon
+                        Width="30"
+                        Height="30"
+                        Kind="ArrowLeft" 
+                        VerticalAlignment="Center"/>
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
                         <i:InvokeCommandAction Command="{Binding NavigateBackToHomeViewCommand}" />
@@ -44,10 +49,10 @@
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
                             <Image 
-                            Source="C:\Users\DELL\source\repos\WEMBLEY.DemoApp\WEMBLEY.DemoApp\Resources\Images\logowembly.jpg" 
+                            Source="/Resources/Images/logowembly.jpg" 
                             Width="200" Height="49"/>
                             <Image 
-                            Source="C:\Users\DELL\source\repos\WEMBLEY.DemoApp\WEMBLEY.DemoApp\Resources\Images\logohcmut.jpg" 
+                            Source="/Resources/Images/logohcmut.jpg" 
                             Width="49" Height="49" HorizontalAlignment="Left" />
                             
                         </StackPanel>
@@ -71,7 +76,7 @@
                                                                  FontWeight="Bold" Margin="0,0,50,0" />
                         </StackPanel>
                     </TabItem.Header>
-                    <local:StopperMachineDetailView/>
+                    <local:StopperMachineDetailView DataContext="{Binding StopperMachineDetail}"/>
 
 
                 </TabItem>
@@ -94,7 +99,7 @@
                                                                  FontWeight="Bold" Margin="0,0,20,0" />
                         </StackPanel>
                     </TabItem.Header>
-                    <mfc:MFCNavigationView/>
+                    <mfc:MFCNavigationView DataContext="{Binding MFCNavigation}"/>
                 </TabItem>
 
                 <TabItem
@@ -113,7 +118,7 @@
                                                                  FontWeight="Bold" />
                         </StackPanel>
                     </TabItem.Header>
-                    <report:ReportNavigationView/>
+                    <report:ReportNavigationView DataContext="{Binding ReportNavigation}"/>
                 </TabItem>
                 
                 <TabItem 
@@ -132,7 +137,7 @@
                                                                  FontWeight="Bold" />
                         </StackPanel>
                     </TabItem.Header>
-                    <stoppermachinestatus:StopperMachineStatusView/>
+                    <stoppermachinestatus:StopperMachineStatusView DataContext="{Binding StopperMachineStatus}"/>
                 </TabItem>
             </TabControl>
         </materialDesign:Card>

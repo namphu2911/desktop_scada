@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:WEMBLEY.DemoApp.Views.Line1"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"        
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:stoppermachinedetail="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail;assembly=WEMBLEY.DemoApp.Core" d:DataContext="{d:DesignInstance Type=stoppermachinedetail:StopperMachineFaultHistoryViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="1260"
              Background="{StaticResource ColorBackground}"
@@ -61,7 +61,7 @@
                             Width="150">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction Command="{Binding LoadStockCardEntryCommand}" />
+                            <i:InvokeCommandAction Command="{Binding LoadMachineFaultHistoryCommand}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
@@ -75,14 +75,15 @@
             <DataGrid Style="{StaticResource MaterialDesignDataGrid}"
                           Background="{StaticResource ColorSurface}"
                           IsReadOnly="True"
-                          ItemsSource="{Binding StockCardEntries}"
+                          ItemsSource="{Binding ErrorsHistoryEntries}"
                           AutoGenerateColumns="False"
                           SelectionUnit="FullRow"
                           SelectionMode="Single">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Thời gian" Binding="{Binding ItemClassId}" Width="auto"/>
-                    <DataGridTextColumn Header="Tên lỗi" Binding="{Binding ItemId}" Width="auto"/>
-                    <DataGridTextColumn Header="Vị trí lỗi" Binding="{Binding ItemName}" Width="auto"/>
+                    <DataGridTextColumn Header="Thời gian" Binding="{Binding Timestamp, StringFormat=dd/MM/yyyy HH:mm:ss}" Width="auto"/>
+                    <DataGridTextColumn Header="Ca" Binding="{Binding ShiftNumber}" Width="auto"/>
+                    <DataGridTextColumn Header="Mã lỗi" Binding="{Binding ErrorId}" Width="auto"/>
+                    <DataGridTextColumn Header="Tên lỗi" Binding="{Binding ErrorName}" Width="auto"/>
                 </DataGrid.Columns>
             </DataGrid>
         </materialDesign:Card>

@@ -17,11 +17,20 @@
     </Style>
     <Style x:Key="LineLabel" TargetType="TextBlock">
         <Setter Property="Margin" Value="10,5,5,5" />
-        <Setter Property="FontSize" Value="24" />
+        <Setter Property="FontSize" Value="22" />
         <Setter Property="Foreground" Value="{StaticResource ColorPrimaryD1}" />
         <Setter Property="FontWeight" Value="Medium" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="LineValue" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{StaticResource ColorPrimaryD1}" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="TextAlignment" Value="Center"/>
     </Style>
 
     <Style x:Key="ProgressBarText" TargetType="TextBlock">
@@ -66,6 +75,7 @@
 
     <Style x:Key="NoteBarLabel" TargetType="TextBlock">
         <Setter Property="Width" Value="100" />
+        <Setter Property="Height" Value="30" />
         <Setter Property="FontSize" Value="20" />
         <Setter Property="FontWeight" Value="Medium" />
         <Setter Property="Foreground" Value="{StaticResource ColorPrimaryOn}" />

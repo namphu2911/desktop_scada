@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:WEMBLEY.DemoApp.Views.Line1.Report"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:stoppermachinereport="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineReport;assembly=WEMBLEY.DemoApp.Core" d:DataContext="{d:DesignInstance Type=stoppermachinereport:ReportNavigationViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="720" d:DesignWidth="1280"
              Background="{StaticResource ColorBackground}"
@@ -19,14 +19,14 @@
                 <TabItem.Header >
                     <TextBlock Style="{StaticResource HeaderText}" Text="BÁO CÁO TỔNG"/>
                 </TabItem.Header>
-                <local:ReportLongTimeView/>
+                <local:ReportLongTimeView DataContext="{Binding ReportLongTime}"/>
             </TabItem>
 
             <TabItem Height="55" MaxWidth="800" Style="{StaticResource TabItem2layerRowStyle}">
                 <TabItem.Header >
                     <TextBlock Style="{StaticResource HeaderText}" Text="BÁO CÁO THEO CA"/>
                 </TabItem.Header>
-                <local:ReportForShiftView/>
+                <local:ReportForShiftView DataContext="{Binding ReportForShift}"/>
             </TabItem>
         </TabControl>
     </Grid>

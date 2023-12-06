@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 using WEMBLEY.DemoApp.Core.Application.ViewModels;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Home;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Line1;
+using WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail;
+using WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineMFC;
+using WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineReport;
+using WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineStatus;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.MachinesInLine;
 
 namespace WEMBLEY.DemoApp.HostBuiders
@@ -18,14 +22,32 @@ namespace WEMBLEY.DemoApp.HostBuiders
         {
             host.ConfigureServices(services =>
             {
-                services.AddSingleton<HomeNavigationViewModel>();
-                services.AddSingleton<HomeViewModel>();
-                services.AddSingleton<LineInitialSettingViewModel>();
+                services.AddTransient<HomeNavigationViewModel>();
+                services.AddTransient<HomeViewModel>();
+                services.AddTransient<LineInitialSettingViewModel>();
 
-                services.AddSingleton<MachinesInLine1ViewModel>();
-                services.AddSingleton<StopperMachineViewModel>();
+                //LINES
+                services.AddTransient<MachinesInLine1ViewModel>();
                 
-                services.AddSingleton<MainViewModel>();
+                //Line 1 MAIN
+                services.AddTransient<StopperMachineViewModel>();
+                
+                services.AddTransient<StopperMachineDetailViewModel>();
+                services.AddTransient<StopperMachineMonitorViewModel>();
+                services.AddTransient<StopperMachineFaultHistoryViewModel>();
+
+                services.AddTransient<MFCNavigationViewModel>();
+                services.AddTransient<MFCMonitorViewModel>();
+                services.AddTransient<MFCSettingViewModel>();
+
+                services.AddTransient<ReportNavigationViewModel>();
+                services.AddTransient<ReportLongTimeViewModel>();
+                services.AddTransient<ReportForShiftViewModel>();
+
+                services.AddTransient<StopperMachineStatusViewModel>();
+                ///
+
+                services.AddTransient<MainViewModel>();
                 services.AddSingleton<MainWindow>((IServiceProvider serviceProvider) => new MainWindow
                 {
                     DataContext = serviceProvider.GetRequiredService<MainViewModel>()

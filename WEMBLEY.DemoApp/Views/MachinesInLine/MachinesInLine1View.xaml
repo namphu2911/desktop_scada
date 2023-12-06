@@ -11,34 +11,43 @@
              d:DesignHeight="800" d:DesignWidth="600"
              Background="{StaticResource ColorBackground}"
              Padding="10">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+    <materialDesign:Card>
+        <materialDesign:Card.Effect>
+            <DropShadowEffect/>
+        </materialDesign:Card.Effect>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+        <Border BorderThickness="2" BorderBrush="Black">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-        <Button    
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Button    
             Grid.Row="0" Grid.Column="0"
             Margin="10"
             Style="{StaticResource ButtonMachine}" 
             Background="{StaticResource ColorPrimaryGreen}"
             materialDesign:ButtonAssist.CornerRadius="10">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="Click">
-                    <prism:InvokeCommandAction Command="{Binding NavigateToStopperMachineViewCommand}" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-            <TextBlock TextAlignment="Center" Text="Máy nút chặn" FontSize="26" TextWrapping="Wrap"/>
-        </Button>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <prism:InvokeCommandAction Command="{Binding NavigateToStopperMachineViewCommand}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <TextBlock TextAlignment="Center" Text="Máy nút chặn" FontSize="26" TextWrapping="Wrap"/>
+                </Button>
 
-    </Grid>
+            </Grid>
+        </Border>
+        
+    </materialDesign:Card>
 </UserControl>

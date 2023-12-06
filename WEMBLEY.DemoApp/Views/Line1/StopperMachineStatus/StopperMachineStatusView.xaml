@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WEMBLEY.DemoApp.Views.Line1.StopperMachineStatus"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:stoppermachinestatus="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineStatus;assembly=WEMBLEY.DemoApp.Core" d:DataContext="{d:DesignInstance Type=stoppermachinestatus:StopperMachineStatusViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="720" d:DesignWidth="1280"
              Background="{StaticResource ColorBackground}"
@@ -60,7 +60,7 @@
                             Width="150">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction Command="{Binding LoadStockCardEntryCommand}" />
+                            <i:InvokeCommandAction Command="{Binding LoadMachineStatusHistoryCommand}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
@@ -74,15 +74,15 @@
                               Background="{StaticResource ColorSurface}"
                               Margin="10"
                               IsReadOnly="True"
-                              ItemsSource="{Binding Entries}"
+                              ItemsSource="{Binding StatusHistoryEntries}"
                               SelectedItem="{Binding SelectedEntry}"
                               AutoGenerateColumns="False"
                               SelectionUnit="FullRow"
                               SelectionMode="Single">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Thời điểm" Binding="{Binding ItemId}" Width="*"/>
-                    <DataGridTextColumn Header="Ca" Binding="{Binding ItemName}" Width="*"/>
-                    <DataGridTextColumn Header="Trạng thái" Binding="{Binding Unit}" Width="*"/>
+                    <DataGridTextColumn Header="Thời gian" Binding="{Binding Timestamp, StringFormat=dd/MM/yyyy HH:mm:ss}" Width="*"/>
+                    <DataGridTextColumn Header="Ca" Binding="{Binding ShiftNumber}" Width="*"/>
+                    <DataGridTextColumn Header="Trạng thái" Binding="{Binding Status}" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
         </materialDesign:Card>

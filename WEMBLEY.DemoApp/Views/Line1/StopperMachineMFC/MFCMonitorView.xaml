@@ -6,11 +6,17 @@
              xmlns:local="clr-namespace:WEMBLEY.DemoApp.Views.Line1.MFC"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:stoppermachinemfc="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineMFC;assembly=WEMBLEY.DemoApp.Core" d:DataContext="{d:DesignInstance Type=stoppermachinemfc:MFCMonitorViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="1260"
              Background="{StaticResource ColorBackground}"
              Padding="10">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <prism:InvokeCommandAction Command="{Binding LoadMFCMonitorViewCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -18,7 +24,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
-            <TextBlock Padding="10"
+            <TextBlock
                            Background="{StaticResource ColorPrimaryRed}"
                            Style="{StaticResource NoteBarLabel}"
                            Text="ALARM" Margin="0,0,0,5" />
@@ -53,14 +59,13 @@
                               Style="{StaticResource MaterialDesignDataGrid}"
                               Background="{StaticResource ColorSurface}"
                               IsReadOnly="True"
-                              ItemsSource="{Binding Entries}"
-                              SelectedItem="{Binding SelectedEntry}"
+                              ItemsSource="{Binding MFCEntries}"
                               AutoGenerateColumns="False"
                               SelectionUnit="FullRow"
                               SelectionMode="Single">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Station" Binding="{Binding ItemId}" Width="*"/>
-                                <DataGridTextColumn Header="Value" Binding="{Binding ItemName}" Width="*"/>
+                                <DataGridTextColumn Header="Station" Binding="{Binding Name}" Width="*"/>
+                                <DataGridTextColumn Header="Value" Binding="{Binding Value}" Width="*"/>
                             </DataGrid.Columns>
                         </DataGrid>
                     </materialDesign:Card>

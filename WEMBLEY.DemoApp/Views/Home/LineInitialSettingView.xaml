@@ -5,9 +5,17 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WEMBLEY.DemoApp.Views.Home"
              mc:Ignorable="d" 
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:home="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Home;assembly=WEMBLEY.DemoApp.Core" d:DataContext="{d:DesignInstance Type=home:LineInitialSettingViewModel}"
              Background="{StaticResource ColorBackground}"
              d:DesignHeight="725" d:DesignWidth="1280">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <prism:InvokeCommandAction Command="{Binding LoadLineInitialSettingViewCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -42,8 +50,8 @@
                       Margin="10"
                       materialDesign:HintAssist.Hint="Line"
                       Style="{StaticResource ComboBox}"
-                      ItemsSource="{Binding ItemIds}"
-                      Text="{Binding ItemId}">
+                      ItemsSource="{Binding DeviceTypes}"
+                      Text="{Binding DeviceType}">
                         <ComboBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <VirtualizingStackPanel />
@@ -60,8 +68,8 @@
                       Margin="10"
                       materialDesign:HintAssist.Hint="Tên sản phẩm"
                       Style="{StaticResource ComboBox}"
-                      ItemsSource="{Binding ItemNames}"
-                      Text="{Binding ItemName}">
+                      ItemsSource="{Binding ProductNamesFilled}"
+                      Text="{Binding ProductName}">
                         <ComboBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <VirtualizingStackPanel />
@@ -78,8 +86,8 @@
                       Margin="10"
                       materialDesign:HintAssist.Hint="Mã Ref"
                       Style="{StaticResource ComboBox}"
-                      ItemsSource="{Binding Receivers}"
-                      Text="{Binding Receiver}">
+                      ItemsSource="{Binding ReferenceNamesFilled}"
+                      Text="{Binding ReferenceName}">
                         <ComboBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <VirtualizingStackPanel />
@@ -103,35 +111,25 @@
                        Margin="10"
                        Style="{StaticResource FieldLabel}"
                        Text="Mã lô"/>
-                    <ComboBox Grid.Column="1"
-                      Margin="10,0,9,0"
-                      materialDesign:HintAssist.Hint="Mã lô"
-                      Style="{StaticResource ComboBox}"
-                      ItemsSource="{Binding PurchaseOrderNumbers}"
-                      Text="{Binding PurchaseOrderNumber}">
-                        <ComboBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <VirtualizingStackPanel />
-                            </ItemsPanelTemplate>
-                        </ComboBox.ItemsPanel>
-                    </ComboBox>
+                    <TextBox Grid.Row="0" Grid.Column="1" 
+                               materialDesign:HintAssist.Hint="Mã lô"
+                               FontSize="16"
+                               Style="{StaticResource TextBox}"
+                               Margin="10"
+                               VerticalAlignment="Center"
+                               Text="{Binding LotId}"/>
                     
                     <TextBlock Grid.Row="0" Grid.Column="2" 
                        Margin="10"
                        Style="{StaticResource FieldLabel}"
                        Text="Cỡ lô"/>
-                    <ComboBox Grid.Column="3"
-                      Margin="10,0,9,0"
-                      materialDesign:HintAssist.Hint="Cỡ lô"
-                      Style="{StaticResource ComboBox}"
-                      ItemsSource="{Binding PurchaseOrderNumbers}"
-                      Text="{Binding PurchaseOrderNumber}">
-                        <ComboBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <VirtualizingStackPanel />
-                            </ItemsPanelTemplate>
-                        </ComboBox.ItemsPanel>
-                    </ComboBox>
+                    <TextBox Grid.Row="0" Grid.Column="3" 
+                               materialDesign:HintAssist.Hint="Cỡ lô"
+                               FontSize="16"
+                               Style="{StaticResource TextBox}"
+                               Margin="10"
+                               VerticalAlignment="Center"
+                               Text="{Binding LotSize}"/>
 
                     <Button Grid.Row="0" Grid.Column="8"
                     Margin="10"
@@ -141,7 +139,7 @@
                     Width="115">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction Command="{Binding LoadHistoryGoodsIssueEntryCommand}" />
+                                <i:InvokeCommandAction Command="{Binding CreateInitialSettingCommand}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
@@ -157,16 +155,16 @@
                 <DataGrid Style="{StaticResource MaterialDesignDataGrid}"
                           Background="{StaticResource ColorSurface}"
                           IsReadOnly="True"
-                          ItemsSource="{Binding HistoryFinishedProductIssueEntries}"
+                          ItemsSource="{Binding LotSettingEntries}"
                           AutoGenerateColumns="False"
                           SelectionUnit="FullRow"
                           SelectionMode="Single">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Line" Width="*" Binding="{Binding ItemClassId}"/>
-                        <DataGridTextColumn Header="Tên sản phẩm" Width="*" Binding="{Binding ItemId}"/>
-                        <DataGridTextColumn Header="Mã Ref" Width="*" Binding="{Binding ItemName}"/>
-                        <DataGridTextColumn Header="Mã lô" Width="*" Binding="{Binding Unit}"/>
-                        <DataGridTextColumn Header="Cỡ lô" Width="*" Binding="{Binding PurchaseOrderNumber}"/>
+                        <DataGridTextColumn Header="Line" Width="*" Binding="{Binding DeviceType}"/>
+                        <DataGridTextColumn Header="Tên sản phẩm" Width="*" Binding="{Binding ProductName}"/>
+                        <DataGridTextColumn Header="Mã Ref" Width="*" Binding="{Binding RefName}"/>
+                        <DataGridTextColumn Header="Mã lô" Width="*" Binding="{Binding LotId}"/>
+                        <DataGridTextColumn Header="Cỡ lô" Width="*" Binding="{Binding LotSize}"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </materialDesign:Card>

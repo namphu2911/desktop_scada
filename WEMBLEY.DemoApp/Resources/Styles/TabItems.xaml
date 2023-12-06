@@ -196,7 +196,7 @@
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 BorderBrush="{TemplateBinding BorderBrush}">
                             <ContentPresenter HorizontalAlignment="Center"
-                                              VerticalAlignment="Top"
+                                              VerticalAlignment="Stretch"
                                               SnapsToDevicePixels="True"
                                               RecognizesAccessKey="True"
                                               Margin="{TemplateBinding Margin}"
@@ -207,8 +207,8 @@
                     <ControlTemplate.Triggers>
 
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="BorderThickness" Value="0,0,15,15"></Setter>
-                            <Setter Property="BorderBrush" Value="#5B5B5B"></Setter>
+                            <Setter Property="BorderThickness" Value="10"></Setter>
+                            <Setter Property="BorderBrush" Value="{StaticResource ColorPrimaryD1}"></Setter>
                             <Setter Property="Foreground" Value="{StaticResource ColorPrimaryOn}"></Setter>
                         </Trigger>
                         <Trigger Property="IsSelected" Value="False">

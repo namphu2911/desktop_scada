@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace WEMBLEY.DemoApp.Core.Application.ViewModels.SeedWork
 {
-    public class BaseViewModel : IViewModel
+    public class BaseViewModel : IViewModel, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
         protected object _propertyValueCheckLock = new object();

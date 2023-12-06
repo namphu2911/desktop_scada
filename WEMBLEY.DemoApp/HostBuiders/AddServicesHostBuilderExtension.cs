@@ -5,7 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WEMBLEY.DemoApp.Core.Application.Mapping;
 using WEMBLEY.DemoApp.Core.Application.Services;
+using WEMBLEY.DemoApp.Core.Application.Store;
 using WEMBLEY.DemoApp.Core.Application.ViewModels;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Home;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Line1;
@@ -20,8 +22,16 @@ namespace WEMBLEY.DemoApp.HostBuiders
         {
             host.ConfigureServices(services =>
             {
-                services.AddSingleton<INavigationService, NavigationService>();
+                services.AddAutoMapper(typeof(DtoToModelProfile));
+                services.AddSingleton<INavigationService, NavigationService>(); 
+                services.AddSingleton<ISignalRClient, SignalRClient>();
 
+                services.AddSingleton<ProductStore>();
+                services.AddSingleton<ReferenceStore>();
+                services.AddSingleton<DeviceStore>();
+
+                services.AddSingleton<IApiService, ApiService>();
+                services.AddSingleton<IDatabaseSynchronizationService, DatabaseSynchronizationService>();
             });
             return host;
         }

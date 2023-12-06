@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:WEMBLEY.DemoApp.Views.Line1.MFC"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:stoppermachinemfc="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineMFC;assembly=WEMBLEY.DemoApp.Core" d:DataContext="{d:DesignInstance Type=stoppermachinemfc:MFCNavigationViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="720" d:DesignWidth="1280"
              Background="{StaticResource ColorBackground}"
@@ -19,14 +19,14 @@
                 <TabItem.Header >
                     <TextBlock Style="{StaticResource HeaderText}" Text="THEO DÕI MFC"/>
                 </TabItem.Header>
-                <local:MFCMonitorView/>
+                <local:MFCMonitorView DataContext="{Binding MFCMonitor}"/>
             </TabItem>
 
             <TabItem Height="55" MaxWidth="800" Style="{StaticResource TabItem2layerRowStyle}">
                 <TabItem.Header >
                     <TextBlock Style="{StaticResource HeaderText}" Text="CÀI ĐẶT MFC"/>
                 </TabItem.Header>
-                <local:MFCSettingView/>
+                <local:MFCSettingView DataContext="{Binding MFCSetting}"/>
             </TabItem>
         </TabControl>
     </Grid>
