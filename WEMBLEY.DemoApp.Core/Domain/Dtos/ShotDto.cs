@@ -8,9 +8,9 @@ namespace WEMBLEY.DemoApp.Core.Domain.Dtos
 {
     public class ShotDto
     {
-        public double ExecutionTime { get; private set; }
-        public double CycleTime { get; private set; }
-        public DateTime TimeStamp { get; private set; }
+        public double ExecutionTime { get; set; }
+        public double CycleTime { get; set; }
+        public DateTime TimeStamp { get; set; }
         public double A { get; set; }
         public double Q { get; set; }
         public double P { get; set; }

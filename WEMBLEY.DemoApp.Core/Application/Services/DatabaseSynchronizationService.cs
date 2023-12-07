@@ -13,12 +13,14 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
         private readonly IApiService _apiService;
         private readonly ReferenceStore _referenceStore;
         private readonly DeviceStore _deviceStore;
+        private readonly HomeDataStore _homeDataStore;
 
-        public DatabaseSynchronizationService(IApiService apiService, ReferenceStore referenceStore, DeviceStore deviceStore)
+        public DatabaseSynchronizationService(IApiService apiService, ReferenceStore referenceStore, DeviceStore deviceStore, HomeDataStore homeDataStore)
         {
             _apiService = apiService;
             _referenceStore = referenceStore;
             _deviceStore = deviceStore;
+            _homeDataStore = homeDataStore;
         }
 
         public async Task SynchronizeReferencesData()
@@ -31,6 +33,12 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
         {
             var deviceDtos = await _apiService.GetAllDeviceTypeAsync();
             _deviceStore.SetDevice(deviceDtos);
+        }
+
+        public async Task SynchronizeHomeData()
+        {
+            var homeRefDtos = await _apiService.GetAllLotDeviceReferenceAsync();
+            _homeDataStore.SetHomeRef(homeRefDtos);
         }
     }
 }

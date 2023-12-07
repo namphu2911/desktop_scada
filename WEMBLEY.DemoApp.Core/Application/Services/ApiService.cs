@@ -88,6 +88,33 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
             return result;
         }
 
+        public async Task<IEnumerable<DeviceReferenceDto>> GetDeviceReferenceMFCAsync(int referenceId, string deviceId)
+        {
+            HttpResponseMessage response = await _httpClient.GetAsync($"{serverUrl}/api/DeviceReferences?ReferenceId={referenceId}&DeviceId={deviceId}");
+
+            response.EnsureSuccessStatusCode();
+            string responseBody = await response.Content.ReadAsStringAsync();
+
+            var result = JsonConvert.DeserializeObject<IEnumerable<DeviceReferenceDto>>(responseBody);
+
+            if (result is null)
+            {
+                throw new Exception();
+            }
+            return result;
+        }
+
+        public async Task FixMFCAsync(int refId, string deviceId, IEnumerable<MFCDto> fixDto)
+        {
+            var json = JsonConvert.SerializeObject(fixDto);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = await _httpClient.PutAsync($"{serverUrl}/api/DeviceReferences/{deviceId}/{refId}", content);
+            response.EnsureSuccessStatusCode();
+        }
+
+
+
         public async Task<IEnumerable<LotDeviceReferenceDto>> GetAllLotDeviceReferenceAsync()
         {
             HttpResponseMessage response = await _httpClient.GetAsync($"{serverUrl}/api/References/Parameters");
@@ -206,6 +233,61 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
             string responseBody = await response.Content.ReadAsStringAsync();
 
             var result = JsonConvert.DeserializeObject<IEnumerable<MachineStatusDto>>(responseBody);
+
+            if (result is null)
+            {
+                throw new Exception();
+            }
+
+            return result;
+        }
+
+        public async Task<IEnumerable<ShiftReportDto>> GetShiftReportHistoryAsync(string deviceId, DateTime startDate, DateTime endDate)
+        {
+            string startDateString = startDate.ToString("yyyy-MM-dd");
+            string endDateString = endDate.ToString("yyyy-MM-dd");
+
+            HttpResponseMessage response = await _httpClient.GetAsync($"{serverUrl}/api/ShiftReports?DeviceId={deviceId}&StartTime={startDateString}&EndTime={endDateString}");
+
+            response.EnsureSuccessStatusCode();
+            string responseBody = await response.Content.ReadAsStringAsync();
+
+            var result = JsonConvert.DeserializeObject<IEnumerable<ShiftReportDto>>(responseBody);
+
+            if (result is null)
+            {
+                throw new Exception();
+            }
+
+            return result;
+        }
+
+        public async Task<IEnumerable<ShiftReportWithShotDto>> GetShiftReportWithShotByShiftIdAsync(int ShiftReportId)
+        {
+            HttpResponseMessage response = await _httpClient.GetAsync($"{serverUrl}/api/ShiftReports/shiftReportId?ShiftReportId={ShiftReportId}");
+
+            response.EnsureSuccessStatusCode();
+            string responseBody = await response.Content.ReadAsStringAsync();
+
+            var result = JsonConvert.DeserializeObject<IEnumerable<ShiftReportWithShotDto>>(responseBody);
+
+            if (result is null)
+            {
+                throw new Exception();
+            }
+
+            return result;
+        }
+
+        public async Task<IEnumerable<ShiftReportWithShotDto>> GetShiftReportWithShotByDateAsync(DateTime Date, int shiftNumber)
+        {
+            string date = Date.ToString("yyyy-MM-dd");
+            HttpResponseMessage response = await _httpClient.GetAsync($"{serverUrl}/api/ShiftReports/Details?Date={date}&ShiftNumber={shiftNumber}");
+
+            response.EnsureSuccessStatusCode();
+            string responseBody = await response.Content.ReadAsStringAsync();
+
+            var result = JsonConvert.DeserializeObject<IEnumerable<ShiftReportWithShotDto>>(responseBody);
 
             if (result is null)
             {

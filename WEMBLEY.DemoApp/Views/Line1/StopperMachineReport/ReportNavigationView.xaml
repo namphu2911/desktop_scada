@@ -12,7 +12,8 @@
              Background="{StaticResource ColorBackground}"
              Padding="10">
     <Grid>
-        <TabControl TabStripPlacement="Top" 
+        <TabControl SelectedIndex="{Binding SeletedTabIndex}"
+                    TabStripPlacement="Top" 
                     Style="{StaticResource MaterialDesignFilledTabControl}"
                     materialDesign:ColorZoneAssist.Background="LightGray">
             <TabItem Height="55" MaxWidth="800" Style="{StaticResource TabItem2layerRowStyle}">

@@ -10,10 +10,10 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
 {
     public class NavigationService : BaseViewModel, INavigationService
     {
-        private BaseViewModel _currentViewModel;
+        private BaseViewModel? _currentViewModel;
         private readonly Func<Type, BaseViewModel> _viewModelFactory;
 
-        public BaseViewModel CurrentViewModel
+        public BaseViewModel? CurrentViewModel
         {
             get => _currentViewModel;
             set

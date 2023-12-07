@@ -20,46 +20,31 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineMFC
     {
         private readonly IApiService _apiService;
         private readonly ReferenceStore _referenceStore;
-        public HomeViewModel _homeViewModel { get; set; }
+        private readonly HomeDataStore _homeDataStore;
 
         public ObservableCollection<MFCDto> MFCEntries { get; set; } = new();
 
         public ICommand LoadMFCMonitorViewCommand { get; set; }
-        public string HomeRef { get; set; } = "";
+        public string HomeRefName => _homeDataStore.HomeRefName;
 
-        public MFCMonitorViewModel(IApiService apiService, ReferenceStore referenceStore, HomeViewModel homeViewModel)
+        public MFCMonitorViewModel(IApiService apiService, ReferenceStore referenceStore, HomeDataStore homeDataStore)
         {
             _apiService = apiService;   
             _referenceStore = referenceStore;
-            _homeViewModel = homeViewModel;
+            _homeDataStore = homeDataStore;
 
             LoadMFCMonitorViewCommand = new RelayCommand(LoadMFCMonitorViewAsync);
         }
 
         private async void LoadMFCMonitorViewAsync()
         {
-            LoadLotSettingAsync();
+            OnPropertyChanged(nameof(HomeRefName));
             try
             {
-                var dtos = await _apiService.GetAllLotDeviceReferenceAsync();
-                var dto = dtos.First(i => i.RefName == HomeRef);
-                var viewModels = dto.Devices.First(i => i.DeviceId == "HC001").MFCs;
+                var homeRefId = _referenceStore.References.First(i => i.RefName == HomeRefName).Id;
+                var dtos = await _apiService.GetDeviceReferenceMFCAsync(homeRefId, "HC001");
+                var viewModels = dtos.Last().MFCs;
                 MFCEntries = new(viewModels);
-            }
-            catch (HttpRequestException)
-            {
-                ShowErrorMessage("Đã có lỗi xảy ra: Mất kết nối với server.");
-            }
-        }
-
-        private async void LoadLotSettingAsync()
-        {
-            try
-            {
-                var dtos = await _apiService.GetLotDeviceReferenceByDeviceTypeAsync("HerapinCap");
-                var dto = dtos.First(i => i.DeviceType == "HerapinCap");
-                HomeRef = dto.RefName;
-                OnPropertyChanged(nameof(HomeRef));
             }
             catch (HttpRequestException)
             {

@@ -74,10 +74,10 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail
         public double? Q { get; set; }
 
         //Reject
-        public HerapinCapRejection TR1 { get; set; }
-        public HerapinCapRejection TR2 { get; set; }
-        public HerapinCapRejection TR3 { get; set; }
-        public HerapinCapRejection TR4 { get; set; }
+        public HerapinCapRejection TR1 { get; set; } = new(0, 0, 0, 0, 0);
+        public HerapinCapRejection TR2 { get; set; } = new(0, 0, 0, 0, 0);
+        public HerapinCapRejection TR3 { get; set; } = new(0, 0, 0, 0, 0);
+        public HerapinCapRejection TR4 { get; set; } = new(0, 0, 0, 0, 0);
 
 
         public string? Error { get; set; }
@@ -103,6 +103,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail
                 new LineSeries
                 {
                     Title = "Values",
+                    Fill = Brushes.Transparent,
                     PointGeometry = DefaultGeometries.Circle,
                     PointForeground = Brushes.SkyBlue,
                     PointGeometrySize = 7,

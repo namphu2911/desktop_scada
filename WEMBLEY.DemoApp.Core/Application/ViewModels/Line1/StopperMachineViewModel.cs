@@ -17,9 +17,9 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1
         public ReportNavigationViewModel ReportNavigation { get; set; }
         public StopperMachineStatusViewModel StopperMachineStatus { get; set; }
 
-        private INavigationService _navigationService;
+        private INavigationService? _navigationService;
 
-        public INavigationService NavigationService
+        public INavigationService? NavigationService
         {
             get => _navigationService;
             set
@@ -28,8 +28,6 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1
                 OnPropertyChanged();
             }
         }
-
-        public string Header { get; set; } = "aaaaaaaaaaa";
         public ICommand NavigateBackToHomeViewCommand { get; set; }
         public StopperMachineViewModel(INavigationService navigationService, StopperMachineDetailViewModel stopperMachineDetail, MFCNavigationViewModel mFCNavigation, ReportNavigationViewModel reportNavigation, StopperMachineStatusViewModel stopperMachineStatus)
         {

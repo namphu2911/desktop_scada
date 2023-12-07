@@ -7,218 +7,290 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"        
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
-             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf" xmlns:stoppermachinereport="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineReport;assembly=WEMBLEY.DemoApp.Core" d:DataContext="{d:DesignInstance Type=stoppermachinereport:ReportLongTimeViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="1260"
              Background="{StaticResource ColorBackground}"
              Padding="10">
-    <ScrollViewer>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-            <materialDesign:Card Grid.Row="0" 
+        <materialDesign:Card Grid.Row="0" 
                                      Background="{StaticResource ColorSurface}"
                                      Margin="10">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-                    <Grid Grid.Row="0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="auto"/>
-                        </Grid.ColumnDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
 
-                        <TextBlock Grid.Row="0" Grid.Column="0" 
+                    <TextBlock Grid.Row="0" Grid.Column="0" 
                        Margin="10"
                        Style="{StaticResource FieldLabel}"
                        Text="Từ ngày"/>
 
 
-                        <DatePicker  Grid.Row="0" Grid.Column="1"
+                    <DatePicker  Grid.Row="0" Grid.Column="1"
                          Margin="10"
                          materialDesign:HintAssist.Hint="Từ ngày"
                          Style="{StaticResource DatePicker}"
                          SelectedDate="{Binding StartDate}"/>
 
 
-                        <TextBlock Grid.Row="0" Grid.Column="2" 
+                    <TextBlock Grid.Row="0" Grid.Column="2" 
                        Margin="10"
                        Style="{StaticResource FieldLabel}" 
                        Text="Đến ngày"/>
 
-                        <DatePicker Grid.Column="3"
+                    <DatePicker Grid.Column="3"
                          Margin="10,0,10,0"
                          materialDesign:HintAssist.Hint="Đến ngày"
                          Style="{StaticResource DatePicker}"
                          SelectedDate="{Binding EndDate}"/>
 
-                        <Button Grid.Row="0" Grid.Column="6"
+                    <Button Grid.Row="0" Grid.Column="6"
                             Margin="10"
                             Style="{StaticResource ButtonPrimary}" materialDesign:ButtonAssist.CornerRadius="10"
                             Content="Truy xuất"
                             HorizontalAlignment="Center"
                             Width="150">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Click">
-                                    <i:InvokeCommandAction Command="{Binding LoadStockCardEntryCommand}" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </Button>
-                    </Grid>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding MainButtonCommand}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                </Grid>
 
-                    <Grid Grid.Row="1">
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <Button Grid.Row="0" Grid.Column="6"
+                <Grid Grid.Row="1">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Grid.Row="0" Grid.Column="6"
                             Margin="10"
                             Style="{StaticResource ButtonPrimary}" materialDesign:ButtonAssist.CornerRadius="10"
                             Content="All"
                             HorizontalAlignment="Center"
                             Width="150">
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="Click">
-                                        <i:InvokeCommandAction Command="{Binding LoadStockCardEntryCommand}" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                            </Button>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding LoadReportLongTimeCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
 
-                            <Button Grid.Row="0" Grid.Column="6"
+                        <Button Grid.Row="0" Grid.Column="6"
                             Margin="10"
                             Style="{StaticResource ButtonPrimary}" materialDesign:ButtonAssist.CornerRadius="10"
                             Content="OEE"
                             HorizontalAlignment="Center"
                             Width="150">
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="Click">
-                                        <i:InvokeCommandAction Command="{Binding LoadStockCardEntryCommand}" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                            </Button>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding LoadOEECommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
 
-                            <Button Grid.Row="0" Grid.Column="6"
+                        <Button Grid.Row="0" Grid.Column="6"
                             Margin="10"
                             Style="{StaticResource ButtonPrimary}" materialDesign:ButtonAssist.CornerRadius="10"
                             Content="A"
                             HorizontalAlignment="Center"
                             Width="150">
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="Click">
-                                        <i:InvokeCommandAction Command="{Binding LoadStockCardEntryCommand}" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                            </Button>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding LoadACommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
 
-                            <Button Grid.Row="0" Grid.Column="6"
+                        <Button Grid.Row="0" Grid.Column="6"
                             Margin="10"
                             Style="{StaticResource ButtonPrimary}" materialDesign:ButtonAssist.CornerRadius="10"
                             Content="P"
                             HorizontalAlignment="Center"
                             Width="150">
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="Click">
-                                        <i:InvokeCommandAction Command="{Binding LoadStockCardEntryCommand}" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                            </Button>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding LoadPCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
 
-                            <Button Grid.Row="0" Grid.Column="6"
+                        <Button Grid.Row="0" Grid.Column="6"
                             Margin="10"
                             Style="{StaticResource ButtonPrimary}" materialDesign:ButtonAssist.CornerRadius="10"
                             Content="Q"
                             HorizontalAlignment="Center"
                             Width="150">
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="Click">
-                                        <i:InvokeCommandAction Command="{Binding LoadStockCardEntryCommand}" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                            </Button>
-                        </StackPanel>
-                    </Grid>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding LoadQCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+                    </StackPanel>
                 </Grid>
-            </materialDesign:Card>
+            </Grid>
+        </materialDesign:Card>
 
-            <materialDesign:Card Grid.Row="1" 
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <!--<RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>-->
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Visibility="{Binding FullOEEVis}" Grid.RowSpan="2">
+                <materialDesign:Card 
+                Margin="5">
+                    <DataGrid 
+                              Style="{StaticResource MaterialDesignDataGrid}"
+                              Background="{StaticResource ColorSurface}"
+                              Margin="10"
+                              IsReadOnly="True"
+                              ItemsSource="{Binding ShiftReportEntries}"
+                              AutoGenerateColumns="False"
+                              SelectionUnit="FullRow"
+                              SelectionMode="Single">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Ngày" Binding="{Binding Date}" Width="*"/>
+                            <DataGridTextColumn Header="Ca" Binding="{Binding ShiftNumber}" Width="*"/>
+                            <DataGridTextColumn Header="OEE %" Binding="{Binding OEE}" Width="*"/>
+                            <DataGridTextColumn Header="A %" Binding="{Binding A}" Width="*"/>
+                            <DataGridTextColumn Header="P %" Binding="{Binding P}" Width="*"/>
+                            <DataGridTextColumn Header="Q %" Binding="{Binding Q}" Width="*"/>
+                            <DataGridTextColumn Header="Số lượng tổng" Binding="{Binding ProductCount}" Width="*"/>
+                            <DataGridTextColumn Header="Số lượng lỗi" Binding="{Binding DefectCount}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </materialDesign:Card>
+            </Grid>
+
+            <Grid Grid.Row="0" Visibility="{Binding ChartVis}">
+                <materialDesign:Card     
                                      Background="{StaticResource ColorSurface}"
                                      Margin="10">
-                <lvc:CartesianChart Grid.Row="1" AnimationsSpeed="0:0:0.5" Hoverable="False" DataTooltip="{x:Null}">
-                    <lvc:CartesianChart.Series>
-                        <lvc:LineSeries Values="{Binding ChartValues}" 
-                         PointGeometry="{x:Null}" 
-                         LineSmoothness="1"
-                         StrokeThickness="6" 
-                         Stroke="#F34336"
-                         Fill="Transparent"/>
-                    </lvc:CartesianChart.Series>
+                    <lvc:CartesianChart  
+                        Series="{Binding SeriesCollection}"
+                        Foreground="Black">
+                        <lvc:CartesianChart.AxisX>
+                            <lvc:Axis Title="Thời gian" LabelFormatter="{Binding DateTimeFormatter}"></lvc:Axis>
+                        </lvc:CartesianChart.AxisX>
 
-                    <lvc:CartesianChart.AxisX>
-                        <lvc:Axis LabelFormatter="{Binding DateTimeFormatter}" 
-                   MaxValue="{Binding AxisMax}" 
-                   MinValue="{Binding AxisMin}"
-                   Unit="{Binding AxisUnit}">
-                            <lvc:Axis.Separator>
-                                <lvc:Separator Step="{Binding AxisStep}" />
-                            </lvc:Axis.Separator>
-                        </lvc:Axis>
-                    </lvc:CartesianChart.AxisX>
-                </lvc:CartesianChart>
-            </materialDesign:Card>
+                        <lvc:CartesianChart.AxisY  >
+                            <lvc:Axis Title="{Binding IsSeleted}" LabelFormatter="{Binding ValueFormatter}"></lvc:Axis>
+                        </lvc:CartesianChart.AxisY>
+                    </lvc:CartesianChart>
+                </materialDesign:Card>
+            </Grid>
 
-            <materialDesign:Card 
-                Visibility="Collapsed"
-                Grid.Row="2" Margin="5">
-                <DataGrid 
+            <Grid Grid.Row="1" Visibility="{Binding OEERowVis}">
+                <materialDesign:Card 
+                Grid.Row="2"
+                Margin="5">
+                    <DataGrid 
                               Style="{StaticResource MaterialDesignDataGrid}"
                               Background="{StaticResource ColorSurface}"
                               Margin="10"
                               IsReadOnly="True"
-                              ItemsSource="{Binding Entries}"
+                              ItemsSource="{Binding ShiftReportEntries, UpdateSourceTrigger=PropertyChanged}"
                               SelectedItem="{Binding SelectedEntry}"
                               AutoGenerateColumns="False"
                               SelectionUnit="FullRow"
                               SelectionMode="Single">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Ngày" Binding="{Binding ItemId}" Width="*"/>
-                        <DataGridTextColumn Header="Ca" Binding="{Binding ItemName}" Width="*"/>
-                        <DataGridTextColumn Header="OEE %" Binding="{Binding Unit}" Width="*"/>
-                        <DataGridTextColumn Header="A %" Binding="{Binding Quantity}" Width="*"/>
-                        <DataGridTextColumn Header="P %" Binding="{Binding PurchaseOrderNumber}" Width="*"/>
-                        <DataGridTextColumn Header="Q %" Binding="{Binding PurchaseOrderNumber}" Width="*"/>
-                        <DataGridTextColumn Header="Sản lượng" Binding="{Binding PurchaseOrderNumber}" Width="*"/>
-                        <DataGridTextColumn Header="Sản lượng chuẩn" Binding="{Binding PurchaseOrderNumber}" Width="*"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </materialDesign:Card>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Ngày" Binding="{Binding Date}"  />
+                            <DataGridTextColumn Header="Ca" Binding="{Binding ShiftNumber}"  />
+                            <DataGridTextColumn Header="OEE %" Binding="{Binding OEE}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </materialDesign:Card>
+            </Grid>
 
-            <materialDesign:Card Grid.Row="2" Margin="5">
-                <DataGrid 
+            <Grid Grid.Row="1" Visibility="{Binding ARowVis}">
+                <materialDesign:Card 
+                Grid.Row="2"
+                Margin="5">
+                    <DataGrid 
                               Style="{StaticResource MaterialDesignDataGrid}"
                               Background="{StaticResource ColorSurface}"
                               Margin="10"
                               IsReadOnly="True"
-                              ItemsSource="{Binding Entries}"
+                              ItemsSource="{Binding ShiftReportEntries, UpdateSourceTrigger=PropertyChanged}"
                               SelectedItem="{Binding SelectedEntry}"
                               AutoGenerateColumns="False"
                               SelectionUnit="FullRow"
                               SelectionMode="Single">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Ngày" Binding="{Binding ItemId}" Width="*"/>
-                        <DataGridTextColumn Header="Ca" Binding="{Binding ItemName}" Width="*"/>
-                        <DataGridTextColumn Header="{Binding }" Binding="{Binding Unit}" Width="*"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </materialDesign:Card>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Ngày" Binding="{Binding Date}"  />
+                            <DataGridTextColumn Header="Ca" Binding="{Binding ShiftNumber}"  />
+                            <DataGridTextColumn Header="A %" Binding="{Binding A}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </materialDesign:Card>
+            </Grid>
+
+            <Grid Grid.Row="1" Visibility="{Binding PRowVis}">
+                <materialDesign:Card 
+                Grid.Row="2"
+                Margin="5">
+                    <DataGrid 
+                              Style="{StaticResource MaterialDesignDataGrid}"
+                              Background="{StaticResource ColorSurface}"
+                              Margin="10"
+                              IsReadOnly="True"
+                              ItemsSource="{Binding ShiftReportEntries, UpdateSourceTrigger=PropertyChanged}"
+                              SelectedItem="{Binding SelectedEntry}"
+                              AutoGenerateColumns="False"
+                              SelectionUnit="FullRow"
+                              SelectionMode="Single">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Ngày" Binding="{Binding Date}"  />
+                            <DataGridTextColumn Header="Ca" Binding="{Binding ShiftNumber}"/>
+                            <DataGridTextColumn Header="P %" Binding="{Binding P}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </materialDesign:Card>
+            </Grid>
+
+            <Grid Grid.Row="1" Visibility="{Binding QRowVis}">
+                <materialDesign:Card 
+                Grid.Row="2"
+                Margin="5">
+                    <DataGrid 
+                              Style="{StaticResource MaterialDesignDataGrid}"
+                              Background="{StaticResource ColorSurface}"
+                              Margin="10"
+                              IsReadOnly="True"
+                              ItemsSource="{Binding ShiftReportEntries, UpdateSourceTrigger=PropertyChanged}"
+                              SelectedItem="{Binding SelectedEntry}"
+                              AutoGenerateColumns="False"
+                              SelectionUnit="FullRow"
+                              SelectionMode="Single">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Ngày" Binding="{Binding Date}"/>
+                            <DataGridTextColumn Header="Ca" Binding="{Binding ShiftNumber}"/>
+                            <DataGridTextColumn Header="Q %" Binding="{Binding Q}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </materialDesign:Card>
+            </Grid>
+
         </Grid>
-    </ScrollViewer>
-    
-
+    </Grid>
 </UserControl>

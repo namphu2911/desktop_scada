@@ -10,5 +10,6 @@ namespace WEMBLEY.DemoApp.Core.Domain.Services
     {
         Task SynchronizeReferencesData();
         Task SynchronizeDevicesData();
+        Task SynchronizeHomeData();
     }
 }

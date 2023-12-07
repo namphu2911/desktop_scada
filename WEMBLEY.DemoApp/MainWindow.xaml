@@ -11,8 +11,11 @@
         xmlns:homes="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Home;assembly=WEMBLEY.DemoApp.Core" 
         xmlns:line1="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line1;assembly=WEMBLEY.DemoApp.Core" 
         xmlns:line1Views="clr-namespace:WEMBLEY.DemoApp.Views.Line1" 
+        xmlns:report="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineReport;assembly=WEMBLEY.DemoApp.Core" 
+        xmlns:reportViews="clr-namespace:WEMBLEY.DemoApp.Views.Line1.Report" 
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
-        xmlns:viewmodels="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels;assembly=WEMBLEY.DemoApp.Core" d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
+        xmlns:viewmodels="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels;assembly=WEMBLEY.DemoApp.Core" 
+        d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
         Background="{StaticResource ColorBackground}"
         WindowStartupLocation="CenterScreen"
         Title="WEMBLY Demo App" Height="800" Width="1300">

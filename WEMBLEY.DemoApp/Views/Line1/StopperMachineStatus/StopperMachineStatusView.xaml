@@ -75,7 +75,6 @@
                               Margin="10"
                               IsReadOnly="True"
                               ItemsSource="{Binding StatusHistoryEntries}"
-                              SelectedItem="{Binding SelectedEntry}"
                               AutoGenerateColumns="False"
                               SelectionUnit="FullRow"
                               SelectionMode="Single">

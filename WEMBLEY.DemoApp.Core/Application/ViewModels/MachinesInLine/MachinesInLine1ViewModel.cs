@@ -14,9 +14,9 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.MachinesInLine
 {
     public class MachinesInLine1ViewModel : BaseViewModel
     {
-        private INavigationService _navigationService;
+        private INavigationService? _navigationService;
 
-        public INavigationService NavigationService
+        public INavigationService? NavigationService
         {
             get => _navigationService;
             set

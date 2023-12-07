@@ -43,7 +43,8 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels
             await _signalRClient.ConnectAsync();
             await Task.WhenAll(
                 _databaseSynchronizationService.SynchronizeReferencesData(),
-                _databaseSynchronizationService.SynchronizeDevicesData()
+                _databaseSynchronizationService.SynchronizeDevicesData(),
+                _databaseSynchronizationService.SynchronizeHomeData()
                 );
         }
     }

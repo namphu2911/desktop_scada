@@ -97,7 +97,6 @@
                               Background="{StaticResource ColorSurface}"
                               IsReadOnly="True"
                               ItemsSource="{Binding Entries}"
-                              SelectedItem="{Binding SelectedEntry}"
                               AutoGenerateColumns="False"
                               SelectionUnit="FullRow"
                               SelectionMode="Single">
