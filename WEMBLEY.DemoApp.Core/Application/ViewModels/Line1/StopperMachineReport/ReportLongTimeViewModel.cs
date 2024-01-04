@@ -2,10 +2,13 @@
 using CommunityToolkit.Mvvm.Input;
 using LiveCharts;
 using LiveCharts.Defaults;
+using LiveCharts.Helpers;
 using LiveCharts.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -36,6 +39,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineReport
         public Visibility PRowVis { get; set; } = Visibility.Collapsed;
         public Visibility QRowVis { get; set; } = Visibility.Collapsed;
         public ObservableCollection<ShiftReportDto> ShiftReportEntries { get; set; } = new();
+        public ObservableCollection<ShiftReportDto> ShiftTableEntries { get; set; } = new();
         public event Action? Changed;
 
         private readonly IdTransferStore _idTransferStore;
@@ -54,10 +58,9 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineReport
             }
         }
         public SeriesCollection SeriesCollection { set; get; }
-        public Func<double, string> DateTimeFormatter { get; set; }
-        public Func<double, string> ValueFormatter { get; set; }
-
+        public ObservableCollection<string> Datelabel { get; set; } = new();
         public ICommand MainButtonCommand { get; set; }
+        public ICommand ExportReportCommand { get; set; }
         public ICommand LoadReportLongTimeCommand { get; set; }
         public ICommand LoadOEECommand { get; set; }
         public ICommand LoadACommand { get; set; }
@@ -77,19 +80,42 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineReport
                     LineSmoothness = 0,
                     PointGeometry = DefaultGeometries.Circle,
                     PointForeground = Brushes.SkyBlue,
-                    PointGeometrySize = 7,
-                    Values = new ChartValues<ObservablePoint>()
+                    PointGeometrySize = 7
                 }
             };
-            DateTimeFormatter = value => new DateTime((long)value).ToString("dd/MM/yyyy");
-            ValueFormatter = value => value.ToString("0.00");
 
             MainButtonCommand = new RelayCommand(MainButton);
+            ExportReportCommand = new RelayCommand<string>(ExportReport);
             LoadReportLongTimeCommand = new RelayCommand(LoadReportLongTime);
             LoadOEECommand = new RelayCommand(LoadOEEReport); ;
             LoadACommand = new RelayCommand(LoadAReport); ;
             LoadPCommand = new RelayCommand(LoadPReport); ;
             LoadQCommand = new RelayCommand(LoadQReport); ;
+        }
+
+       
+        private async void ExportReport(string? filePath)
+        {
+            if (filePath is not null)
+            {
+                try
+                {
+                    var fileBytes = await _apiService.DownloadShiftReportFileAsync("HC001", StartDate, EndDate);
+                    if (fileBytes != null)
+                    {
+                        File.WriteAllBytes(filePath, fileBytes);
+                        MessageBox.Show("File downloaded successfully!");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to download the file.");
+                    }
+                }
+                catch (HttpRequestException)
+                {
+                    ShowErrorMessage("Đã có lỗi xảy ra");
+                }
+            }
         }
 
         private void LoadOEEReport()
@@ -103,7 +129,9 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineReport
             PRowVis = Visibility.Collapsed;
             QRowVis = Visibility.Collapsed;
             OnPropertyChanged(nameof(ShiftReportEntries));
-            SeriesCollection[0].Values = new ChartValues<ObservablePoint>(ShiftReportEntries.Select(g => new ObservablePoint(g.Date.Ticks, g.OEE)));
+
+            Datelabel = new (ShiftReportEntries.Select(g => $"{g.Date:dd/MM/yyyy} - {g.ShiftNumber}"));
+            SeriesCollection[0].Values = ShiftReportEntries.Select(g => Math.Round(g.OEE,2)).AsChartValues();
         }
 
         private void LoadAReport()
@@ -117,7 +145,9 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineReport
             PRowVis = Visibility.Collapsed;
             QRowVis = Visibility.Collapsed;
             OnPropertyChanged(nameof(ShiftReportEntries));
-            SeriesCollection[0].Values = new ChartValues<ObservablePoint>(ShiftReportEntries.Select(g => new ObservablePoint(g.Date.Ticks, g.A)));
+
+            Datelabel = new(ShiftReportEntries.Select(g => $"{g.Date:dd/MM/yyyy} - {g.ShiftNumber}"));
+            SeriesCollection[0].Values = ShiftReportEntries.Select(g => Math.Round(g.A, 2)).AsChartValues();
         }
 
         private void LoadPReport()
@@ -131,7 +161,9 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineReport
             ARowVis = Visibility.Collapsed;
             QRowVis = Visibility.Collapsed;
             OnPropertyChanged(nameof(ShiftReportEntries));
-            SeriesCollection[0].Values = new ChartValues<ObservablePoint>(ShiftReportEntries.Select(g => new ObservablePoint(g.Date.Ticks, g.P)));
+
+            Datelabel = new(ShiftReportEntries.Select(g => $"{g.Date:dd/MM/yyyy} - {g.ShiftNumber}"));
+            SeriesCollection[0].Values = ShiftReportEntries.Select(g => Math.Round(g.P, 2)).AsChartValues();
         }
 
         private void LoadQReport()
@@ -145,7 +177,9 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineReport
             PRowVis = Visibility.Collapsed;
             OEERowVis = Visibility.Collapsed;
             OnPropertyChanged(nameof(ShiftReportEntries));
-            SeriesCollection[0].Values = new ChartValues<ObservablePoint>(ShiftReportEntries.Select(g => new ObservablePoint(g.Date.Ticks, g.Q)));
+
+            Datelabel = new(ShiftReportEntries.Select(g => $"{g.Date:dd/MM/yyyy} - {g.ShiftNumber}"));
+            SeriesCollection[0].Values = ShiftReportEntries.Select(g => Math.Round(g.Q, 2)).AsChartValues();
         }
 
         private void LoadReportLongTime()
@@ -165,12 +199,19 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineReport
             try
             {
                 var dtos = await _apiService.GetShiftReportHistoryAsync("HC001", StartDate, EndDate);
-                ShiftReportEntries = new(dtos);
+                foreach (var d in dtos)
+                {
+                    d.UpdateOEE(d.OEE,d.A , d.P, d.Q);
+                }
+                ShiftReportEntries = new(dtos.OrderBy(s => s.Date).ThenBy(s => s.ShiftNumber));
+                ShiftTableEntries = new(dtos);
             }
             catch (HttpRequestException)
             {
                 ShowErrorMessage("Đã có lỗi xảy ra: Mất kết nối với server.");
             }
+            OnPropertyChanged(nameof(ShiftReportEntries));
+            OnPropertyChanged(nameof(ShiftTableEntries));
         }
 
         private void MainButton()
@@ -183,7 +224,6 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineReport
                 case "P": LoadPReport(); break;
                 case "Q": LoadQReport(); break;
                     default: break;
-
             }
         }
     }

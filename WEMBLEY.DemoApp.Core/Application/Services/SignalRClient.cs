@@ -50,7 +50,7 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
             return tags.Last(i => i.TagId == tagId);
         }
 
-        public async Task<object> GetBufferValue(string tagId)
+        public async Task<object?> GetBufferValue(string tagId)
         {
             string respone = await connection.InvokeAsync<string>("SendAll");
             var tags = JsonConvert.DeserializeObject<List<TagChangedNotification>>(respone);
@@ -58,7 +58,13 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
             {
                 throw new Exception();
             }
-            return tags.Last(i => i.TagId == tagId).TagValue;
+
+            var tag = tags.LastOrDefault(i => i.TagId == tagId);
+            if(tag is not null)
+            {
+                return tag.TagValue;
+            }
+            else return null;
         }
 
         public bool GetState()

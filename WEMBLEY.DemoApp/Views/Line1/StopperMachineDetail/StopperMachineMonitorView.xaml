@@ -16,6 +16,9 @@
         <i:EventTrigger EventName="Loaded">
             <prism:InvokeCommandAction Command="{Binding LoadStopperMachineMonitorViewCommand}"/>
         </i:EventTrigger>
+        <i:EventTrigger EventName="Loaded">
+            <prism:InvokeCommandAction Command="{Binding LoadReloadGraphCommand}"/>
+        </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid>
         <Grid.RowDefinitions>
@@ -23,29 +26,55 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Margin="5,5,10,5"  Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
-            <TextBlock 
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!--<Button Grid.Column="0"
+                    Margin="5,5,0,5"
+                    Style="{StaticResource ButtonNavigateBack}" 
+                    materialDesign:ButtonAssist.CornerRadius="10"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Stretch">
+                <materialDesign:PackIcon
+                        Width="30"
+                        Height="30"
+                        Kind="Reload" 
+                        VerticalAlignment="Center"/>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:InvokeCommandAction Command="{Binding LoadReloadGraphCommand}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>-->
+            
+            <StackPanel Margin="5,5,10,5"  Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                <TextBlock 
                            Background="{StaticResource ColorPrimaryGreen}"
                            Style="{StaticResource NoteBarLabel}"
                            Text="RUN" />
-            <TextBlock 
+                <TextBlock 
                            Background="{StaticResource ColorPrimaryRed}"
                            Style="{StaticResource NoteBarLabel}"
                            Text="ALARM" />
-            <TextBlock 
+                <TextBlock 
                            Background="{StaticResource ColorPrimaryYellow}"
                            Style="{StaticResource NoteBarLabel}"
                            Text="IDLE" />
-            <TextBlock 
+                <TextBlock 
                            Background="{StaticResource ColorPrimaryPurple}"
                            Style="{StaticResource NoteBarLabel}"
                            Text="SETUP" />
-            <TextBlock 
+                <TextBlock 
                            Background="{StaticResource ColorPrimaryGray}"
                            Style="{StaticResource NoteBarLabel}"
                            Text="OFF" />
 
-        </StackPanel>
+            </StackPanel>
+        </Grid>
+        
 
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -228,15 +257,21 @@
                 </Grid.RowDefinitions>
 
                 <materialDesign:Card Grid.Row="0" Margin="5">
-                    <lvc:CartesianChart  
+                    <lvc:CartesianChart
                         Series="{Binding SeriesCollection}"
                         Foreground="Black">
                         <lvc:CartesianChart.AxisX>
-                            <lvc:Axis Title="Thời gian" LabelFormatter="{Binding DateTimeFormatter}"></lvc:Axis>
+                            <lvc:Axis Title="Thời gian" LabelFormatter="{Binding DateTimeFormatter}"
+                                      MinRange="-1" 
+                                      MaxRange="100">
+                            </lvc:Axis>
                         </lvc:CartesianChart.AxisX>
 
-                        <lvc:CartesianChart.AxisY  >
-                            <lvc:Axis Title="OEE (%)" LabelFormatter="{Binding ValueFormatter}"></lvc:Axis>
+                        <lvc:CartesianChart.AxisY>
+                            <lvc:Axis Title="OEE (%)" LabelFormatter="{Binding ValueFormatter}"
+                                      MinRange="-1"
+                                      MaxRange="100">
+                            </lvc:Axis>
                         </lvc:CartesianChart.AxisY>
                     </lvc:CartesianChart>
                 </materialDesign:Card>
@@ -247,7 +282,7 @@
                               Background="{StaticResource ColorSurface}"
                               Margin="10"
                               IsReadOnly="True"
-                              ItemsSource="{Binding OEEEntries, UpdateSourceTrigger=PropertyChanged}"
+                              ItemsSource="{Binding OEEEntries}"
                               AutoGenerateColumns="False"
                               SelectionUnit="FullRow"
                               SelectionMode="Single">

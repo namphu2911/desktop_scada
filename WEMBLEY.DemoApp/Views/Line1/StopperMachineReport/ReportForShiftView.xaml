@@ -30,7 +30,7 @@
         <Grid Grid.Row="0">
             <materialDesign:Card     
                                      Background="{StaticResource ColorSurface}"
-                                     Margin="10">
+                                     Margin="5">
                 <lvc:CartesianChart  
                         Series="{Binding SeriesCollection}"
                         Foreground="Black">
@@ -60,8 +60,8 @@
                               SelectionUnit="FullRow"
                               SelectionMode="Single">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Thời điểm" Binding="{Binding TimeStamp}"/>
-                        <DataGridTextColumn Header="OEE %" Binding="{Binding OEE}" />
+                        <DataGridTextColumn Header="Thời điểm" Binding="{Binding TimeStamp, StringFormat=dd/MM/yyyy HH:mm:ss }"/>
+                        <DataGridTextColumn Header="OEE %" Binding="{Binding OEE, StringFormat={}{0:0.##}}" />
                     </DataGrid.Columns>
                 </DataGrid>
             </materialDesign:Card>
@@ -82,8 +82,8 @@
                               SelectionUnit="FullRow"
                               SelectionMode="Single">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Thời điểm" Binding="{Binding TimeStamp}"/>
-                        <DataGridTextColumn Header="A %" Binding="{Binding A}"/>
+                        <DataGridTextColumn Header="Thời điểm" Binding="{Binding TimeStamp, StringFormat=dd/MM/yyyy HH:mm:ss}"/>
+                        <DataGridTextColumn Header="A %" Binding="{Binding A, StringFormat={}{0:0.##}}"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </materialDesign:Card>
@@ -104,8 +104,8 @@
                               SelectionUnit="FullRow"
                               SelectionMode="Single">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Thời điểm" Binding="{Binding TimeStamp}"/>
-                        <DataGridTextColumn Header="P %" Binding="{Binding P}"/>
+                        <DataGridTextColumn Header="Thời điểm" Binding="{Binding TimeStamp, StringFormat=dd/MM/yyyy HH:mm:ss}"/>
+                        <DataGridTextColumn Header="P %" Binding="{Binding P, StringFormat={}{0:0.##}}"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </materialDesign:Card>
@@ -126,8 +126,8 @@
                               SelectionUnit="FullRow"
                               SelectionMode="Single">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Thời điểm" Binding="{Binding TimeStamp}"/>
-                        <DataGridTextColumn Header="Q %" Binding="{Binding Q}"/>
+                        <DataGridTextColumn Header="Thời điểm" Binding="{Binding TimeStamp, StringFormat=dd/MM/yyyy HH:mm:ss}"/>
+                        <DataGridTextColumn Header="Q %" Binding="{Binding Q, StringFormat={}{0:0.##}}"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </materialDesign:Card>

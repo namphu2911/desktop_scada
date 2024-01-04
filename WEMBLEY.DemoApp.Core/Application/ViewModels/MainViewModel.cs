@@ -15,9 +15,9 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels
     public class MainViewModel : BaseViewModel
     {
         private readonly IDatabaseSynchronizationService _databaseSynchronizationService;
-        private INavigationService _navigationService;
+        private INavigationService? _navigationService;
         private readonly ISignalRClient _signalRClient;
-        public INavigationService NavigationService
+        public INavigationService? NavigationService
         {
             get => _navigationService;
             set

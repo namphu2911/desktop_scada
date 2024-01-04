@@ -31,7 +31,6 @@ namespace WEMBLEY.DemoApp.Core.Domain.Services
 
         Task<IEnumerable<ShiftReportWithShotDto>> GetShiftReportWithShotByShiftIdAsync(int ShiftReportId);
         Task<IEnumerable<ShiftReportWithShotDto>> GetShiftReportWithShotByDateAsync(DateTime Date, int shiftNumber);
-
-
+        Task<byte[]> DownloadShiftReportFileAsync(string deviceId, DateTime startDate, DateTime endDate);
     }
 }

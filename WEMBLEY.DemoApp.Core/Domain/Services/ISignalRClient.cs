@@ -13,7 +13,7 @@ namespace WEMBLEY.DemoApp.Core.Domain.Services
         Task ConnectAsync();
         Task<List<TagChangedNotification>> GetBufferList();
         Task<TagChangedNotification> GetBuffer(string tagId);
-        Task<object> GetBufferValue(string tagId);
+        Task<object?> GetBufferValue(string tagId);
         bool GetState();
     }
 }

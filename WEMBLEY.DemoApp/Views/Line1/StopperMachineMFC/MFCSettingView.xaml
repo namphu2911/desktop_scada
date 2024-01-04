@@ -27,7 +27,7 @@
             Grid.Row="0"    
             Width="500"
                 Margin="10"
-                Background="Aqua" 
+                Background="{StaticResource ColorPrimaryL1}" 
                 Grid.Column="0"
                 UniformCornerRadius="15">
             <Grid>
@@ -39,6 +39,7 @@
                 <TextBlock 
                         Grid.Row="0" 
                         Style="{StaticResource LineTitle}"
+                        Foreground="{StaticResource ColorSurface}"
                         Text="Setting" />
                 <materialDesign:Card  
                         Margin="20"

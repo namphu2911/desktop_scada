@@ -20,7 +20,7 @@
 
         <materialDesign:Card Grid.Row="0" 
                                      Background="{StaticResource ColorSurface}"
-                                     Margin="10">
+                                     Margin="5">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
@@ -60,9 +60,10 @@
                          Style="{StaticResource DatePicker}"
                          SelectedDate="{Binding EndDate}"/>
 
-                    <Button Grid.Row="0" Grid.Column="6"
+                    <Button Grid.Row="0" Grid.Column="4"
                             Margin="10"
-                            Style="{StaticResource ButtonPrimary}" materialDesign:ButtonAssist.CornerRadius="10"
+                            Style="{StaticResource ButtonPrimary}" 
+                            materialDesign:ButtonAssist.CornerRadius="10"
                             Content="Truy xuất"
                             HorizontalAlignment="Center"
                             Width="150">
@@ -78,7 +79,7 @@
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <Button Grid.Row="0" Grid.Column="6"
                             Margin="10"
-                            Style="{StaticResource ButtonPrimary}" materialDesign:ButtonAssist.CornerRadius="10"
+                            Style="{StaticResource ButtonChanged}" materialDesign:ButtonAssist.CornerRadius="10"
                             Content="All"
                             HorizontalAlignment="Center"
                             Width="150">
@@ -91,7 +92,7 @@
 
                         <Button Grid.Row="0" Grid.Column="6"
                             Margin="10"
-                            Style="{StaticResource ButtonPrimary}" materialDesign:ButtonAssist.CornerRadius="10"
+                            Style="{StaticResource ButtonChanged}" materialDesign:ButtonAssist.CornerRadius="10"
                             Content="OEE"
                             HorizontalAlignment="Center"
                             Width="150">
@@ -104,7 +105,7 @@
 
                         <Button Grid.Row="0" Grid.Column="6"
                             Margin="10"
-                            Style="{StaticResource ButtonPrimary}" materialDesign:ButtonAssist.CornerRadius="10"
+                            Style="{StaticResource ButtonChanged}" materialDesign:ButtonAssist.CornerRadius="10"
                             Content="A"
                             HorizontalAlignment="Center"
                             Width="150">
@@ -117,7 +118,7 @@
 
                         <Button Grid.Row="0" Grid.Column="6"
                             Margin="10"
-                            Style="{StaticResource ButtonPrimary}" materialDesign:ButtonAssist.CornerRadius="10"
+                            Style="{StaticResource ButtonChanged}" materialDesign:ButtonAssist.CornerRadius="10"
                             Content="P"
                             HorizontalAlignment="Center"
                             Width="150">
@@ -130,7 +131,7 @@
 
                         <Button Grid.Row="0" Grid.Column="6"
                             Margin="10"
-                            Style="{StaticResource ButtonPrimary}" materialDesign:ButtonAssist.CornerRadius="10"
+                            Style="{StaticResource ButtonChanged}" materialDesign:ButtonAssist.CornerRadius="10"
                             Content="Q"
                             HorizontalAlignment="Center"
                             Width="150">
@@ -156,24 +157,39 @@
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0" Visibility="{Binding FullOEEVis}" Grid.RowSpan="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                
+                <Button Grid.Row="0"
+                            Margin="10,5,10,5"
+                            Style="{StaticResource ButtonPrimary}" 
+                            materialDesign:ButtonAssist.CornerRadius="10"
+                            Content="Xuất Excel"
+                            HorizontalAlignment="Left"
+                            Width="150"
+                            Click="SaveFileButtonClicked">
+                </Button>
                 <materialDesign:Card 
-                Margin="5">
+                    Grid.Row="1"
+                    Margin="5">
                     <DataGrid 
                               Style="{StaticResource MaterialDesignDataGrid}"
                               Background="{StaticResource ColorSurface}"
                               Margin="10"
                               IsReadOnly="True"
-                              ItemsSource="{Binding ShiftReportEntries}"
+                              ItemsSource="{Binding ShiftTableEntries}"
                               AutoGenerateColumns="False"
                               SelectionUnit="FullRow"
                               SelectionMode="Single">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Ngày" Binding="{Binding Date}" Width="*"/>
+                            <DataGridTextColumn Header="Ngày" Binding="{Binding Date, StringFormat=dd/MM/yyyy}" Width="*"/>
                             <DataGridTextColumn Header="Ca" Binding="{Binding ShiftNumber}" Width="*"/>
-                            <DataGridTextColumn Header="OEE %" Binding="{Binding OEE}" Width="*"/>
-                            <DataGridTextColumn Header="A %" Binding="{Binding A}" Width="*"/>
-                            <DataGridTextColumn Header="P %" Binding="{Binding P}" Width="*"/>
-                            <DataGridTextColumn Header="Q %" Binding="{Binding Q}" Width="*"/>
+                            <DataGridTextColumn Header="OEE %" Binding="{Binding OEE, StringFormat={}{0:0.##}}" Width="*"/>
+                            <DataGridTextColumn Header="A %" Binding="{Binding A, StringFormat={}{0:0.##}}" Width="*"/>
+                            <DataGridTextColumn Header="P %" Binding="{Binding P, StringFormat={}{0:0.##}}" Width="*"/>
+                            <DataGridTextColumn Header="Q %" Binding="{Binding Q, StringFormat={}{0:0.##}}" Width="*"/>
                             <DataGridTextColumn Header="Số lượng tổng" Binding="{Binding ProductCount}" Width="*"/>
                             <DataGridTextColumn Header="Số lượng lỗi" Binding="{Binding DefectCount}" Width="*"/>
                         </DataGrid.Columns>
@@ -184,16 +200,16 @@
             <Grid Grid.Row="0" Visibility="{Binding ChartVis}">
                 <materialDesign:Card     
                                      Background="{StaticResource ColorSurface}"
-                                     Margin="10">
+                                     Margin="5">
                     <lvc:CartesianChart  
                         Series="{Binding SeriesCollection}"
                         Foreground="Black">
                         <lvc:CartesianChart.AxisX>
-                            <lvc:Axis Title="Thời gian" LabelFormatter="{Binding DateTimeFormatter}"></lvc:Axis>
+                            <lvc:Axis Title="Thời gian" Labels="{Binding Datelabel, StringFormat=dd/MM/yyyy}"></lvc:Axis>
                         </lvc:CartesianChart.AxisX>
 
                         <lvc:CartesianChart.AxisY  >
-                            <lvc:Axis Title="{Binding IsSeleted}" LabelFormatter="{Binding ValueFormatter}"></lvc:Axis>
+                            <lvc:Axis Title="{Binding IsSeleted}"></lvc:Axis>
                         </lvc:CartesianChart.AxisY>
                     </lvc:CartesianChart>
                 </materialDesign:Card>
@@ -208,15 +224,15 @@
                               Background="{StaticResource ColorSurface}"
                               Margin="10"
                               IsReadOnly="True"
-                              ItemsSource="{Binding ShiftReportEntries, UpdateSourceTrigger=PropertyChanged}"
+                              ItemsSource="{Binding ShiftTableEntries, UpdateSourceTrigger=PropertyChanged}"
                               SelectedItem="{Binding SelectedEntry}"
                               AutoGenerateColumns="False"
                               SelectionUnit="FullRow"
                               SelectionMode="Single">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Ngày" Binding="{Binding Date}"  />
+                            <DataGridTextColumn Header="Ngày" Binding="{Binding Date, StringFormat=dd/MM/yyyy}"  />
                             <DataGridTextColumn Header="Ca" Binding="{Binding ShiftNumber}"  />
-                            <DataGridTextColumn Header="OEE %" Binding="{Binding OEE}" />
+                            <DataGridTextColumn Header="OEE %" Binding="{Binding OEE, StringFormat={}{0:0.##}}" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </materialDesign:Card>
@@ -231,15 +247,15 @@
                               Background="{StaticResource ColorSurface}"
                               Margin="10"
                               IsReadOnly="True"
-                              ItemsSource="{Binding ShiftReportEntries, UpdateSourceTrigger=PropertyChanged}"
+                              ItemsSource="{Binding ShiftTableEntries, UpdateSourceTrigger=PropertyChanged}"
                               SelectedItem="{Binding SelectedEntry}"
                               AutoGenerateColumns="False"
                               SelectionUnit="FullRow"
                               SelectionMode="Single">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Ngày" Binding="{Binding Date}"  />
+                            <DataGridTextColumn Header="Ngày" Binding="{Binding Date, StringFormat=dd/MM/yyyy}"  />
                             <DataGridTextColumn Header="Ca" Binding="{Binding ShiftNumber}"  />
-                            <DataGridTextColumn Header="A %" Binding="{Binding A}"/>
+                            <DataGridTextColumn Header="A %" Binding="{Binding A, StringFormat={}{0:0.##}}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </materialDesign:Card>
@@ -254,15 +270,15 @@
                               Background="{StaticResource ColorSurface}"
                               Margin="10"
                               IsReadOnly="True"
-                              ItemsSource="{Binding ShiftReportEntries, UpdateSourceTrigger=PropertyChanged}"
+                              ItemsSource="{Binding ShiftTableEntries, UpdateSourceTrigger=PropertyChanged}"
                               SelectedItem="{Binding SelectedEntry}"
                               AutoGenerateColumns="False"
                               SelectionUnit="FullRow"
                               SelectionMode="Single">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Ngày" Binding="{Binding Date}"  />
+                            <DataGridTextColumn Header="Ngày" Binding="{Binding Date, StringFormat=dd/MM/yyyy}"  />
                             <DataGridTextColumn Header="Ca" Binding="{Binding ShiftNumber}"/>
-                            <DataGridTextColumn Header="P %" Binding="{Binding P}"/>
+                            <DataGridTextColumn Header="P %" Binding="{Binding P, StringFormat={}{0:0.##}}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </materialDesign:Card>
@@ -277,15 +293,15 @@
                               Background="{StaticResource ColorSurface}"
                               Margin="10"
                               IsReadOnly="True"
-                              ItemsSource="{Binding ShiftReportEntries, UpdateSourceTrigger=PropertyChanged}"
+                              ItemsSource="{Binding ShiftTableEntries, UpdateSourceTrigger=PropertyChanged}"
                               SelectedItem="{Binding SelectedEntry}"
                               AutoGenerateColumns="False"
                               SelectionUnit="FullRow"
                               SelectionMode="Single">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Ngày" Binding="{Binding Date}"/>
+                            <DataGridTextColumn Header="Ngày" Binding="{Binding Date, StringFormat=dd/MM/yyyy}"/>
                             <DataGridTextColumn Header="Ca" Binding="{Binding ShiftNumber}"/>
-                            <DataGridTextColumn Header="Q %" Binding="{Binding Q}"/>
+                            <DataGridTextColumn Header="Q %" Binding="{Binding Q, StringFormat={}{0:0.##}}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </materialDesign:Card>

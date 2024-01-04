@@ -31,14 +31,14 @@
         </StackPanel>
 
         <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
+            <!--<Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+            </Grid.ColumnDefinitions>-->
 
             <materialDesign:Card
                 Margin="10"
-                Background="Aqua" 
+                Background="{StaticResource ColorPrimaryL1}" 
                 Grid.Column="0"
                 UniformCornerRadius="15">
                 <Grid>
@@ -50,7 +50,8 @@
                     <TextBlock 
                         Grid.Row="0" 
                         Style="{StaticResource LineTitle}"
-                        Text="Setting" />
+                        Foreground="{StaticResource ColorSurface}"
+                        Text="Theo dõi thông số" />
                     <materialDesign:Card  
                         Margin="20"
                         UniformCornerRadius="20"
@@ -63,19 +64,40 @@
                               AutoGenerateColumns="False"
                               SelectionUnit="FullRow"
                               SelectionMode="Single">
+                            <!--<DataGrid.RowStyle>
+                                <Style TargetType="DataGridRow" BasedOn="{StaticResource MaterialDesignDataGridRow}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsAlarmed}" Value="True">
+                                            <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
+                                            <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.RowStyle>-->
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Station" Binding="{Binding Name}" Width="*"/>
-                                <DataGridTextColumn Header="Value" Binding="{Binding Value}" Width="*"/>
+                                <DataGridTextColumn Header="Setting Value" Binding="{Binding Value}" Width="0.7*"/>
+                                <DataGridTextColumn Header="Current Value" Binding="{Binding RealValue}" Width="0.7*">
+                                    <DataGridTextColumn.CellStyle>
+                                        <Style TargetType="{x:Type DataGridCell}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsAlarmed}" Value="True">
+                                                    <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
+                                                    <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </DataGridTextColumn.CellStyle>
+                                </DataGridTextColumn>
                             </DataGrid.Columns>
                         </DataGrid>
                     </materialDesign:Card>
-                    
                 </Grid>
             </materialDesign:Card>
 
-            <materialDesign:Card
+            <!--<materialDesign:Card
                 Margin="10"
-                Background="Aqua" 
+                Background="{StaticResource ColorPrimaryL1}" 
                 Grid.Column="1"
                 UniformCornerRadius="15">
                 <Grid>
@@ -87,6 +109,7 @@
                     <TextBlock 
                         Grid.Row="0" 
                         Style="{StaticResource LineTitle}"
+                        Foreground="{StaticResource ColorSurface}"
                         Text="Current" />
                     <materialDesign:Card  
                         Margin="20"
@@ -96,7 +119,7 @@
                               Style="{StaticResource MaterialDesignDataGrid}"
                               Background="{StaticResource ColorSurface}"
                               IsReadOnly="True"
-                              ItemsSource="{Binding Entries}"
+                              ItemsSource="{Binding}"
                               AutoGenerateColumns="False"
                               SelectionUnit="FullRow"
                               SelectionMode="Single">
@@ -108,7 +131,7 @@
                     </materialDesign:Card>
 
                 </Grid>
-            </materialDesign:Card>
+            </materialDesign:Card>-->
         </Grid>
 
     </Grid>

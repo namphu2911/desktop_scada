@@ -28,59 +28,6 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
         public ObservableCollection<string> HerapinCapReferenceNames => _referenceStore.HerapinCapReferenceNames;
         public ObservableCollection<string> HerapinCapReferenceNamesFilled { get; set; } = new();
         //
-        //private string herapinCapProductName = "";
-        //private string herapinCapReferenceName = "";
-        //public string HerapinCapProductName
-        //{
-        //    get
-        //    {
-        //        return herapinCapProductName;
-        //    }
-        //    set
-        //    {
-        //        herapinCapProductName = value;
-        //        if (String.IsNullOrEmpty(value))
-        //        {
-        //            herapinCapReferenceName = "";
-        //            HerapinCapReferenceNamesFilled = new ObservableCollection<string>(HerapinCapReferenceNames);
-        //            OnPropertyChanged(nameof(HerapinCapReferenceNamesFilled));
-        //            OnPropertyChanged(nameof(HerapinCapReferenceName));
-        //        }
-        //        else
-        //        {
-        //            var sortedReference = _referenceStore.References.Where(i => i.ProductName == herapinCapProductName).ToList();
-        //            HerapinCapReferenceNamesFilled = new ObservableCollection<string>(sortedReference.Select(i => i.RefName).OrderBy(s => s));
-        //            OnPropertyChanged(nameof(HerapinCapReferenceNamesFilled));
-        //            OnPropertyChanged(nameof(HerapinCapReferenceName));
-        //        }
-        //    }
-        //}
-        //public string HerapinCapReferenceName
-        //{
-        //    get
-        //    {
-        //        return herapinCapReferenceName;
-        //    }
-        //    set
-        //    {
-        //        herapinCapReferenceName = value;
-        //        if (String.IsNullOrEmpty(value))
-        //        {
-        //            herapinCapProductName = "";
-        //            OnPropertyChanged(nameof(HerapinCapProductName));
-        //        }
-        //        else
-        //        {
-        //            var reference = _referenceStore.References.First(i => i.RefName == herapinCapReferenceName);
-        //            herapinCapProductName = reference.ProductName;
-        //            OnPropertyChanged(nameof(HerapinCapProductName));
-        //        }
-        //    }
-        //}
-
-
-
-        //
         private EMachineStatus status;
         public EMachineStatus Status
         {
@@ -124,12 +71,12 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
             }
         }
 
-        public string ColorBack { get; set; } = "";
-        public double? HerapinCapEfficiency { get; set; }
-        public long? HerapinCapAllCount { get; set; } 
-        public long? HerapinCapGoodCount { get; set; } 
-        public long? HerapinCapBadCount { get; set; }
-        public TimeSpan HerapinCapDurationTime { get; set; }
+        public string ColorBack { get; set; } = "#394963";
+        public double HerapinCapEfficiency { get; set; } = 0;
+        public long HerapinCapAllCount { get; set; } = 0;
+        public long HerapinCapGoodCount { get; set; } = 0;
+        public long HerapinCapBadCount { get; set; } = 0;
+        public TimeSpan? HerapinCapDurationTime { get; set; }
         public string HerapinCapProductName { get; set; } = "";
         public string HerapinCapReferenceName { get; set; } = "";
         public string HerapinCapLotId { get; set; } = "";
@@ -165,29 +112,41 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
             OnPropertyChanged(nameof(HerapinCapReferenceNamesFilled));
             OnPropertyChanged(nameof(HerapinCapReferenceNames));
 
-            Status = (EMachineStatus)Convert.ToInt32(await _signalRClient.GetBufferValue("machineStatus"));
-            HerapinCapDurationTime = TimeSpan.Parse((string)(await _signalRClient.GetBufferValue("operationTime")));
-            HerapinCapGoodCount = (long?)(await _signalRClient.GetBufferValue("goodProduct"));
-            HerapinCapBadCount = (long?)(await _signalRClient.GetBufferValue("errorProduct"));
-            HerapinCapEfficiency = (double?)(await _signalRClient.GetBufferValue("EFF"));
-            HerapinCapAllCount = (long?)(await _signalRClient.GetBufferValue("productCount"));
+            var a = await _signalRClient.GetBufferList();
+            if (a.Count != 0)
+            {
+                Status = (EMachineStatus)Convert.ToInt32(await _signalRClient.GetBufferValue("machineStatus"));
+                HerapinCapDurationTime = TimeSpan.TryParse(Convert.ToString((await _signalRClient.GetBufferValue("operationTime"))), out var span) ? span : default;
+                HerapinCapGoodCount = Convert.ToInt64(await _signalRClient.GetBufferValue("goodProduct"));
+                HerapinCapBadCount = Convert.ToInt64(await _signalRClient.GetBufferValue("errorProduct"));
+                HerapinCapEfficiency = Convert.ToDouble(await _signalRClient.GetBufferValue("EFF"));
+                HerapinCapAllCount = Convert.ToInt64(await _signalRClient.GetBufferValue("productCount"));
 
-            LoadLotSettingAsync();
+                LoadLotSettingAsync();
+            }
         }
 
         private void OnTagChanged(string json)
         {
+            LoadLotSettingAsync();
             var tag = JsonConvert.DeserializeObject<TagChangedNotification>(json);
-
-            switch (tag.TagId)
+            if (tag != null)
             {
-                case "machineStatus": Status = (EMachineStatus)Convert.ToInt32(tag.TagValue); break;
-                case "operationTime": HerapinCapDurationTime = TimeSpan.Parse((string)tag.TagValue); break;
-                case "goodProduct": HerapinCapGoodCount = (long?)tag.TagValue; break;
-                case "errorProduct": HerapinCapBadCount = (long?)tag.TagValue; break;
-                case "EFF": HerapinCapEfficiency = (double?)tag.TagValue; break;
-                case "productCount": HerapinCapAllCount = (long?)tag.TagValue; break;
-                default: break;
+                switch (tag.TagId)
+                {
+                    case "machineStatus":
+                        {
+                            Status = (EMachineStatus)Convert.ToInt32(tag.TagValue);
+                            LoadLotSettingAsync();
+                            break;
+                        }
+                    case "operationTime": HerapinCapDurationTime = TimeSpan.Parse((string)tag.TagValue); break;
+                    case "goodProduct": HerapinCapGoodCount = Convert.ToInt64(tag.TagValue); break;
+                    case "errorProduct": HerapinCapBadCount = Convert.ToInt64(tag.TagValue); break;
+                    case "EFF": HerapinCapEfficiency = Convert.ToDouble(tag.TagValue); break;
+                    case "productCount": HerapinCapAllCount = Convert.ToInt64(tag.TagValue); break;
+                    default: break;
+                }
             }
         }
 

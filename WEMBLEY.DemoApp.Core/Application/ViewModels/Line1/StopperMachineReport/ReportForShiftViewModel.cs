@@ -66,28 +66,50 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineReport
             OnPropertyChanged(nameof(PRowVis));
             OnPropertyChanged(nameof(QRowVis));
             LoadApiReport();
-            OnPropertyChanged(nameof(ShotEntries));
-            switch (IsSeleted)
-            {
-                case "OEE": SeriesCollection[0].Values = new ChartValues<ObservablePoint>(ShotEntries.Select(g => new ObservablePoint(g.TimeStamp.Ticks, g.OEE))); break;
-                case "A": SeriesCollection[0].Values = new ChartValues<ObservablePoint>(ShotEntries.Select(g => new ObservablePoint(g.TimeStamp.Ticks, g.A))); break;
-                case "P": SeriesCollection[0].Values = new ChartValues<ObservablePoint>(ShotEntries.Select(g => new ObservablePoint(g.TimeStamp.Ticks, g.P))); break;
-                case "Q": SeriesCollection[0].Values = new ChartValues<ObservablePoint>(ShotEntries.Select(g => new ObservablePoint(g.TimeStamp.Ticks, g.Q))); break;
-                default: break;
-            }
+            //OnPropertyChanged(nameof(ShotEntries));
+
+            //switch (IsSeleted)
+            //{
+            //    case "OEE": SeriesCollection[0].Values = new ChartValues<ObservablePoint>(ShotEntries.Select(g => new ObservablePoint(g.TimeStamp.Ticks, g.OEE))); break;
+            //    case "A": SeriesCollection[0].Values = new ChartValues<ObservablePoint>(ShotEntries.Select(g => new ObservablePoint(g.TimeStamp.Ticks, g.A))); break;
+            //    case "P": SeriesCollection[0].Values = new ChartValues<ObservablePoint>(ShotEntries.Select(g => new ObservablePoint(g.TimeStamp.Ticks, g.P))); break;
+            //    case "Q": SeriesCollection[0].Values = new ChartValues<ObservablePoint>(ShotEntries.Select(g => new ObservablePoint(g.TimeStamp.Ticks, g.Q))); break;
+            //    default: break;
+            //}
         }
 
         private async void LoadApiReport()
         {
-            try
+            if (Id != 0)
             {
-                var dtos = await _apiService.GetShiftReportWithShotByDateAsync(DateTime.Today.AddDays(-1).Date, 1);
-                var dto = dtos.Last();
-                ShotEntries = new(dto.Shots);
-            }
-            catch (HttpRequestException)
-            {
-                ShowErrorMessage("Đã có lỗi xảy ra: Mất kết nối với server.");
+                try
+                {
+                    var dtos = await _apiService.GetShiftReportWithShotByShiftIdAsync(Id);
+                    foreach (var d in dtos)
+                    {
+                        d.UpdateOEE(d.OEE, d.A, d.P, d.Q);
+                    }
+                    var shots = dtos.Last().Shots;
+                    foreach(var sh in shots)
+                    {
+                        sh.UpdateOEE(sh.OEE, sh.A, sh.P, sh.Q);
+                    }
+                    ShotEntries = new(shots);
+                }
+                catch (HttpRequestException)
+                {
+                    ShowErrorMessage("Đã có lỗi xảy ra: Mất kết nối với server.");
+                }
+                OnPropertyChanged(nameof(ShotEntries));
+
+                switch (IsSeleted)
+                {
+                    case "OEE": SeriesCollection[0].Values = new ChartValues<ObservablePoint>(ShotEntries.Select(g => new ObservablePoint(g.TimeStamp.Ticks, g.OEE))); break;
+                    case "A": SeriesCollection[0].Values = new ChartValues<ObservablePoint>(ShotEntries.Select(g => new ObservablePoint(g.TimeStamp.Ticks, g.A))); break;
+                    case "P": SeriesCollection[0].Values = new ChartValues<ObservablePoint>(ShotEntries.Select(g => new ObservablePoint(g.TimeStamp.Ticks, g.P))); break;
+                    case "Q": SeriesCollection[0].Values = new ChartValues<ObservablePoint>(ShotEntries.Select(g => new ObservablePoint(g.TimeStamp.Ticks, g.Q))); break;
+                    default: break;
+                }
             }
         }
     }

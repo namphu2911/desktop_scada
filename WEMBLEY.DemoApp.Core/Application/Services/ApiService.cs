@@ -264,7 +264,7 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
 
         public async Task<IEnumerable<ShiftReportWithShotDto>> GetShiftReportWithShotByShiftIdAsync(int ShiftReportId)
         {
-            HttpResponseMessage response = await _httpClient.GetAsync($"{serverUrl}/api/ShiftReports/shiftReportId?ShiftReportId={ShiftReportId}");
+            HttpResponseMessage response = await _httpClient.GetAsync($"{serverUrl}/api/ShiftReports/Details?ShiftReportId={ShiftReportId}");
 
             response.EnsureSuccessStatusCode();
             string responseBody = await response.Content.ReadAsStringAsync();
@@ -295,6 +295,18 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
             }
 
             return result;
+        }
+
+        public async Task<byte[]> DownloadShiftReportFileAsync(string deviceId, DateTime startDate, DateTime endDate)
+        {
+            string startDateString = startDate.ToString("yyyy-MM-dd");
+            string endDateString = endDate.ToString("yyyy-MM-dd");
+
+            HttpResponseMessage response = await _httpClient.GetAsync($"{serverUrl}/api/ShiftReports/downloadReport?DeviceId={deviceId}&StartTime={startDateString}&EndTime={endDateString}");
+
+            response.EnsureSuccessStatusCode();
+            var responseBody = await response.Content.ReadAsByteArrayAsync();
+            return responseBody;
         }
     }
 }

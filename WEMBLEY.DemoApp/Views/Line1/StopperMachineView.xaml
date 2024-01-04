@@ -57,7 +57,15 @@
                             
                         </StackPanel>
                     </TabItem.Header>
-                    <TextBlock Text="Content for Tab 1"/>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Image 
+                            Source="/Resources/Images/logowembly.jpg" 
+                            Width="400" Height="100"/>
+                        <Image 
+                            Source="/Resources/Images/logohcmut.jpg" 
+                            Width="100" Height="100" HorizontalAlignment="Left" />
+
+                    </StackPanel>
                 </TabItem>
 
                 <TabItem 
@@ -107,7 +115,7 @@
                 Height="70">
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                            <materialDesign:PackIcon Kind="Autorenew" 
+                            <materialDesign:PackIcon Kind="FileDocumentOutline" 
                                                      Width="30" Height="30" 
                                                      HorizontalAlignment="Center" 
                                                      VerticalAlignment="Center" 
@@ -126,7 +134,7 @@
                 Height="70">
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                            <materialDesign:PackIcon Kind="WrenchCogOutline" 
+                            <materialDesign:PackIcon Kind="Power" 
                                                      Width="30" Height="30" 
                                                      HorizontalAlignment="Center" 
                                                      VerticalAlignment="Center" 

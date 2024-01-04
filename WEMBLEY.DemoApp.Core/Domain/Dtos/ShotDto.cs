@@ -25,5 +25,13 @@ namespace WEMBLEY.DemoApp.Core.Domain.Dtos
             P = p;
             OEE = oEE;
         }
+
+        public void UpdateOEE(double oEE, double a, double p, double q)
+        {
+            OEE = oEE * 100;
+            A = a * 100;
+            P = p * 100;
+            Q = q * 100;
+        }
     }
 }
