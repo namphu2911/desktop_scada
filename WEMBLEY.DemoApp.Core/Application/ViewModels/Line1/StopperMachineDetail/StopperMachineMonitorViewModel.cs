@@ -3,6 +3,7 @@ using LiveCharts;
 using LiveCharts.Defaults;
 using LiveCharts.Helpers;
 using LiveCharts.Wpf;
+using LiveCharts.Wpf.Charts.Base;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
@@ -97,6 +98,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail
         public Func<double, string> ValueFormatter { get; set; }
         public ICommand LoadStopperMachineMonitorViewCommand { get; set; }
         public ICommand LoadReloadGraphCommand { get; set; }
+        public event Action? ChartUpdated; 
         public StopperMachineMonitorViewModel(ISignalRClient signalRClient)
         { 
             _signalRClient = signalRClient;
@@ -106,7 +108,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail
 
             SeriesCollection = new SeriesCollection()
             {
-                new LineSeries
+                new LineSeries()
                 {
                     Title = "Values",
                     Fill = Brushes.Transparent,
@@ -173,25 +175,10 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail
 
         private void ReloadGraph()
         {
-            //SeriesCollection = new SeriesCollection()
-            //{
-            //    new LineSeries
-            //    {
-            //        Title = "Values",
-            //        Fill = Brushes.Transparent,
-            //        PointGeometry = DefaultGeometries.Circle,
-            //        PointForeground = Brushes.SkyBlue,
-            //        PointGeometrySize = 7,
-            //        Values = new ChartValues<ObservablePoint>(OEEGraphTags.Select(c => new ObservablePoint(
-            //            c.TimeStamp.Ticks,
-            //            Convert.ToDouble(c.TagValue))))
-            //    }
-            //};
             OnPropertyChanged(nameof(SeriesCollection));
-            //OnPropertyChanged(nameof(OEEGraphTags));
         }
 
-        private void OnTagChanged(string json)
+        public void OnTagChanged(string json)
         {
             var tag = JsonConvert.DeserializeObject<TagChangedNotification>(json);
             if (tag != null)
@@ -203,7 +190,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail
                             OnPropertyChanged(nameof(SeriesCollection));
                             OEE = Convert.ToDouble(tag.TagValue) * 100;
                             OEEGraphTags.Add(new DataPoint(Convert.ToDouble(tag.TagValue) * 100, tag.TimeStamp));
-                           
+
                             if (SeriesCollection[0].Values is not null && SeriesCollection[0].Values.Count > 20)
                             {
                                 var i = SeriesCollection[0].Values.Count - 20;
@@ -215,6 +202,10 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail
                                 X = tag.TimeStamp.Ticks,
                                 Y = Convert.ToDouble(tag.TagValue) * 100
                             });
+                            if (SeriesCollection[0].Values is not null && SeriesCollection[0].Values.Count > 5)
+                            {
+                                ChartUpdated?.Invoke();
+                            }
                             break;
                         }
                     case "A": A = Convert.ToDouble(tag.TagValue) * 100; break;

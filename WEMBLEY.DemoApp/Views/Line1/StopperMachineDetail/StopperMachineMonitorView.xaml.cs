@@ -13,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
+using WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail;
 
 namespace WEMBLEY.DemoApp.Views.Line1
 {
@@ -24,6 +26,18 @@ namespace WEMBLEY.DemoApp.Views.Line1
         public StopperMachineMonitorView()
         {
             InitializeComponent();
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            var viewModel = (StopperMachineMonitorViewModel)DataContext;
+            viewModel.ChartUpdated += ViewModel_ChartUpdated;
+            
+        }
+
+        private void ViewModel_ChartUpdated()
+        {
+            Dispatcher.BeginInvoke(() => chart.Update(false, true), DispatcherPriority.Render);
         }
     }
 }

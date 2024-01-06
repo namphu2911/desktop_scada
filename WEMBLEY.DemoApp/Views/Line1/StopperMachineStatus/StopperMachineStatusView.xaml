@@ -81,7 +81,34 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Thời gian" Binding="{Binding Timestamp, StringFormat=dd/MM/yyyy HH:mm:ss}" Width="*"/>
                     <DataGridTextColumn Header="Ca" Binding="{Binding ShiftNumber}" Width="*"/>
-                    <DataGridTextColumn Header="Trạng thái" Binding="{Binding Status}" Width="*"/>
+                    <DataGridTextColumn Header="Trạng thái" Binding="{Binding Status}" Width="*">
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="{x:Type DataGridCell}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Status}" Value="Run">
+                                        <Setter Property="Background" Value="{StaticResource ColorPrimaryGreen}"></Setter>
+                                        <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Status}" Value="Alarm">
+                                        <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
+                                        <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Status}" Value="Idle">
+                                        <Setter Property="Background" Value="{StaticResource ColorPrimaryYellow}"></Setter>
+                                        <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Status}" Value="Setup">
+                                        <Setter Property="Background" Value="{StaticResource ColorPrimaryPurple}"></Setter>
+                                        <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Status}" Value="Off">
+                                        <Setter Property="Background" Value="{StaticResource ColorGray}"></Setter>
+                                        <Setter Property="Foreground" Value="{StaticResource ColorBackgroundOn}"></Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </materialDesign:Card>

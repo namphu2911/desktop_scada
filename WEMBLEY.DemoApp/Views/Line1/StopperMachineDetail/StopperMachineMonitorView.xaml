@@ -11,13 +11,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="1260"
              Background="{StaticResource ColorBackground}"
-             Padding="10">
+             Padding="10" 
+             Loaded="UserControl_Loaded">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <prism:InvokeCommandAction Command="{Binding LoadStopperMachineMonitorViewCommand}"/>
-        </i:EventTrigger>
-        <i:EventTrigger EventName="Loaded">
-            <prism:InvokeCommandAction Command="{Binding LoadReloadGraphCommand}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid>
@@ -51,6 +49,11 @@
             </Button>-->
             
             <StackPanel Margin="5,5,10,5"  Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                <TextBlock 
+                    Width="1000"
+                    x:Name="sign"
+                           Background="{StaticResource ColorPrimaryGreen}"
+                           Style="{StaticResource NoteBarLabel}"/>
                 <TextBlock 
                            Background="{StaticResource ColorPrimaryGreen}"
                            Style="{StaticResource NoteBarLabel}"
@@ -258,18 +261,19 @@
 
                 <materialDesign:Card Grid.Row="0" Margin="5">
                     <lvc:CartesianChart
+                        Name="chart"
                         Series="{Binding SeriesCollection}"
                         Foreground="Black">
                         <lvc:CartesianChart.AxisX>
                             <lvc:Axis Title="Thời gian" LabelFormatter="{Binding DateTimeFormatter}"
-                                      MinRange="-1" 
+                                      MinRange="-100"
                                       MaxRange="100">
                             </lvc:Axis>
                         </lvc:CartesianChart.AxisX>
 
                         <lvc:CartesianChart.AxisY>
                             <lvc:Axis Title="OEE (%)" LabelFormatter="{Binding ValueFormatter}"
-                                      MinRange="-1"
+                                      MinRange="-100"
                                       MaxRange="100">
                             </lvc:Axis>
                         </lvc:CartesianChart.AxisY>
