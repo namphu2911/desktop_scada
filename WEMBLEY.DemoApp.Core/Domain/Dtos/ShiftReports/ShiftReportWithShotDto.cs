@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WEMBLEY.DemoApp.Core.Domain.Dtos
+namespace WEMBLEY.DemoApp.Core.Domain.Dtos.ShiftReports
 {
-    public class ShiftReportDto
+    public class ShiftReportWithShotDto
     {
-        public int Id { get; set; }
         public double OEE { get; set; }
         public double A { get; set; }
         public double P { get; set; }
@@ -18,9 +17,9 @@ namespace WEMBLEY.DemoApp.Core.Domain.Dtos
         public string DeviceId { get; set; }
         public int ProductCount { get; set; }
         public int DefectCount { get; set; }
-        public ShiftReportDto(int id, double oEE, double a, double p, double q, DateTime date, int shiftNumber, string deviceId, int productCount, int defectCount)
+        public List<ShotDto> Shots { get; set; }
+        public ShiftReportWithShotDto(double oEE, double a, double p, double q, DateTime date, int shiftNumber, string deviceId, int productCount, int defectCount, List<ShotDto> shots)
         {
-            Id = id;
             OEE = oEE;
             A = a;
             P = p;
@@ -30,6 +29,7 @@ namespace WEMBLEY.DemoApp.Core.Domain.Dtos
             DeviceId = deviceId;
             ProductCount = productCount;
             DefectCount = defectCount;
+            Shots = shots;
         }
 
         public void UpdateOEE(double oEE, double a, double p, double q)

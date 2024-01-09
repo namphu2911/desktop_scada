@@ -44,7 +44,8 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels
             await Task.WhenAll(
                 _databaseSynchronizationService.SynchronizeReferencesData(),
                 _databaseSynchronizationService.SynchronizeDevicesData(),
-                _databaseSynchronizationService.SynchronizeHomeData()
+                _databaseSynchronizationService.SynchronizeHomeData(),
+                _databaseSynchronizationService.SynchronizePersonsData()
                 );
         }
     }

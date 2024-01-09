@@ -3,7 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WEMBLEY.DemoApp.Core.Domain.Dtos;
+using WEMBLEY.DemoApp.Core.Domain.Dtos.DeviceReferences;
+using WEMBLEY.DemoApp.Core.Domain.Dtos.Devices;
+using WEMBLEY.DemoApp.Core.Domain.Dtos.ErrorInformations;
+using WEMBLEY.DemoApp.Core.Domain.Dtos.MachineStatus;
+using WEMBLEY.DemoApp.Core.Domain.Dtos.Persons;
+using WEMBLEY.DemoApp.Core.Domain.Dtos.Products;
+using WEMBLEY.DemoApp.Core.Domain.Dtos.References;
+using WEMBLEY.DemoApp.Core.Domain.Dtos.ShiftReports;
 
 namespace WEMBLEY.DemoApp.Core.Domain.Services
 {
@@ -13,16 +20,25 @@ namespace WEMBLEY.DemoApp.Core.Domain.Services
         Task<IEnumerable<ProductDto>> GetProductsByDeviceTypeAsync(string deviceType);
         Task<IEnumerable<ReferenceDto>> GetReferencesByDeviceTypeAsync(string deviceType);
         Task<IEnumerable<ReferenceDto>> GetAllReferenceseAsync();
+        Task CreateLotAsync(string refName, CreateLotDto createDto);
+        Task UpdateLotAsync(string refName, CreateLotDto createDto);
+        Task CompleteRefAsync(string refName);
+
 
         Task<IEnumerable<DeviceReferenceDto>> GetDeviceReferenceMFCAsync(int refId, string deviceId);
         Task FixMFCAsync(int refId, string deviceId, IEnumerable<MFCDto> fixDto);
 
-        Task<IEnumerable<LotDeviceReferenceDto>> GetAllLotDeviceReferenceAsync();
-        Task<IEnumerable<LotDeviceReferenceDto>> GetLotDeviceReferenceByDeviceTypeAsync(string deviceType);
-        Task<LotDeviceReferenceDto> GetLotDeviceReferenceAsync(int refId);
+        Task<IEnumerable<ParameterDto>> GetAllLotDeviceReferenceAsync();
+        Task<IEnumerable<ParameterDto>> GetLotDeviceReferenceByDeviceTypeAsync(string deviceType);
+        Task<ParameterDto> GetLotDeviceReferenceAsync(int refId);
 
+        Task<IEnumerable<PersonDto>> GetAllPersonAsync();
+        Task CreatePersonAsync(PersonWorkingDto createDto);
+        Task DeletePersonAsync(string personId);
 
-        Task CreateLot(string refName, CreateLotDto createDto);
+        Task AddPersonToDeviceAsync(string deviceId, AddPersonToDeviceDto createDto);
+        Task UpdatePersonToDeviceAsync(string deviceId, AddPersonToDeviceDto fixDto);
+        Task DeletePersonToDeviceAsync(string deviceId, AddPersonToDeviceDto createDto);
 
         Task<IEnumerable<ErrorStatusDto>> GetErrorsHistoryAsync(string deviceId, DateTime startDate, DateTime endDate);
         Task<IEnumerable<MachineStatusDto>> GetStatusHistoryAsync(string deviceId, DateTime startDate, DateTime endDate);

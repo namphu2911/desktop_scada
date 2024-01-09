@@ -6,6 +6,7 @@ using LiveCharts.Wpf;
 using LiveCharts.Wpf.Charts.Base;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
+using System.Net.Http;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -17,6 +18,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail
 {
     public class StopperMachineMonitorViewModel : BaseViewModel
     {
+        private readonly IApiService _apiService;
         private readonly ISignalRClient _signalRClient;
 
         //General
@@ -88,6 +90,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail
 
         public ObservableCollection<RejectionEntryViewModel> RejectionEntries { get; set; } = new();
         public ObservableCollection<string> ErrorStrings { get; set; } = new();
+        public ObservableCollection<string> PersonStrings { get; set; } = new();
         public ObservableCollection<OEEEntryViewModel> OEEEntries { get; set; } = new();
         public List<TagChangedNotification> AllTags { get; set; } = new();
         //
@@ -99,8 +102,9 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail
         public ICommand LoadStopperMachineMonitorViewCommand { get; set; }
         public ICommand LoadReloadGraphCommand { get; set; }
         public event Action? ChartUpdated; 
-        public StopperMachineMonitorViewModel(ISignalRClient signalRClient)
-        { 
+        public StopperMachineMonitorViewModel(IApiService apiService, ISignalRClient signalRClient)
+        {
+            _apiService = apiService;
             _signalRClient = signalRClient;
             LoadStopperMachineMonitorViewCommand = new RelayCommand(LoadStopperMachineMonitorView);
             LoadReloadGraphCommand = new RelayCommand(ReloadGraph);
@@ -125,6 +129,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail
 
         private async void LoadStopperMachineMonitorView()
         {
+            LoadLotSettingAsync();
             AllTags = await _signalRClient.GetBufferList();
             if (AllTags.Count != 0)
             {
@@ -170,6 +175,25 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail
                     new RejectionEntryViewModel("Station-10 Leak Check", TR1.LEAKTESTCHKOK, TR2.LEAKTESTCHKOK, TR3.LEAKTESTCHKOK, TR4.LEAKTESTCHKOK)
                 };
                 OnPropertyChanged(nameof(RejectionEntries));
+            }
+        }
+
+        private async void LoadLotSettingAsync()
+        {
+            try
+            {
+                PersonStrings = new();
+                var dtos = await _apiService.GetLotDeviceReferenceByDeviceTypeAsync("HerapinCap");
+                var persons = dtos.First().Devices.First(i => i.DeviceId == "HC001").Persons;
+                foreach(var person in persons)
+                {
+                    PersonStrings.Add($"{person.PersonId} - {person.PersonName}");
+                }
+                OnPropertyChanged(nameof(PersonStrings));
+            }
+            catch (HttpRequestException)
+            {
+                ShowErrorMessage("Đã có lỗi xảy ra: Mất kết nối với server.");
             }
         }
 

@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.SeedWork;
-using WEMBLEY.DemoApp.Core.Domain.Dtos;
+using WEMBLEY.DemoApp.Core.Domain.Dtos.ErrorInformations;
 using WEMBLEY.DemoApp.Core.Domain.Services;
 
 namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail

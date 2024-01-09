@@ -47,13 +47,8 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Button>-->
-            
+
             <StackPanel Margin="5,5,10,5"  Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                <TextBlock 
-                    Width="1000"
-                    x:Name="sign"
-                           Background="{StaticResource ColorPrimaryGreen}"
-                           Style="{StaticResource NoteBarLabel}"/>
                 <TextBlock 
                            Background="{StaticResource ColorPrimaryGreen}"
                            Style="{StaticResource NoteBarLabel}"
@@ -114,6 +109,7 @@
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
+                                <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
 
                             <Grid Grid.Row="0">
@@ -216,6 +212,26 @@
                                                    Style="{StaticResource LineLabel}"
                                                    Text="{Binding OperationTime, StringFormat=hh\\:mm\\:ss}" />
                                 </Border>
+                            </Grid>
+
+                            <Grid Grid.Row="3">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0" 
+                                                Style="{StaticResource LineLabel}"
+                                                Text="Nhân viên: " />
+
+                                <ListView 
+                                    Grid.Column="1"
+                                    HorizontalContentAlignment="Stretch"
+                                    ItemsSource="{Binding PersonStrings}" 
+                                    FontSize="18" 
+                                    FontWeight="Medium">
+                                </ListView>
+
                             </Grid>
                         </Grid>
                     </materialDesign:Card>

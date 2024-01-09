@@ -6,7 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Home;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineReport;
-using WEMBLEY.DemoApp.Core.Domain.Dtos;
+using WEMBLEY.DemoApp.Core.Domain.Dtos.Persons;
+using WEMBLEY.DemoApp.Core.Domain.Dtos.References;
+using WEMBLEY.DemoApp.Core.Domain.Dtos.ShiftReports;
 
 namespace WEMBLEY.DemoApp.Core.Application.Mapping
 {
@@ -14,8 +16,9 @@ namespace WEMBLEY.DemoApp.Core.Application.Mapping
     {
         public DtoToModelProfile()
         {
-            CreateMap<LotDeviceReferenceDto, LineInitialSettingEntry>();
+            CreateMap<ParameterDto, LineInitialSettingEntry>();
             CreateMap<ShiftReportDto, ShiftReportEntry>();
+            CreateMap<PersonDto, PersonViewModel>();
         }
     }
 }

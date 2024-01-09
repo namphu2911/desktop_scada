@@ -12,7 +12,7 @@ using System.Windows.Input;
 using WEMBLEY.DemoApp.Core.Application.Store;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Home;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.SeedWork;
-using WEMBLEY.DemoApp.Core.Domain.Dtos;
+using WEMBLEY.DemoApp.Core.Domain.Dtos.DeviceReferences;
 using WEMBLEY.DemoApp.Core.Domain.Models;
 using WEMBLEY.DemoApp.Core.Domain.Services;
 
@@ -68,6 +68,10 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineMFC
                     Convert.ToDouble(await _signalRClient.GetBufferValue("S9_MAXIMUM_HEIGHT_VALUE_TR4"))
                 };
                 OnPropertyChanged(nameof(RealMFCValues));
+            }
+            else
+            {
+                RealMFCValues = new List<double?> { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
             }
 
             OnPropertyChanged(nameof(HomeRefName));

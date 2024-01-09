@@ -121,9 +121,8 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
                 HerapinCapBadCount = Convert.ToInt64(await _signalRClient.GetBufferValue("errorProduct"));
                 HerapinCapEfficiency = Convert.ToDouble(await _signalRClient.GetBufferValue("EFF"));
                 HerapinCapAllCount = Convert.ToInt64(await _signalRClient.GetBufferValue("productCount"));
-
-                LoadLotSettingAsync();
             }
+            LoadLotSettingAsync();
         }
 
         private void OnTagChanged(string json)

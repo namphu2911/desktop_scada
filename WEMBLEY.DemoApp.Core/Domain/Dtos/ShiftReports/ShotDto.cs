@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WEMBLEY.DemoApp.Core.Domain.Dtos
+namespace WEMBLEY.DemoApp.Core.Domain.Dtos.ShiftReports
 {
     public class ShotDto
     {

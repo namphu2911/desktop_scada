@@ -18,7 +18,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using WEMBLEY.DemoApp.Core.Application.Store;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.SeedWork;
-using WEMBLEY.DemoApp.Core.Domain.Dtos;
+using WEMBLEY.DemoApp.Core.Domain.Dtos.ShiftReports;
 using WEMBLEY.DemoApp.Core.Domain.Services;
 
 namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineReport
