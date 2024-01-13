@@ -25,7 +25,7 @@
 
         <materialDesign:Card
             Grid.Row="0"    
-            Width="500"
+            Width="700"
                 Margin="10"
                 Background="{StaticResource ColorPrimaryL1}" 
                 Grid.Column="0"
@@ -54,8 +54,9 @@
                               SelectionUnit="FullRow"
                               SelectionMode="Single">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Station" Binding="{Binding Name}" IsReadOnly="True" Width="*"/>
-                            <DataGridTextColumn Header="Value" Binding="{Binding Value}" Width="*"/>
+                            <DataGridTextColumn Header="Station" Binding="{Binding Name}" IsReadOnly="True" Width="auto"/>
+                            <DataGridTextColumn Header="MinValue" Binding="{Binding MinValue}" Width="*"/>
+                            <DataGridTextColumn Header="MaxValue" Binding="{Binding MaxValue}" Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </materialDesign:Card>

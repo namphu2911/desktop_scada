@@ -80,7 +80,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineMFC
                 var homeRefId = _referenceStore.References.First(i => i.RefName == HomeRefName).Id;
                 var dtos = await _apiService.GetDeviceReferenceMFCAsync(homeRefId, "HC001");
                 MFCDtos = dtos.Last().MFCs;
-                var newViewModels = MFCDtos.Select((tag, index) => new ComparedMFC(tag.Name, tag.Value, RealMFCValues[index])).ToList();
+                var newViewModels = MFCDtos.Select((tag, index) => new ComparedMFC(tag.Name, tag.Value, tag.MinValue, tag.MaxValue, RealMFCValues[index])).ToList();
                 MFCEntries = new(newViewModels);
             }
             catch (HttpRequestException)
@@ -91,7 +91,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineMFC
 
         private void ReloadData()
         {
-            var newViewModels = MFCDtos.Select((tag, index) => new ComparedMFC(tag.Name, tag.Value, RealMFCValues[index])).ToList();
+            var newViewModels = MFCDtos.Select((tag, index) => new ComparedMFC(tag.Name, tag.Value, tag.MinValue, tag.MaxValue, RealMFCValues[index])).ToList();
             MFCEntries = new(newViewModels);
         }
 

@@ -76,7 +76,8 @@
                             </DataGrid.RowStyle>-->
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Station" Binding="{Binding Name}" Width="*"/>
-                                <DataGridTextColumn Header="Setting Value" Binding="{Binding Value}" Width="0.7*"/>
+                                <DataGridTextColumn Header="Setting MinValue" Binding="{Binding MinValue}" Width="0.7*"/>
+                                <DataGridTextColumn Header="Setting MaxValue" Binding="{Binding MaxValue}" Width="0.7*"/>
                                 <DataGridTextColumn Header="Current Value" Binding="{Binding RealValue}" Width="0.7*">
                                     <DataGridTextColumn.CellStyle>
                                         <Style TargetType="{x:Type DataGridCell}">

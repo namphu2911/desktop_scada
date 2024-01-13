@@ -29,12 +29,12 @@ namespace WEMBLEY.DemoApp.Views.Line1
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
+        { 
             var viewModel = (StopperMachineMonitorViewModel)DataContext;
             viewModel.ChartUpdated += ViewModel_ChartUpdated;
-            
-        }
 
+
+        }
         private void ViewModel_ChartUpdated()
         {
             Dispatcher.BeginInvoke(() => chart.Update(false, true), DispatcherPriority.Render);

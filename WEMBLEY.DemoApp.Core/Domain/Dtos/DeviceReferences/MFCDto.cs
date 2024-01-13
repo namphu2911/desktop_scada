@@ -10,10 +10,14 @@ namespace WEMBLEY.DemoApp.Core.Domain.Dtos.DeviceReferences
     {
         public string Name { get; set; }
         public double Value { get; set; }
-        public MFCDto(string name, double value)
+        public double MinValue { get; set; }
+        public double MaxValue { get; set; }
+        public MFCDto(string name, double value, double minValue, double maxValue)
         {
             Name = name;
             Value = value;
+            MinValue = minValue;
+            MaxValue = maxValue;
         }
     }
 }

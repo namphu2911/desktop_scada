@@ -28,6 +28,28 @@
 
         <Grid Grid.Column="0" Grid.RowSpan="2">
             <Expander x:Name="ExportExpander" ExpandDirection="Right">
+                <Expander.Header>
+                    <StackPanel>
+                        <materialDesign:PackIcon 
+                            Foreground="Black"
+                            HorizontalAlignment="Center"
+                            Kind="AccountBoxOutline" 
+                            Width="30" Height="30" />
+
+                        <TextBlock 
+                            Style="{StaticResource FieldLabel}"
+                            HorizontalAlignment="Center"
+                            TextAlignment="Center">
+                            <Run Text="DANH"/>
+                            <LineBreak/>
+                            <Run Text="SÁCH"/>
+                            <LineBreak/>
+                            <Run Text="NHÂN"/>
+                            <LineBreak/>
+                            <Run Text="VIÊN"/>
+                        </TextBlock>
+                    </StackPanel>
+                </Expander.Header>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
