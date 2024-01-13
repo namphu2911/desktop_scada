@@ -139,7 +139,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
                             LoadLotSettingAsync();
                             break;
                         }
-                    case "operationTime": HerapinCapDurationTime = TimeSpan.Parse((string)tag.TagValue); break;
+                    //case "operationTime": HerapinCapDurationTime = TimeSpan.Parse((string)tag.TagValue); break;
                     case "goodProduct": HerapinCapGoodCount = Convert.ToInt64(tag.TagValue); break;
                     case "errorProduct": HerapinCapBadCount = Convert.ToInt64(tag.TagValue); break;
                     case "EFF": HerapinCapEfficiency = Convert.ToDouble(tag.TagValue); break;

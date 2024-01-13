@@ -237,7 +237,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail
                     case "Q": Q = Convert.ToDouble(tag.TagValue) * 100; break;
 
                     case "machineStatus": Status = (EMachineStatus)Convert.ToInt32(tag.TagValue); break;
-                    case "operationTime": OperationTime = TimeSpan.Parse((string)tag.TagValue); break;
+                    //case "operationTime": OperationTime = TimeSpan.Parse((string)tag.TagValue); break;
                     case "goodProduct": GoodCount = Convert.ToInt64(tag.TagValue); break;
                     case "errorProduct": BadCount = Convert.ToInt64(tag.TagValue); break;
                     case "EFF": Efficiency = Convert.ToDouble(tag.TagValue); break;

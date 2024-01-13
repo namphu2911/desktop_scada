@@ -20,8 +20,7 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
     {
         private readonly HttpClient _httpClient;
 
-
-        private const string serverUrl = "https://wembleyscadaapi.azurewebsites.net/";
+        private const string serverUrl = "https://wembleyscadaapi20240113161149.azurewebsites.net/";
 
         public ApiService()
         {
@@ -399,9 +398,9 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
             return result;
         }
 
-        public async Task<IEnumerable<ShiftReportWithShotDto>> GetShiftReportWithShotByShiftIdAsync(int ShiftReportId)
+        public async Task<IEnumerable<ShiftReportWithShotDto>> GetShiftReportWithShotByShiftIdAsync(int shiftReportId, int pageIndex, int pageSize)
         {
-            HttpResponseMessage response = await _httpClient.GetAsync($"{serverUrl}/api/ShiftReports/Details?ShiftReportId={ShiftReportId}");
+            HttpResponseMessage response = await _httpClient.GetAsync($"{serverUrl}/api/ShiftReports/Details?ShiftReportId={shiftReportId}&PageIndex={pageIndex}&PageSize={pageSize}");
 
             response.EnsureSuccessStatusCode();
             string responseBody = await response.Content.ReadAsStringAsync();
