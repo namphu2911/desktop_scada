@@ -217,7 +217,7 @@
                                                     CornerRadius="15">
                                         <TextBlock 
                                                    Style="{StaticResource LineLabel20}"
-                                                   Text="{Binding OperationTime, StringFormat=hh\\:mm\\:ss}" />
+                                                   Text="{Binding HerapinCapProductName}" />
                                     </Border>
                                 </Grid>
 
@@ -330,6 +330,8 @@
                     <materialDesign:Card Grid.Row="0" Margin="5">
                         <lvc:CartesianChart
                         Name="chart"
+                        Zoom="Xy"
+                        Pan="Xy"
                         Series="{Binding SeriesCollection}"
                         Foreground="Black">
                             <lvc:CartesianChart.AxisX>

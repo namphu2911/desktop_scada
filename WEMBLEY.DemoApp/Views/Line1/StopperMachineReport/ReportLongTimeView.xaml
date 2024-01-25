@@ -213,6 +213,8 @@
                                      Background="{StaticResource ColorSurface}"
                                      Margin="5">
                         <lvc:CartesianChart  
+                        Zoom="Xy"
+                        Pan="Xy"
                         Series="{Binding SeriesCollection}"
                         Foreground="Black">
                             <lvc:CartesianChart.AxisX>

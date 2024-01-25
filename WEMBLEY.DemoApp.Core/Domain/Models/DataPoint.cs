@@ -8,11 +8,11 @@ namespace WEMBLEY.DemoApp.Core.Domain.Models
 {
     public class DataPoint
     {
-        public double TagValue { get; set; }
+        public double OEE { get; set; }
         public DateTime TimeStamp { get; set; }
-        public DataPoint(double tagValue, DateTime timeStamp)
+        public DataPoint(double oee, DateTime timeStamp)
         {
-            TagValue = tagValue;
+            OEE = oee;
             TimeStamp = timeStamp;
         }
     }

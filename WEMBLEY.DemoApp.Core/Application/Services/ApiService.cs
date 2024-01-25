@@ -12,6 +12,7 @@ using WEMBLEY.DemoApp.Core.Domain.Dtos.Products;
 using WEMBLEY.DemoApp.Core.Domain.Dtos.References;
 using WEMBLEY.DemoApp.Core.Domain.Dtos.ShiftReports;
 using WEMBLEY.DemoApp.Core.Domain.Exceptions;
+using WEMBLEY.DemoApp.Core.Domain.Models;
 using WEMBLEY.DemoApp.Core.Domain.Services;
 
 namespace WEMBLEY.DemoApp.Core.Application.Services
@@ -389,6 +390,23 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
             string responseBody = await response.Content.ReadAsStringAsync();
 
             var result = JsonConvert.DeserializeObject<IEnumerable<ShiftReportDto>>(responseBody);
+
+            if (result is null)
+            {
+                throw new Exception();
+            }
+
+            return result;
+        }
+
+        public async Task<IEnumerable<DataPoint>> GetLastestOEEAsync(string deviceId)
+        {
+            HttpResponseMessage response = await _httpClient.GetAsync($"{serverUrl}/api/ShiftReports/Latest?DeviceId={deviceId}");
+
+            response.EnsureSuccessStatusCode();
+            string responseBody = await response.Content.ReadAsStringAsync();
+
+            var result = JsonConvert.DeserializeObject<IEnumerable<DataPoint>>(responseBody);
 
             if (result is null)
             {

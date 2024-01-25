@@ -133,6 +133,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail
         private async void LoadStopperMachineMonitorView()
         {
             LoadLotSettingAsync();
+            LoadApiOEE();
             AllTags = await _signalRClient.GetBufferList();
             if (AllTags.Count != 0)
             {
@@ -152,8 +153,11 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail
                 foreach(var tag in errorTags)
                 {
                     Error = $"{tag.TimeStamp:MM/dd/yyyy HH:mm:ss}: {(string)tag.TagValue}";
-                    Errors.Add(Error);
-                    ErrorStrings = new(Errors);
+                    if (!(Errors.Contains(Error)))
+                    {
+                        Errors.Add(Error);
+                        ErrorStrings = new(Errors);
+                    }
                 }
 
                 TR1 = new(Convert.ToInt64(await _signalRClient.GetBufferValue("BOTTOM_CAP_REJ_TR1")), Convert.ToInt64(await _signalRClient.GetBufferValue("SILICON_PRESENCE_REJ_TR1")),
@@ -210,6 +214,20 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail
             {
                 ShowErrorMessage("Đã có lỗi xảy ra: Mất kết nối với server.");
             }
+        }
+
+        private async void LoadApiOEE()
+        {
+            try
+            {
+                var dtos = await _apiService.GetLastestOEEAsync("HC001");
+                OEEGraphTags = dtos.Select(i => new DataPoint(i.OEE * 100, i.TimeStamp)).ToList();
+            }
+            catch (HttpRequestException)
+            {
+                ShowErrorMessage("Đã có lỗi xảy ra: Mất kết nối với server.");
+            }
+            SeriesCollection[0].Values = new ChartValues<ObservablePoint>(OEEGraphTags.Select(g => new ObservablePoint(g.TimeStamp.Ticks, g.OEE)));
         }
 
         private void ReloadGraph()
