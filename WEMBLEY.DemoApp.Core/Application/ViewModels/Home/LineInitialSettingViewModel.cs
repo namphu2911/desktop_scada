@@ -110,7 +110,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
                 }
                 else
                 {
-                    var reference = _referenceStore.References.First(i => i.RefName == referenceName);
+                  var reference = _referenceStore.References.First(i => i.RefName == referenceName);
                     DeviceType = reference.DeviceType;
                     ProductName = reference.ProductName;
                     OnPropertyChanged(nameof(DeviceType));
@@ -150,6 +150,8 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
             try
             {
                 await _apiService.CreateLotAsync(ReferenceName, createDto);
+                MessageBox.Show("Đã Cập Nhật", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                LoadLotSettingAsync();
             }
             catch (HttpRequestException)
             {
@@ -163,13 +165,11 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
             {
                 ShowErrorMessage("Đã có lỗi xảy ra: Không thể tạo mới.");
             }
-            MessageBox.Show("Đã Cập Nhật", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
             LotId = "";
             LotSize = 0;
             DeviceType = "";
             ProductName = "";
             ReferenceName = "";
-            LoadLotSettingAsync();
         }
 
         private async void CreatePerson()
@@ -209,7 +209,6 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
             OnPropertyChanged(nameof(ProductNamesFilled));
             OnPropertyChanged(nameof(ReferenceNamesFilled));
 
-            LoadLotSettingAsync();
             LoadPersonsAsync();
         }
         private async void LoadPersonsAsync()
@@ -225,6 +224,11 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
                     viewModel.SetApiService(_apiService);
                     viewModel.OnException += Error;
                 }
+
+
+                await _databaseSynchronizationService.SynchronizePersonsData();
+                LoadLotSettingAsync();
+
             }
             catch (HttpRequestException)
             {

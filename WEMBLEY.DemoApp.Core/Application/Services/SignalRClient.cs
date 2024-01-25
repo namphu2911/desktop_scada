@@ -17,7 +17,7 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
         public SignalRClient()
         {
             connection = new HubConnectionBuilder()
-                .WithUrl("https://wembleyscadaapi.azurewebsites.net/notificationHub")
+                .WithUrl("https://wembleyscadaapi20240113161149.azurewebsites.net/notificationHub")
                 .WithAutomaticReconnect()
                 .Build();
         }
@@ -30,7 +30,7 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
 
         public async Task<List<TagChangedNotification>> GetBufferList()
         {
-            string respone = await connection.InvokeAsync<string>("SendAll");
+            var respone = await connection.InvokeAsync<string>("SendAll");
             var tags = JsonConvert.DeserializeObject<List<TagChangedNotification>>(respone);
             if (tags is null)
             {

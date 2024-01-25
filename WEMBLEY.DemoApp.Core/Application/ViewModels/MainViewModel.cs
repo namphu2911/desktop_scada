@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using WEMBLEY.DemoApp.Core.Application.Services;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Home;
+using WEMBLEY.DemoApp.Core.Application.ViewModels.Line1;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.SeedWork;
 using WEMBLEY.DemoApp.Core.Domain.Services;
 
@@ -26,16 +27,19 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        public StopperMachineViewModel StopperMachine { get; set; }
         public ICommand LoadMainWindowCommand { get; set; }
         public ICommand RunSignalRCommand { get; set; }
 
-        public MainViewModel(IDatabaseSynchronizationService databaseSynchronizationService, INavigationService navigationService, ISignalRClient signalRClient)
+        public MainViewModel(IDatabaseSynchronizationService databaseSynchronizationService, INavigationService navigationService, ISignalRClient signalRClient, StopperMachineViewModel stopperMachine)
         {
             _databaseSynchronizationService = databaseSynchronizationService;
             NavigationService = navigationService;
             _signalRClient = signalRClient;
             LoadMainWindowCommand = new RelayCommand(NavigationService.NavigateTo<HomeNavigationViewModel>);
             RunSignalRCommand = new RelayCommand(InitialRunning);
+            StopperMachine = stopperMachine;
         }
 
         private async void InitialRunning()

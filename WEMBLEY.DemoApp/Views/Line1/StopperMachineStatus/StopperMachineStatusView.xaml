@@ -5,71 +5,82 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WEMBLEY.DemoApp.Views.Line1.StopperMachineStatus"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:stoppermachinestatus="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineStatus;assembly=WEMBLEY.DemoApp.Core" d:DataContext="{d:DesignInstance Type=stoppermachinestatus:StopperMachineStatusViewModel}"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:stoppermachinestatus="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineStatus;assembly=WEMBLEY.DemoApp.Core" xmlns:Components="clr-namespace:WEMBLEY.DemoApp.Resources.Components" d:DataContext="{d:DesignInstance Type=stoppermachinestatus:StopperMachineStatusViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="720" d:DesignWidth="1280"
              Background="{StaticResource ColorBackground}"
              Padding="10">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadMachineStatusHistoryCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
 
-        <materialDesign:Card Grid.Row="0" 
+    <materialDesign:DialogHost CloseOnClickAway="True" IsOpen="{Binding IsErrorMessageShowed}">
+        <materialDesign:DialogHost.DialogContent>
+            <Components:ErrorMessage Message="{Binding ErrorMessage}"/>
+        </materialDesign:DialogHost.DialogContent>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <materialDesign:Card Grid.Row="0" 
                                      Background="{StaticResource ColorSurface}"
                                      Margin="5">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="auto"/>
-                </Grid.ColumnDefinitions>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Row="0" Grid.Column="0" 
+                    <TextBlock Grid.Row="0" Grid.Column="0" 
                        Margin="10"
                        Style="{StaticResource FieldLabel}"
                        Text="Từ ngày"/>
 
 
-                <DatePicker  Grid.Row="0" Grid.Column="1"
+                    <DatePicker  Grid.Row="0" Grid.Column="1"
                          Margin="10"
                          materialDesign:HintAssist.Hint="Từ ngày"
                          Style="{StaticResource DatePicker}"
                          SelectedDate="{Binding StartDate}"/>
 
 
-                <TextBlock Grid.Row="0" Grid.Column="2" 
+                    <TextBlock Grid.Row="0" Grid.Column="2" 
                        Margin="10"
                        Style="{StaticResource FieldLabel}" 
                        Text="Đến ngày"/>
 
-                <DatePicker Grid.Column="3"
+                    <DatePicker Grid.Column="3"
                          Margin="10,0,10,0"
                          materialDesign:HintAssist.Hint="Đến ngày"
                          Style="{StaticResource DatePicker}"
                          SelectedDate="{Binding EndDate}"/>
 
-                <Button Grid.Row="0" Grid.Column="6"
+                    <Button Grid.Row="0" Grid.Column="6"
                             Margin="10"
                             Style="{StaticResource ButtonPrimary}" materialDesign:ButtonAssist.CornerRadius="10"
                             Content="Truy xuất"
                             HorizontalAlignment="Center"
                             Width="150">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction Command="{Binding LoadMachineStatusHistoryCommand}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </Button>
-            </Grid>
-        </materialDesign:Card>
-     
-        <materialDesign:Card 
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding LoadMachineStatusHistoryCommand}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                </Grid>
+            </materialDesign:Card>
+
+            <materialDesign:Card 
                 Grid.Row="1" Margin="5">
-            <DataGrid 
+                <DataGrid 
                               Style="{StaticResource MaterialDesignDataGrid}"
                               Background="{StaticResource ColorSurface}"
                               Margin="10"
@@ -78,39 +89,40 @@
                               AutoGenerateColumns="False"
                               SelectionUnit="FullRow"
                               SelectionMode="Single">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Thời gian" Binding="{Binding Timestamp, StringFormat=dd/MM/yyyy HH:mm:ss}" Width="*"/>
-                    <DataGridTextColumn Header="Ca" Binding="{Binding ShiftNumber}" Width="*"/>
-                    <DataGridTextColumn Header="Trạng thái" Binding="{Binding Status}" Width="*">
-                        <DataGridTextColumn.CellStyle>
-                            <Style TargetType="{x:Type DataGridCell}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Status}" Value="Run">
-                                        <Setter Property="Background" Value="{StaticResource ColorPrimaryGreen}"></Setter>
-                                        <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding Status}" Value="Alarm">
-                                        <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
-                                        <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding Status}" Value="Idle">
-                                        <Setter Property="Background" Value="{StaticResource ColorPrimaryYellow}"></Setter>
-                                        <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding Status}" Value="Setup">
-                                        <Setter Property="Background" Value="{StaticResource ColorPrimaryPurple}"></Setter>
-                                        <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding Status}" Value="Off">
-                                        <Setter Property="Background" Value="{StaticResource ColorGray}"></Setter>
-                                        <Setter Property="Foreground" Value="{StaticResource ColorBackgroundOn}"></Setter>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </DataGridTextColumn.CellStyle>
-                    </DataGridTextColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-        </materialDesign:Card>
-    </Grid>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Thời gian" Binding="{Binding Timestamp, StringFormat=dd/MM/yyyy HH:mm:ss}" Width="*"/>
+                        <DataGridTextColumn Header="Ca" Binding="{Binding ShiftNumber}" Width="*"/>
+                        <DataGridTextColumn Header="Trạng thái" Binding="{Binding Status}" Width="*">
+                            <DataGridTextColumn.CellStyle>
+                                <Style TargetType="{x:Type DataGridCell}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Status}" Value="Run">
+                                            <Setter Property="Background" Value="{StaticResource ColorPrimaryGreen}"></Setter>
+                                            <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Status}" Value="Alarm">
+                                            <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
+                                            <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Status}" Value="Idle">
+                                            <Setter Property="Background" Value="{StaticResource ColorPrimaryYellow}"></Setter>
+                                            <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Status}" Value="Setup">
+                                            <Setter Property="Background" Value="{StaticResource ColorPrimaryPurple}"></Setter>
+                                            <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Status}" Value="Off">
+                                            <Setter Property="Background" Value="{StaticResource ColorGray}"></Setter>
+                                            <Setter Property="Foreground" Value="{StaticResource ColorBackgroundOn}"></Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </materialDesign:Card>
+        </Grid>
+    </materialDesign:DialogHost>
 </UserControl>

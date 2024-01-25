@@ -131,20 +131,23 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
             var tag = JsonConvert.DeserializeObject<TagChangedNotification>(json);
             if (tag != null)
             {
-                switch (tag.TagId)
+                if(tag.DeviceId == "HC001")
                 {
-                    case "machineStatus":
-                        {
-                            Status = (EMachineStatus)Convert.ToInt32(tag.TagValue);
-                            LoadLotSettingAsync();
-                            break;
-                        }
-                    //case "operationTime": HerapinCapDurationTime = TimeSpan.Parse((string)tag.TagValue); break;
-                    case "goodProduct": HerapinCapGoodCount = Convert.ToInt64(tag.TagValue); break;
-                    case "errorProduct": HerapinCapBadCount = Convert.ToInt64(tag.TagValue); break;
-                    case "EFF": HerapinCapEfficiency = Convert.ToDouble(tag.TagValue); break;
-                    case "productCount": HerapinCapAllCount = Convert.ToInt64(tag.TagValue); break;
-                    default: break;
+                    switch (tag.TagId)
+                    {
+                        case "machineStatus":
+                            {
+                                Status = (EMachineStatus)Convert.ToInt32(tag.TagValue);
+                                LoadLotSettingAsync();
+                                break;
+                            }
+                        case "operationTime": HerapinCapDurationTime = TimeSpan.Parse((string)tag.TagValue); break;
+                        case "goodProduct": HerapinCapGoodCount = Convert.ToInt64(tag.TagValue); break;
+                        case "errorProduct": HerapinCapBadCount = Convert.ToInt64(tag.TagValue); break;
+                        case "EFF": HerapinCapEfficiency = Convert.ToDouble(tag.TagValue); break;
+                        case "productCount": HerapinCapAllCount = Convert.ToInt64(tag.TagValue); break;
+                        default: break;
+                    }
                 }
             }
         }

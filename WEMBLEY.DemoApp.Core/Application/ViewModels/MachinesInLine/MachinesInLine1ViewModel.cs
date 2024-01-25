@@ -72,7 +72,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.MachinesInLine
             }
         }
         public string ColorBack { get; set; } = "#394963";
-
+        public bool IsLoading { get; set; } = true;
         public ICommand NavigateToStopperMachineViewCommand { get; set; }
         public ICommand LoadMachinesInLine1ViewCommand { get; set; }
         public MachinesInLine1ViewModel(INavigationService navigationService, ISignalRClient signalRClient)
@@ -84,6 +84,14 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.MachinesInLine
             LoadMachinesInLine1ViewCommand = new RelayCommand(LoadMachinesInLine1View);
 
             signalRClient.OnTagChanged += OnTagChanged;
+
+            DelayLoading();
+        }
+
+        private async void DelayLoading()
+        {
+            await Task.Delay(6000);
+            IsLoading = false;
         }
 
         private async void LoadMachinesInLine1View()

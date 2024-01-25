@@ -398,6 +398,23 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
             return result;
         }
 
+        public async Task<IEnumerable<ShiftReportWithShotDto>> GetShortenShiftReportWithShotByShiftIdAsync(int shiftReportId, int interval)
+        {
+            HttpResponseMessage response = await _httpClient.GetAsync($"{serverUrl}/api/ShiftReports/ShortenDetails?ShiftReportId={shiftReportId}&Interval={interval}");
+
+            response.EnsureSuccessStatusCode();
+            string responseBody = await response.Content.ReadAsStringAsync();
+
+            var result = JsonConvert.DeserializeObject<IEnumerable<ShiftReportWithShotDto>>(responseBody);
+
+            if (result is null)
+            {
+                throw new Exception();
+            }
+
+            return result;
+        }
+
         public async Task<IEnumerable<ShiftReportWithShotDto>> GetShiftReportWithShotByShiftIdAsync(int shiftReportId, int pageIndex, int pageSize)
         {
             HttpResponseMessage response = await _httpClient.GetAsync($"{serverUrl}/api/ShiftReports/Details?ShiftReportId={shiftReportId}&PageIndex={pageIndex}&PageSize={pageSize}");

@@ -6,86 +6,98 @@
              xmlns:local="clr-namespace:WEMBLEY.DemoApp.Views.Line1"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"        
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:stoppermachinedetail="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail;assembly=WEMBLEY.DemoApp.Core" d:DataContext="{d:DesignInstance Type=stoppermachinedetail:StopperMachineFaultHistoryViewModel}"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:stoppermachinedetail="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail;assembly=WEMBLEY.DemoApp.Core" xmlns:Components="clr-namespace:WEMBLEY.DemoApp.Resources.Components" d:DataContext="{d:DesignInstance Type=stoppermachinedetail:StopperMachineFaultHistoryViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="1260"
              Background="{StaticResource ColorBackground}"
              Padding="10">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <prism:InvokeCommandAction Command="{Binding LoadMachineFaultHistoryCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    
+    <materialDesign:DialogHost CloseOnClickAway="True" IsOpen="{Binding IsErrorMessageShowed}">
+        <materialDesign:DialogHost.DialogContent>
+            <Components:ErrorMessage Message="{Binding ErrorMessage}"/>
+        </materialDesign:DialogHost.DialogContent>
 
-        <materialDesign:Card Grid.Row="0" 
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <materialDesign:Card Grid.Row="0" 
                                      Background="{StaticResource ColorSurface}"
                                      Margin="10">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="auto"/>
-                </Grid.ColumnDefinitions>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Row="1" Grid.Column="0" 
+                    <TextBlock Grid.Row="1" Grid.Column="0" 
                        Margin="10"
                        Style="{StaticResource FieldLabel}"
                        Text="Từ ngày"/>
 
 
-                <DatePicker  Grid.Row="1" Grid.Column="1"
+                    <DatePicker  Grid.Row="1" Grid.Column="1"
                          Margin="10"
                          materialDesign:HintAssist.Hint="Từ ngày"
                          Style="{StaticResource DatePicker}"
                          SelectedDate="{Binding StartDate}"/>
 
 
-                <TextBlock Grid.Row="1" Grid.Column="2" 
+                    <TextBlock Grid.Row="1" Grid.Column="2" 
                        Margin="10"
                        Style="{StaticResource FieldLabel}" 
                        Text="Đến ngày"/>
 
-                <DatePicker Grid.Column="3"
+                    <DatePicker Grid.Column="3"
                          Margin="10,0,10,0"
                          materialDesign:HintAssist.Hint="Đến ngày"
                          Style="{StaticResource DatePicker}"
                          SelectedDate="{Binding EndDate}"/>
 
-                <Button Grid.Row="0" Grid.Column="6"
+                    <Button Grid.Row="0" Grid.Column="6"
                             Margin="10"
                             Style="{StaticResource ButtonPrimary}" materialDesign:ButtonAssist.CornerRadius="10"
                             Content="Truy xuất"
                             HorizontalAlignment="Center"
                             Width="150">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction Command="{Binding LoadMachineFaultHistoryCommand}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </Button>
-            </Grid>
-        </materialDesign:Card>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding LoadMachineFaultHistoryCommand}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                </Grid>
+            </materialDesign:Card>
 
-        <materialDesign:Card Grid.Row="1"
+            <materialDesign:Card Grid.Row="1"
                                      Grid.Column="1" 
                                      Background="{StaticResource ColorSurface}"
                                      Margin="10">
-            <DataGrid Style="{StaticResource MaterialDesignDataGrid}"
+                <DataGrid Style="{StaticResource MaterialDesignDataGrid}"
                           Background="{StaticResource ColorSurface}"
                           IsReadOnly="True"
                           ItemsSource="{Binding ErrorsHistoryEntries}"
                           AutoGenerateColumns="False"
                           SelectionUnit="FullRow"
                           SelectionMode="Single">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Thời gian" Binding="{Binding Timestamp, StringFormat=dd/MM/yyyy HH:mm:ss}" Width="auto"/>
-                    <DataGridTextColumn Header="Ca" Binding="{Binding ShiftNumber}" Width="auto"/>
-                    <DataGridTextColumn Header="Mã lỗi" Binding="{Binding ErrorId}" Width="auto"/>
-                    <DataGridTextColumn Header="Tên lỗi" Binding="{Binding ErrorName}" Width="auto"/>
-                </DataGrid.Columns>
-            </DataGrid>
-        </materialDesign:Card>
-    </Grid>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Thời gian" Binding="{Binding Timestamp, StringFormat=dd/MM/yyyy HH:mm:ss}" Width="auto"/>
+                        <DataGridTextColumn Header="Ca" Binding="{Binding ShiftNumber}" Width="auto"/>
+                        <DataGridTextColumn Header="Mã lỗi" Binding="{Binding ErrorId}" Width="auto"/>
+                        <DataGridTextColumn Header="Tên lỗi" Binding="{Binding ErrorName}" Width="auto"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </materialDesign:Card>
+        </Grid>
+    </materialDesign:DialogHost>
 </UserControl>

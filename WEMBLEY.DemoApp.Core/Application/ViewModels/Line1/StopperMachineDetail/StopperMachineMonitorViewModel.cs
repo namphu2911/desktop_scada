@@ -1,15 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using LiveCharts;
 using LiveCharts.Defaults;
-using LiveCharts.Helpers;
 using LiveCharts.Wpf;
-using LiveCharts.Wpf.Charts.Base;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Threading;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.SeedWork;
 using WEMBLEY.DemoApp.Core.Domain.Models;
 using WEMBLEY.DemoApp.Core.Domain.Services;
@@ -71,6 +68,12 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail
         public long GoodCount { get; set; } = 0;
         public long BadCount { get; set; } = 0;
         public TimeSpan? OperationTime { get; set; }
+        public string HerapinCapProductName { get; set; } = "";
+        public string HerapinCapReferenceName { get; set; } = "";
+        public string HerapinCapLotId { get; set; } = "";
+        public int HerapinCapLotSize { get; set; } = 0;
+        public long MinDateValue { get; set; } = DateTime.MinValue.Ticks;
+        public long MaxDateValue { get; set; } = DateTime.MaxValue.Ticks;
 
         //OEE
         public double? OEE { get; set; }
@@ -116,11 +119,11 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail
                 {
                     Title = "Values",
                     Fill = Brushes.Transparent,
-                    LineSmoothness = 0,
+                    LineSmoothness = 2,
                     PointGeometry = DefaultGeometries.Circle,
                     PointForeground = Brushes.SkyBlue,
                     PointGeometrySize = 7,
-                    Values = new ChartValues<ObservablePoint>(OEEObservablePoints)
+                    Values = new ChartValues<ObservablePoint>()
                 }
             };
             DateTimeFormatter = value => new DateTime((long)value).ToString("hh:mm:ss");
@@ -144,7 +147,15 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail
                 BadCount = Convert.ToInt64(await _signalRClient.GetBufferValue("errorProduct"));
                 Efficiency = Convert.ToDouble(await _signalRClient.GetBufferValue("EFF"));
                 AllProductCount = Convert.ToInt64(await _signalRClient.GetBufferValue("productCount"));
-                
+
+                var errorTags = AllTags.Where(i => i.TagId == "errorStatus");
+                foreach(var tag in errorTags)
+                {
+                    Error = $"{tag.TimeStamp:MM/dd/yyyy HH:mm:ss}: {(string)tag.TagValue}";
+                    Errors.Add(Error);
+                    ErrorStrings = new(Errors);
+                }
+
                 TR1 = new(Convert.ToInt64(await _signalRClient.GetBufferValue("BOTTOM_CAP_REJ_TR1")), Convert.ToInt64(await _signalRClient.GetBufferValue("SILICON_PRESENCE_REJ_TR1")),
                          Convert.ToInt64(await _signalRClient.GetBufferValue("COVER_PRESENCE_REJ_TR1")), Convert.ToInt64(await _signalRClient.GetBufferValue("HEIGHT_CHK_REJ_TR1")),
                          Convert.ToInt64(await _signalRClient.GetBufferValue("LEAK_TEST_CHK_OK_TR1")));
@@ -184,6 +195,10 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail
             {
                 PersonStrings = new();
                 var dtos = await _apiService.GetLotDeviceReferenceByDeviceTypeAsync("HerapinCap");
+                HerapinCapProductName = dtos.Last().ProductName;
+                HerapinCapReferenceName = dtos.Last().RefName;
+                HerapinCapLotId = dtos.Last().LotId;
+                HerapinCapLotSize = dtos.Last().LotSize;
                 var persons = dtos.First().Devices.First(i => i.DeviceId == "HC001").Persons;
                 foreach(var person in persons)
                 {
@@ -207,86 +222,86 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail
             var tag = JsonConvert.DeserializeObject<TagChangedNotification>(json);
             if (tag != null)
             {
-                switch (tag.TagId)
+                if (tag.DeviceId == "HC001")
                 {
-                    case "OEE":
-                        {
-                            OnPropertyChanged(nameof(SeriesCollection));
-                            OEE = Convert.ToDouble(tag.TagValue) * 100;
-                            OEEGraphTags.Add(new DataPoint(Convert.ToDouble(tag.TagValue) * 100, tag.TimeStamp));
-
-                            if (SeriesCollection[0].Values is not null && SeriesCollection[0].Values.Count > 20)
+                    switch (tag.TagId)
+                    {
+                        case "OEE":
                             {
-                                var i = SeriesCollection[0].Values.Count - 20;
-                                SeriesCollection[0].Values.RemoveAt(i - 1);
+                                OEE = Convert.ToDouble(tag.TagValue) * 100;
+                                OEEGraphTags.Add(new DataPoint(Convert.ToDouble(tag.TagValue) * 100, tag.TimeStamp));
+
+                                //if (SeriesCollection[0].Values is not null && SeriesCollection[0].Values.Count > 20)
+                                //{
+                                //    var i = SeriesCollection[0].Values.Count - 20;
+                                //    SeriesCollection[0].Values.RemoveAt(i - 1);
+                                //}
+
+                                SeriesCollection[0].Values.Add(new ObservablePoint
+                                {
+                                    X = tag.TimeStamp.Ticks,
+                                    Y = Convert.ToDouble(tag.TagValue) * 100
+                                });
+                                if (SeriesCollection[0].Values is not null && SeriesCollection[0].Values.Count > 5)
+                                {
+                                    ChartUpdated?.Invoke();
+                                }
+                                break;
                             }
+                        case "A": A = Convert.ToDouble(tag.TagValue) * 100; break;
+                        case "P": P = Convert.ToDouble(tag.TagValue) * 100; break;
+                        case "Q": Q = Convert.ToDouble(tag.TagValue) * 100; break;
 
-                            SeriesCollection[0].Values.Add(new ObservablePoint
+                        case "machineStatus": Status = (EMachineStatus)Convert.ToInt32(tag.TagValue); break;
+                        case "operationTime": OperationTime = TimeSpan.Parse((string)tag.TagValue); break;
+                        case "goodProduct": GoodCount = Convert.ToInt64(tag.TagValue); break;
+                        case "errorProduct": BadCount = Convert.ToInt64(tag.TagValue); break;
+                        case "EFF": Efficiency = Convert.ToDouble(tag.TagValue); break;
+                        case "productCount": AllProductCount = Convert.ToInt64(tag.TagValue); break;
+                        case "errorStatus":
                             {
-                                X = tag.TimeStamp.Ticks,
-                                Y = Convert.ToDouble(tag.TagValue) * 100
-                            });
-                            if (SeriesCollection[0].Values is not null && SeriesCollection[0].Values.Count > 5)
-                            {
-                                ChartUpdated?.Invoke();
-                            }
-                            break;
-                        }
-                    case "A": A = Convert.ToDouble(tag.TagValue) * 100; break;
-                    case "P": P = Convert.ToDouble(tag.TagValue) * 100; break;
-                    case "Q": Q = Convert.ToDouble(tag.TagValue) * 100; break;
-
-                    case "machineStatus": Status = (EMachineStatus)Convert.ToInt32(tag.TagValue); break;
-                    //case "operationTime": OperationTime = TimeSpan.Parse((string)tag.TagValue); break;
-                    case "goodProduct": GoodCount = Convert.ToInt64(tag.TagValue); break;
-                    case "errorProduct": BadCount = Convert.ToInt64(tag.TagValue); break;
-                    case "EFF": Efficiency = Convert.ToDouble(tag.TagValue); break;
-                    case "productCount": AllProductCount = Convert.ToInt64(tag.TagValue); break;
-                    case "errorStatus":
-                        {
-                            Error = $"{tag.TimeStamp:MM/dd/yyyy HH:mm:ss}: {(string)tag.TagValue}";
-                            if(!Error.Contains(Error))
-                            {
+                                Error = $"{tag.TimeStamp:MM/dd/yyyy HH:mm:ss}: {(string)tag.TagValue}";
                                 Errors.Add(Error);
                                 ErrorStrings = new(Errors);
+                                break;
                             }
-                            break;
-                        }
-                    case "endErrorStatus":
-                        {
-                            var a = ErrorStrings.FirstOrDefault(i => i.Contains((string)tag.TagValue));
-                            if (a == null) break;
-                            Errors.Remove(a);
-                            ErrorStrings = new(Errors);
-                            break;
-                        }
-                    case "BOTTOM_CAP_REJ_TR1": TR1.BOTTOMCAP = Convert.ToInt64(tag.TagValue); break;
-                    case "BOTTOM_CAP_REJ_TR2": TR2.BOTTOMCAP = Convert.ToInt64(tag.TagValue); break;
-                    case "BOTTOM_CAP_REJ_TR3": TR3.BOTTOMCAP = Convert.ToInt64(tag.TagValue); break;
-                    case "BOTTOM_CAP_REJ_TR4": TR4.BOTTOMCAP = Convert.ToInt64(tag.TagValue); break;
+                        case "endErrorStatus":
+                            {
+                                var a = ErrorStrings.FirstOrDefault(i => i.Contains((string)tag.TagValue));
+                                if (a == null) break;
+                                Errors.Remove(a);
+                                ErrorStrings = new(Errors);
+                                break;
+                            }
+                        case "BOTTOM_CAP_REJ_TR1": TR1.BOTTOMCAP = Convert.ToInt64(tag.TagValue); break;
+                        case "BOTTOM_CAP_REJ_TR2": TR2.BOTTOMCAP = Convert.ToInt64(tag.TagValue); break;
+                        case "BOTTOM_CAP_REJ_TR3": TR3.BOTTOMCAP = Convert.ToInt64(tag.TagValue); break;
+                        case "BOTTOM_CAP_REJ_TR4": TR4.BOTTOMCAP = Convert.ToInt64(tag.TagValue); break;
 
-                    case "SILICON_PRESENCE_REJ_TR1": TR1.SILICONPRESENCE = Convert.ToInt64(tag.TagValue); break;
-                    case "SILICON_PRESENCE_REJ_TR2": TR2.SILICONPRESENCE = Convert.ToInt64(tag.TagValue); break;
-                    case "SILICON_PRESENCE_REJ_TR3": TR3.SILICONPRESENCE = Convert.ToInt64(tag.TagValue); break;
-                    case "SILICON_PRESENCE_REJ_TR4": TR4.SILICONPRESENCE = Convert.ToInt64(tag.TagValue); break;
+                        case "SILICON_PRESENCE_REJ_TR1": TR1.SILICONPRESENCE = Convert.ToInt64(tag.TagValue); break;
+                        case "SILICON_PRESENCE_REJ_TR2": TR2.SILICONPRESENCE = Convert.ToInt64(tag.TagValue); break;
+                        case "SILICON_PRESENCE_REJ_TR3": TR3.SILICONPRESENCE = Convert.ToInt64(tag.TagValue); break;
+                        case "SILICON_PRESENCE_REJ_TR4": TR4.SILICONPRESENCE = Convert.ToInt64(tag.TagValue); break;
 
-                    case "COVER_PRESENCE_REJ_TR1": TR1.COVERPRESENCE = Convert.ToInt64(tag.TagValue); break;
-                    case "COVER_PRESENCE_REJ_TR2": TR2.COVERPRESENCE = Convert.ToInt64(tag.TagValue); break;
-                    case "COVER_PRESENCE_REJ_TR3": TR3.COVERPRESENCE = Convert.ToInt64(tag.TagValue); break;
-                    case "COVER_PRESENCE_REJ_TR4": TR4.COVERPRESENCE = Convert.ToInt64(tag.TagValue); break;
+                        case "COVER_PRESENCE_REJ_TR1": TR1.COVERPRESENCE = Convert.ToInt64(tag.TagValue); break;
+                        case "COVER_PRESENCE_REJ_TR2": TR2.COVERPRESENCE = Convert.ToInt64(tag.TagValue); break;
+                        case "COVER_PRESENCE_REJ_TR3": TR3.COVERPRESENCE = Convert.ToInt64(tag.TagValue); break;
+                        case "COVER_PRESENCE_REJ_TR4": TR4.COVERPRESENCE = Convert.ToInt64(tag.TagValue); break;
 
-                    case "HEIGHT_CHK_REJ_TR1": TR1.HEIGHTCHK = Convert.ToInt64(tag.TagValue); break;
-                    case "HEIGHT_CHK_REJ_TR2": TR2.HEIGHTCHK = Convert.ToInt64(tag.TagValue); break;
-                    case "HEIGHT_CHK_REJ_TR3": TR3.HEIGHTCHK = Convert.ToInt64(tag.TagValue); break;
-                    case "HEIGHT_CHK_REJ_TR4": TR4.HEIGHTCHK = Convert.ToInt64(tag.TagValue); break;
+                        case "HEIGHT_CHK_REJ_TR1": TR1.HEIGHTCHK = Convert.ToInt64(tag.TagValue); break;
+                        case "HEIGHT_CHK_REJ_TR2": TR2.HEIGHTCHK = Convert.ToInt64(tag.TagValue); break;
+                        case "HEIGHT_CHK_REJ_TR3": TR3.HEIGHTCHK = Convert.ToInt64(tag.TagValue); break;
+                        case "HEIGHT_CHK_REJ_TR4": TR4.HEIGHTCHK = Convert.ToInt64(tag.TagValue); break;
 
-                    case "LEAK_TEST_CHK_OK_TR1": TR1.LEAKTESTCHKOK = Convert.ToInt64(tag.TagValue); break;
-                    case "LEAK_TEST_CHK_TR2": TR2.LEAKTESTCHKOK = Convert.ToInt64(tag.TagValue); break;
-                    case "LEAK_TEST_CHK_TR3": TR3.LEAKTESTCHKOK = Convert.ToInt64(tag.TagValue); break;
-                    case "LEAK_TEST_CHK_TR4": TR4.LEAKTESTCHKOK = Convert.ToInt64(tag.TagValue); break;
+                        case "LEAK_TEST_CHK_OK_TR1": TR1.LEAKTESTCHKOK = Convert.ToInt64(tag.TagValue); break;
+                        case "LEAK_TEST_CHK_TR2": TR2.LEAKTESTCHKOK = Convert.ToInt64(tag.TagValue); break;
+                        case "LEAK_TEST_CHK_TR3": TR3.LEAKTESTCHKOK = Convert.ToInt64(tag.TagValue); break;
+                        case "LEAK_TEST_CHK_TR4": TR4.LEAKTESTCHKOK = Convert.ToInt64(tag.TagValue); break;
 
-                    default: break;
+                        default: break;
+                    }
                 }
+                
             }
             
             OEEEntries = new ObservableCollection<OEEEntryViewModel>()

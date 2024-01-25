@@ -13,7 +13,7 @@ namespace WEMBLEY.DemoApp.Core.Domain.Dtos.DeviceReferences
         public double MinValue { get; set; }
         public double MaxValue { get; set; }
         public double? RealValue { get; set; }
-        public bool IsAlarmed => !((RealValue >= MinValue) || (RealValue <= MaxValue));
+        public bool IsAlarmed => !((RealValue >= MinValue) && (RealValue <= MaxValue));
         public ComparedMFC(string name, double value, double minValue, double maxValue, double? realValue)
         {
             Name = name;

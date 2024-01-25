@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:WEMBLEY.DemoApp.Views.MachinesInLine"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:machinesinline="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.MachinesInLine;assembly=WEMBLEY.DemoApp.Core" d:DataContext="{d:DesignInstance Type=machinesinline:MachinesInLine1ViewModel}"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:machinesinline="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.MachinesInLine;assembly=WEMBLEY.DemoApp.Core" xmlns:loadingspinnercontrol="clr-namespace:LoadingSpinnerControl;assembly=LoadingSpinnerControl" d:DataContext="{d:DesignInstance Type=machinesinline:MachinesInLine1ViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="600"
              Background="{StaticResource ColorBackground}"
@@ -24,35 +24,75 @@
 
         <Border BorderThickness="2" BorderBrush="Black">
             <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
+                
+                <Grid Grid.Row="0">
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsLoading}" Value="False">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                <Button    
-            Grid.Row="0" Grid.Column="0"
-            Margin="10"
-            Style="{StaticResource ButtonMachine}" 
-            Background="{Binding ColorBack}"
-            materialDesign:ButtonAssist.CornerRadius="10">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                            <prism:InvokeCommandAction Command="{Binding NavigateToStopperMachineViewCommand}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                    <TextBlock TextAlignment="Center" Text="Máy nút chặn" FontSize="26" TextWrapping="Wrap"/>
-                </Button>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
+                    <Button    
+                    Grid.Row="0" Grid.Column="0"
+                    Margin="10"
+                    Style="{StaticResource ButtonMachine}" 
+                    Background="{Binding ColorBack}"
+                    materialDesign:ButtonAssist.CornerRadius="10">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <prism:InvokeCommandAction Command="{Binding NavigateToStopperMachineViewCommand}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <TextBlock TextAlignment="Center" Text="Máy nút chặn" FontSize="26" TextWrapping="Wrap"/>
+                    </Button>
+                </Grid>
+
+                <Grid Grid.Row="0" Margin="0,20,0,0">
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsLoading}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    
+                    <loadingspinnercontrol:LoadingSpinner Grid.Row="0" IsLoading="{Binding IsLoading}"/>
+                    <TextBlock Grid.Row="1" HorizontalAlignment="Center" Foreground="Black" Text="Loading..."/>
+
+                </Grid>
             </Grid>
+
+           
         </Border>
         
     </materialDesign:Card>

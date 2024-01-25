@@ -132,46 +132,17 @@
         </Grid>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Style="{StaticResource ButtonPrimary}"
-                        HorizontalAlignment="Center" 
-                        Content="&lt;"
-                        IsEnabled="{Binding DecreaseButton}" BorderBrush="White">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <i:InvokeCommandAction Command="{Binding DecreasePageNumberCommand}" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </Button>
-
             <TextBlock
                             Style="{StaticResource FieldLabel}" 
                             HorizontalAlignment="Center"
-                            Margin="20,10,20,10"
-                            Text="{Binding PageNumber}"/>
-
-            <Button Style="{StaticResource ButtonPrimary}"
-                        HorizontalAlignment="Center" 
-                        Content="&gt;" 
-                        IsEnabled="{Binding IncreaseButton}" BorderBrush="White">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <i:InvokeCommandAction Command="{Binding IncreasePageNumberCommand}" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </Button>
-
+                            Text="Khoảng cách: "/>
             <ComboBox 
                       Width="75"
                       Style="{StaticResource ComboBox}"
                       HorizontalContentAlignment="Center"
                       IsEditable="False"
-                      ItemsSource="{Binding ItemsPerPages}"
-                      Text="{Binding ItemsPerPage}">
-                <ComboBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <VirtualizingStackPanel />
-                    </ItemsPanelTemplate>
-                </ComboBox.ItemsPanel>
+                      ItemsSource="{Binding Intervals}"
+                      SelectedItem="{Binding Interval}">
             </ComboBox>
         </StackPanel>
     </Grid>

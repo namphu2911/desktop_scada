@@ -77,7 +77,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineReport
                 {
                     Title = "Values",
                     Fill = Brushes.Transparent,
-                    LineSmoothness = 0,
+                    LineSmoothness = 2,
                     PointGeometry = DefaultGeometries.Circle,
                     PointForeground = Brushes.SkyBlue,
                     PointGeometrySize = 7

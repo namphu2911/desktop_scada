@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
              xmlns:prism="http://prismlibrary.com/"
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:home="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Home;assembly=WEMBLEY.DemoApp.Core" d:DataContext="{d:DesignInstance Type=home:LineInitialSettingViewModel}"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:home="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Home;assembly=WEMBLEY.DemoApp.Core" xmlns:Components="clr-namespace:WEMBLEY.DemoApp.Resources.Components" d:DataContext="{d:DesignInstance Type=home:LineInitialSettingViewModel}"
              Background="{StaticResource ColorBackground}"
              d:DesignHeight="725" d:DesignWidth="1280">
     <i:Interaction.Triggers>
@@ -16,27 +16,32 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="181*"/>
-            <RowDefinition Height="544*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+    <materialDesign:DialogHost CloseOnClickAway="True" IsOpen="{Binding IsErrorMessageShowed}">
+        <materialDesign:DialogHost.DialogContent>
+            <Components:ErrorMessage Message="{Binding ErrorMessage}"/>
+        </materialDesign:DialogHost.DialogContent>
 
-        <Grid Grid.Column="0" Grid.RowSpan="2">
-            <Expander x:Name="ExportExpander" ExpandDirection="Right">
-                <Expander.Header>
-                    <StackPanel>
-                        <materialDesign:PackIcon 
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="181*"/>
+                <RowDefinition Height="544*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0" Grid.RowSpan="2">
+                <Expander x:Name="ExportExpander" ExpandDirection="Right">
+                    <Expander.Header>
+                        <StackPanel>
+                            <materialDesign:PackIcon 
                             Foreground="Black"
                             HorizontalAlignment="Center"
                             Kind="AccountBoxOutline" 
                             Width="30" Height="30" />
 
-                        <TextBlock 
+                            <TextBlock 
                             Style="{StaticResource FieldLabel}"
                             HorizontalAlignment="Center"
                             TextAlignment="Center">
@@ -47,35 +52,35 @@
                             <Run Text="NHÂN"/>
                             <LineBreak/>
                             <Run Text="VIÊN"/>
-                        </TextBlock>
-                    </StackPanel>
-                </Expander.Header>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
+                            </TextBlock>
+                        </StackPanel>
+                    </Expander.Header>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
 
 
-                    <materialDesign:Card Grid.Row="0" Margin="0,10,10,5">
-                        <Grid Grid.Row="0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="auto"/>
-                            </Grid.RowDefinitions>
+                        <materialDesign:Card Grid.Row="0" Margin="0,10,10,5">
+                            <Grid Grid.Row="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
 
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
 
-                            <TextBlock Grid.Row="0" Grid.Column="0"
+                                <TextBlock Grid.Row="0" Grid.Column="0"
                                Text="Mã NV:"
                                Style="{StaticResource FieldLabel}"
                                Margin="10"
                                VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="0" Grid.Column="1"
+                                <TextBox Grid.Row="0" Grid.Column="1"
                                  materialDesign:HintAssist.Hint="Mã nhân viên    "
                                  FontSize="16"
                                  Style="{StaticResource TextBox}"
@@ -83,12 +88,12 @@
                                  VerticalAlignment="Center"
                                  Text="{Binding PersonId}"/>
 
-                            <TextBlock Grid.Row="1" Grid.Column="0"
+                                <TextBlock Grid.Row="1" Grid.Column="0"
                                Text="Tên NV:"
                                Style="{StaticResource FieldLabel}"
                                Margin="10"
                                VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="1" Grid.Column="1"
+                                <TextBox Grid.Row="1" Grid.Column="1"
                                materialDesign:HintAssist.Hint="Tên nhân viên    "
                                FontSize="16"
                                Style="{StaticResource TextBox}"
@@ -96,149 +101,149 @@
                                VerticalAlignment="Center"
                                Text="{Binding PersonName}"/>
 
-                            <Button Grid.Row="2" Grid.ColumnSpan="2"
+                                <Button Grid.Row="2" Grid.ColumnSpan="2"
                                     Width="100"
                                 Margin="10"
                                 Style="{StaticResource ButtonPrimary}"
                                 materialDesign:ButtonAssist.CornerRadius="10"
                                 Content="Thêm">
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="Click">
-                                        <prism:InvokeCommandAction Command="{Binding CreatePersonCommand}"/>
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                            </Button>
-                        </Grid>
-                    </materialDesign:Card>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <prism:InvokeCommandAction Command="{Binding CreatePersonCommand}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button>
+                            </Grid>
+                        </materialDesign:Card>
 
-                    <materialDesign:Card Grid.Row="1" Margin="0,5,10,10">
-                        <DataGrid Grid.Row="2"
+                        <materialDesign:Card Grid.Row="1" Margin="0,5,10,10">
+                            <DataGrid Grid.Row="2"
                               IsReadOnly="True"
                               AutoGenerateColumns="False"
                               ItemsSource="{Binding PersonsEntries}"
                               Background="{StaticResource ColorSurface}"
                               VirtualizingPanel.ScrollUnit="Pixel" Grid.ColumnSpan="3">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="Mã nhân viên" Binding="{Binding PersonId}" Width="auto"/>
-                                <DataGridTextColumn Header="Tên nhân viên" Binding="{Binding PersonName}" Width="auto"/>
-                                <DataGridTemplateColumn Width="auto">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Button Content="Xóa"
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Mã nhân viên" Binding="{Binding PersonId}" Width="auto"/>
+                                    <DataGridTextColumn Header="Tên nhân viên" Binding="{Binding PersonName}" Width="auto"/>
+                                    <DataGridTemplateColumn Width="auto">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Content="Xóa"
                                                 materialDesign:ButtonAssist.CornerRadius="10">
-                                                <i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="Click">
-                                                        <prism:InvokeCommandAction Command="{Binding DeleteCommand}"/>
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>
-                                            </Button>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                            </DataGrid.Columns>
-                        </DataGrid>
-                    </materialDesign:Card>
-                </Grid>
-            </Expander>
-        </Grid>
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="Click">
+                                                            <prism:InvokeCommandAction Command="{Binding DeleteCommand}"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+                                                </Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </materialDesign:Card>
+                    </Grid>
+                </Expander>
+            </Grid>
 
-        <Grid Grid.Column="1" Grid.RowSpan="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+            <Grid Grid.Column="1" Grid.RowSpan="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-            <Grid Grid.Row="0">
-                <materialDesign:Card Grid.Row="0" 
+                <Grid Grid.Row="0">
+                    <materialDesign:Card Grid.Row="0" 
                                      Background="{StaticResource ColorSurface}"
                                      Margin="10,10,5,10">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="auto"/>
-                        </Grid.RowDefinitions>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
 
-                        <Grid Grid.Row="0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="2*"/>
-                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
 
-                            <TextBlock Grid.Row="0" Grid.Column="0" 
+                                <TextBlock Grid.Row="0" Grid.Column="0" 
                        Margin="10"
                        Style="{StaticResource FieldLabel}"
                        Text="Line"/>
 
-                            <ComboBox Grid.Row="0" Grid.Column="1"
+                                <ComboBox Grid.Row="0" Grid.Column="1"
                       Margin="10"
                       materialDesign:HintAssist.Hint="Line"
                       Style="{StaticResource ComboBox}"
                       ItemsSource="{Binding DeviceTypes}"
                       Text="{Binding DeviceType}">
-                                <ComboBox.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <VirtualizingStackPanel />
-                                    </ItemsPanelTemplate>
-                                </ComboBox.ItemsPanel>
-                            </ComboBox>
+                                    <ComboBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <VirtualizingStackPanel />
+                                        </ItemsPanelTemplate>
+                                    </ComboBox.ItemsPanel>
+                                </ComboBox>
 
-                            <TextBlock Grid.Row="0" Grid.Column="2" 
+                                <TextBlock Grid.Row="0" Grid.Column="2" 
                        Margin="10"
                        Style="{StaticResource FieldLabel}" 
                        Text="Tên sản phẩm"/>
 
-                            <ComboBox Grid.Row="0" Grid.Column="3"
+                                <ComboBox Grid.Row="0" Grid.Column="3"
                       Margin="10"
                       materialDesign:HintAssist.Hint="Tên sản phẩm"
                       Style="{StaticResource ComboBox}"
                       ItemsSource="{Binding ProductNamesFilled}"
                       Text="{Binding ProductName}">
-                                <ComboBox.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <VirtualizingStackPanel />
-                                    </ItemsPanelTemplate>
-                                </ComboBox.ItemsPanel>
-                            </ComboBox>
-                        </Grid>
+                                    <ComboBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <VirtualizingStackPanel />
+                                        </ItemsPanelTemplate>
+                                    </ComboBox.ItemsPanel>
+                                </ComboBox>
+                            </Grid>
 
 
 
-                        <Grid Grid.Row="1">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="0.8*"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="0.5*"/>
-                                <ColumnDefinition Width="auto"/>
-                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="0.8*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="0.5*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
 
-                            <TextBlock Grid.Row="0" Grid.Column="0" 
+                                <TextBlock Grid.Row="0" Grid.Column="0" 
                        Margin="10"
                        Style="{StaticResource FieldLabel}"
                        Text="Mã Ref"/>
 
-                            <ComboBox Grid.Row="0" Grid.Column="1"
+                                <ComboBox Grid.Row="0" Grid.Column="1"
                       Margin="10"
                       materialDesign:HintAssist.Hint="Mã Ref"
                       Style="{StaticResource ComboBox}"
                       ItemsSource="{Binding ReferenceNamesFilled}"
                       Text="{Binding ReferenceName}">
-                                <ComboBox.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <VirtualizingStackPanel />
-                                    </ItemsPanelTemplate>
-                                </ComboBox.ItemsPanel>
-                            </ComboBox>
+                                    <ComboBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <VirtualizingStackPanel />
+                                        </ItemsPanelTemplate>
+                                    </ComboBox.ItemsPanel>
+                                </ComboBox>
 
-                            <TextBlock Grid.Row="0" Grid.Column="2" 
+                                <TextBlock Grid.Row="0" Grid.Column="2" 
                        Margin="10"
                        Style="{StaticResource FieldLabel}"
                        Text="Mã lô"/>
-                            <TextBox Grid.Row="0" Grid.Column="3" 
+                                <TextBox Grid.Row="0" Grid.Column="3" 
                                materialDesign:HintAssist.Hint="Mã lô"
                                FontSize="16"
                                Style="{StaticResource TextBox}"
@@ -246,11 +251,11 @@
                                VerticalAlignment="Center"
                                Text="{Binding LotId}"/>
 
-                            <TextBlock Grid.Row="0" Grid.Column="4" 
+                                <TextBlock Grid.Row="0" Grid.Column="4" 
                        Margin="10"
                        Style="{StaticResource FieldLabel}"
                        Text="Cỡ lô"/>
-                            <TextBox Grid.Row="0" Grid.Column="5" 
+                                <TextBox Grid.Row="0" Grid.Column="5" 
                                materialDesign:HintAssist.Hint="Cỡ lô"
                                FontSize="16"
                                Style="{StaticResource TextBox}"
@@ -258,198 +263,199 @@
                                VerticalAlignment="Center"
                                Text="{Binding LotSize}"/>
 
-                            <Button Grid.Row="0" Grid.Column="6"
+                                <Button Grid.Row="0" Grid.Column="6"
                     Margin="10"
                     Style="{StaticResource ButtonPrimary}" materialDesign:ButtonAssist.CornerRadius="10"
                     Content="Thêm lô"
                     HorizontalAlignment="Center"
                     Width="115">
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="Click">
-                                        <i:InvokeCommandAction Command="{Binding CreateInitialSettingCommand}" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                            </Button>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding CreateInitialSettingCommand}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button>
+                            </Grid>
                         </Grid>
-                    </Grid>
-                </materialDesign:Card>
-            </Grid>
-            
-            <Grid Grid.Row="1">
-                <materialDesign:Card Grid.Column="1" 
+                    </materialDesign:Card>
+                </Grid>
+
+                <Grid Grid.Row="1">
+                    <materialDesign:Card Grid.Column="1" 
                                      Background="{StaticResource ColorSurface}"
                                      Margin="10">
-                    <DataGrid Style="{StaticResource MaterialDesignDataGrid}"
+                        <DataGrid Style="{StaticResource MaterialDesignDataGrid}"
                           Background="{StaticResource ColorSurface}"
                           IsReadOnly="False"
                           ItemsSource="{Binding LotSettingEntries}"
                           AutoGenerateColumns="False"
                           SelectionUnit="FullRow"
                           SelectionMode="Single">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Line" IsReadOnly="True" Width="*" Binding="{Binding DeviceType}"/>
-                            <DataGridTextColumn Header="Tên sản phẩm" IsReadOnly="True" Width="*" Binding="{Binding ProductName}"/>
-                            <DataGridTextColumn Header="Mã Ref" IsReadOnly="True" Width="*" Binding="{Binding RefName}"/>
-                            <DataGridTextColumn Header="Mã lô" Width="*" Binding="{Binding LotId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                            <DataGridTextColumn Header="Cỡ lô" Width="*" Binding="{Binding LotSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                            <DataGridTemplateColumn Width="auto">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button Margin="5" Style="{StaticResource ButtonSecondary}" materialDesign:ButtonAssist.CornerRadius="5">
-                                            <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="Click">
-                                                    <prism:InvokeCommandAction 
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Line" IsReadOnly="True" Width="*" Binding="{Binding DeviceType}"/>
+                                <DataGridTextColumn Header="Tên sản phẩm" IsReadOnly="True" Width="*" Binding="{Binding ProductName}"/>
+                                <DataGridTextColumn Header="Mã Ref" IsReadOnly="True" Width="*" Binding="{Binding RefName}"/>
+                                <DataGridTextColumn Header="Mã lô" Width="*" Binding="{Binding LotId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                <DataGridTextColumn Header="Cỡ lô" Width="*" Binding="{Binding LotSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                <DataGridTemplateColumn Width="auto">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Margin="5" Style="{StaticResource ButtonSecondary}" materialDesign:ButtonAssist.CornerRadius="5">
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="Click">
+                                                        <prism:InvokeCommandAction 
                                                         Command="{Binding UpdateLotCommand}" />
-                                                </i:EventTrigger>
-                                            </i:Interaction.Triggers>
-                                            <TextBlock Text="Cập nhật"/>
-                                        </Button>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                                <TextBlock Text="Cập nhật"/>
+                                            </Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
 
-                            <DataGridTemplateColumn Width="auto">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button Margin="5" Style="{StaticResource ButtonSecondary}" materialDesign:ButtonAssist.CornerRadius="5">
-                                            <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="Click">
-                                                    <prism:InvokeCommandAction 
+                                <DataGridTemplateColumn Width="auto">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Margin="5" Style="{StaticResource ButtonSecondary}" materialDesign:ButtonAssist.CornerRadius="5">
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="Click">
+                                                        <prism:InvokeCommandAction 
                                                         Command="{Binding CompleteRefCommand}" />
-                                                </i:EventTrigger>
-                                            </i:Interaction.Triggers>
-                                            <TextBlock Text="Kết thúc"/>
-                                        </Button>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                        </DataGrid.Columns>
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                                <TextBlock Text="Kết thúc"/>
+                                            </Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
 
-                        <DataGrid.RowDetailsTemplate>
-                            <DataTemplate>
-                                <Border BorderBrush="{StaticResource ColorSurfaceOn}" Margin="10">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="2*"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-
-                                        <Grid Grid.Column="0">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="*"/>
-                                                <RowDefinition Height="auto"/>
-                                            </Grid.RowDefinitions>
+                            <DataGrid.RowDetailsTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="{StaticResource ColorSurfaceOn}" Margin="10">
+                                        <Grid>
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="2*"/>
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
 
-                                            <TextBlock Grid.Row="0" Grid.Column="0" 
+                                            <Grid Grid.Column="0">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="auto"/>
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <TextBlock Grid.Row="0" Grid.Column="0" 
                                                        Margin="5" 
                                                        Style="{StaticResource FieldLabelForType}"    
                                                        VerticalAlignment="Center" 
                                                        Text="Mã máy"/>
-                                            <ComboBox Grid.Row="1" Grid.Column="0"
+                                                <ComboBox Grid.Row="1" Grid.Column="0"
                                                         materialDesign:HintAssist.Hint="Mã máy"
                                                         Margin="5"
                                                         Style="{StaticResource ComboBoxMini}"
                                                         ItemsSource="{Binding DeviceIds}"
                                                         Text="{Binding DeviceId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                                                <ComboBox.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <VirtualizingStackPanel />
-                                                    </ItemsPanelTemplate>
-                                                </ComboBox.ItemsPanel>
-                                            </ComboBox>
-                                            
-                                            <TextBlock Grid.Row="0" Grid.Column="1" 
+                                                    <ComboBox.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <VirtualizingStackPanel />
+                                                        </ItemsPanelTemplate>
+                                                    </ComboBox.ItemsPanel>
+                                                </ComboBox>
+
+                                                <TextBlock Grid.Row="0" Grid.Column="1" 
                                                        Margin="5" 
                                                        Style="{StaticResource FieldLabelForType}"    
                                                        VerticalAlignment="Center" 
                                                        Text="Mã NV"/>
-                                            <ComboBox Grid.Row="1" Grid.Column="1"
+                                                <ComboBox Grid.Row="1" Grid.Column="1"
                                                         materialDesign:HintAssist.Hint="Mã NV"
                                                         Margin="5"
                                                         Style="{StaticResource ComboBoxMini}"
                                                         ItemsSource="{Binding PersonIds}"
                                                         Text="{Binding PersonId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                                                <ComboBox.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <VirtualizingStackPanel />
-                                                    </ItemsPanelTemplate>
-                                                </ComboBox.ItemsPanel>
-                                            </ComboBox>
+                                                    <ComboBox.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <VirtualizingStackPanel />
+                                                        </ItemsPanelTemplate>
+                                                    </ComboBox.ItemsPanel>
+                                                </ComboBox>
 
-                                            <TextBlock Grid.Row="0" Grid.Column="2" 
+                                                <TextBlock Grid.Row="0" Grid.Column="2" 
                                                        Margin="5" 
                                                        Style="{StaticResource FieldLabelForType}"
                                                        VerticalAlignment="Center" 
                                                        Text="Tên NV"/>
-                                            <ComboBox Grid.Row="1" Grid.Column="2"
+                                                <ComboBox Grid.Row="1" Grid.Column="2"
                                                         materialDesign:HintAssist.Hint="Tên NV"
                                                         Margin="5"
                                                         Style="{StaticResource ComboBoxMini}"
                                                         ItemsSource="{Binding PersonNames}"
                                                         Text="{Binding PersonName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                                                <ComboBox.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <VirtualizingStackPanel />
-                                                    </ItemsPanelTemplate>
-                                                </ComboBox.ItemsPanel>
-                                            </ComboBox>
+                                                    <ComboBox.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <VirtualizingStackPanel />
+                                                        </ItemsPanelTemplate>
+                                                    </ComboBox.ItemsPanel>
+                                                </ComboBox>
 
-                                            <Button Grid.Row="1" Grid.Column="3"  
+                                                <Button Grid.Row="1" Grid.Column="3"  
                                                     Margin="5"
                                                     Style="{StaticResource ButtonPrimary}" 
                                                     materialDesign:ButtonAssist.CornerRadius="10"
                                                     Height="32" Width="70">
-                                                <i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="Click">
-                                                        <prism:InvokeCommandAction Command="{Binding CreateSublotCommand}" />
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>
-                                                <TextBlock Text="Tạo" FontSize="14" />
-                                            </Button>
-                                        </Grid>
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="Click">
+                                                            <prism:InvokeCommandAction Command="{Binding CreateSublotCommand}" />
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+                                                    <TextBlock Text="Tạo" FontSize="14" />
+                                                </Button>
+                                            </Grid>
 
-                                        <DataGrid   Grid.Column="1"
+                                            <DataGrid   Grid.Column="1"
                                                     ItemsSource="{Binding Devices, UpdateSourceTrigger=PropertyChanged}" 
                                                     IsReadOnly="True"
                                                     AutoGenerateColumns="False"
                                                     SelectionUnit="FullRow"
                                                     SelectionMode="Single">
-                                            <DataGrid.Columns>
-                                                <DataGridTextColumn Header="Mã máy" Binding="{Binding DeviceId, UpdateSourceTrigger=PropertyChanged}"/>
-                                                <DataGridTextColumn Header="Mã NV" Binding="{Binding PersonId, UpdateSourceTrigger=PropertyChanged}"/>
-                                                <DataGridTextColumn Header="Tên NV" Binding="{Binding PersonName, UpdateSourceTrigger=PropertyChanged}"/>
-                                                <DataGridTemplateColumn Width="auto">
-                                                    <DataGridTemplateColumn.CellTemplate>
-                                                        <DataTemplate>
-                                                            <Button Margin="5" Style="{StaticResource ButtonSecondary}" 
+                                                <DataGrid.Columns>
+                                                    <DataGridTextColumn Header="Mã máy" Binding="{Binding DeviceId, UpdateSourceTrigger=PropertyChanged}"/>
+                                                    <DataGridTextColumn Header="Mã NV" Binding="{Binding PersonId, UpdateSourceTrigger=PropertyChanged}"/>
+                                                    <DataGridTextColumn Header="Tên NV" Binding="{Binding PersonName, UpdateSourceTrigger=PropertyChanged}"/>
+                                                    <DataGridTemplateColumn Width="auto">
+                                                        <DataGridTemplateColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <Button Margin="5" Style="{StaticResource ButtonSecondary}" 
                                                                     materialDesign:ButtonAssist.CornerRadius="5"
                                                                     IsEnabled="{Binding IsButtonEnable, UpdateSourceTrigger=PropertyChanged}">
-                                                                <i:Interaction.Triggers>
-                                                                    <i:EventTrigger EventName="Click">
-                                                                        <prism:InvokeCommandAction 
+                                                                    <i:Interaction.Triggers>
+                                                                        <i:EventTrigger EventName="Click">
+                                                                            <prism:InvokeCommandAction 
                                                                             Command="{Binding DeletePersonCommand}" />
-                                                                    </i:EventTrigger>
-                                                                </i:Interaction.Triggers>
-                                                                <TextBlock Text="Xóa NV"/>
-                                                            </Button>
-                                                        </DataTemplate>
-                                                    </DataGridTemplateColumn.CellTemplate>
-                                                </DataGridTemplateColumn>
-                                            </DataGrid.Columns>
-                                        </DataGrid>
-                                    </Grid>
-                                </Border>
-                            </DataTemplate>
-                        </DataGrid.RowDetailsTemplate>
-                    </DataGrid>
-                </materialDesign:Card>
+                                                                        </i:EventTrigger>
+                                                                    </i:Interaction.Triggers>
+                                                                    <TextBlock Text="Xóa NV"/>
+                                                                </Button>
+                                                            </DataTemplate>
+                                                        </DataGridTemplateColumn.CellTemplate>
+                                                    </DataGridTemplateColumn>
+                                                </DataGrid.Columns>
+                                            </DataGrid>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </DataGrid.RowDetailsTemplate>
+                        </DataGrid>
+                    </materialDesign:Card>
+                </Grid>
             </Grid>
         </Grid>
-    </Grid>
+    </materialDesign:DialogHost>
 </UserControl>

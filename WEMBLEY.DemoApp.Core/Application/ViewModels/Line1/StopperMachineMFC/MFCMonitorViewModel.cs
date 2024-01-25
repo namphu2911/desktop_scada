@@ -64,14 +64,27 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineMFC
                     Convert.ToDouble(await _signalRClient.GetBufferValue("S9_MAXIMUM_HEIGHT_VALUE_TR2")),
 
                     Convert.ToDouble(await _signalRClient.GetBufferValue("S9_OFF_SET_TR4")),
-                    Convert.ToDouble(await _signalRClient.GetBufferValue("S9_MINIMUM_HEIGHT_VALUE_TR4")),
+                    Convert.ToDouble(await _signalRClient.GetBufferValue("S9_HEIGHT_MINIMUM_VALUE_TR4")),
                     Convert.ToDouble(await _signalRClient.GetBufferValue("S9_MAXIMUM_HEIGHT_VALUE_TR4"))
                 };
                 OnPropertyChanged(nameof(RealMFCValues));
-            }
-            else
-            {
-                RealMFCValues = new List<double?> { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
+                HcMFC = new(
+                    Convert.ToDouble(await _signalRClient.GetBufferValue("S8_OFF_SET_TR1")),
+                    Convert.ToDouble(await _signalRClient.GetBufferValue("S8_MINIMUN_HEIGHT_VALUE_TR1")),
+                    Convert.ToDouble(await _signalRClient.GetBufferValue("S8_MAXIMUM_HEIGHT_VALUE_TR1")),
+
+                    Convert.ToDouble(await _signalRClient.GetBufferValue("S8_OFF_SET_TR3")),
+                    Convert.ToDouble(await _signalRClient.GetBufferValue("S8_MINIMUM_HEIGHT_VALUE_TR3")),
+                    Convert.ToDouble(await _signalRClient.GetBufferValue("S8_MAXIMUM_HEIGHT_VALUE_TR3")),
+
+                    Convert.ToDouble(await _signalRClient.GetBufferValue("S9_OFF_SET_TR2")),
+                    Convert.ToDouble(await _signalRClient.GetBufferValue("S9_MINIMUM_HEIGHT_VALUE_TR2")),
+                    Convert.ToDouble(await _signalRClient.GetBufferValue("S9_MAXIMUM_HEIGHT_VALUE_TR2")),
+
+                    Convert.ToDouble(await _signalRClient.GetBufferValue("S9_OFF_SET_TR4")),
+                    Convert.ToDouble(await _signalRClient.GetBufferValue("S9_HEIGHT_MINIMUM_VALUE_TR4")),
+                    Convert.ToDouble(await _signalRClient.GetBufferValue("S9_MAXIMUM_HEIGHT_VALUE_TR4")));
             }
 
             OnPropertyChanged(nameof(HomeRefName));
@@ -80,19 +93,12 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineMFC
                 var homeRefId = _referenceStore.References.First(i => i.RefName == HomeRefName).Id;
                 var dtos = await _apiService.GetDeviceReferenceMFCAsync(homeRefId, "HC001");
                 MFCDtos = dtos.Last().MFCs;
-                var newViewModels = MFCDtos.Select((tag, index) => new ComparedMFC(tag.Name, tag.Value, tag.MinValue, tag.MaxValue, RealMFCValues[index])).ToList();
-                MFCEntries = new(newViewModels);
+                ReloadData();
             }
             catch (HttpRequestException)
             {
                 ShowErrorMessage("Đã có lỗi xảy ra: Mất kết nối với server.");
             }
-        }
-
-        private void ReloadData()
-        {
-            var newViewModels = MFCDtos.Select((tag, index) => new ComparedMFC(tag.Name, tag.Value, tag.MinValue, tag.MaxValue, RealMFCValues[index])).ToList();
-            MFCEntries = new(newViewModels);
         }
 
         private void OnTagChanged(string json)
@@ -131,6 +137,12 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineMFC
             };
             OnPropertyChanged(nameof(RealMFCValues));
             ReloadData();
+        }
+
+        private void ReloadData()
+        {
+            var newViewModels = MFCDtos.Select((tag, index) => new ComparedMFC(tag.Name, tag.Value, tag.MinValue, tag.MaxValue, RealMFCValues[index])).ToList();
+            MFCEntries = new(newViewModels);
         }
     }
 }

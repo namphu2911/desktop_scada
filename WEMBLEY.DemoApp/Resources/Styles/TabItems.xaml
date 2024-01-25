@@ -94,7 +94,6 @@
                         </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
-
                         <Trigger Property="IsSelected" Value="True">
                             <Setter Property="Background" Value="#4169e1"></Setter>
                             <Setter Property="Foreground" Value="White"></Setter>

@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WEMBLEY.DemoApp.Core.Application.Store;
+using WEMBLEY.DemoApp.Core.Application.ViewModels.SeedWork;
 using WEMBLEY.DemoApp.Core.Domain.Services;
 
 namespace WEMBLEY.DemoApp.Core.Application.Services
@@ -16,7 +18,9 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
         private readonly PersonStore _personStore;
         private readonly HomeDataStore _homeDataStore;
 
-        public DatabaseSynchronizationService(IApiService apiService, ReferenceStore referenceStore, DeviceStore deviceStore,  HomeDataStore homeDataStore, PersonStore personStore)
+        List<string> Errors { get; set; } = new();
+
+        public DatabaseSynchronizationService(IApiService apiService, ReferenceStore referenceStore, DeviceStore deviceStore, HomeDataStore homeDataStore, PersonStore personStore)
         {
             _apiService = apiService;
             _referenceStore = referenceStore;
