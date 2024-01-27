@@ -287,6 +287,8 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
                     entry.Updated += LoadLotSettingAsync;
                     entry.OnException += Error;
                 }
+
+                await _databaseSynchronizationService.SynchronizeHomeData();
             }
             catch (HttpRequestException)
             {
@@ -300,7 +302,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
             {
                 var lot = (LineInitialSettingEntry)sender;
                 var listPersonIds  = new List<string>();
-                listPersonIds.Add(lot.PersonId);
+                listPersonIds.Add(lot.PersonId!);
                 var createDto = new AddPersonToDeviceDto(listPersonIds);
                 try
                 {

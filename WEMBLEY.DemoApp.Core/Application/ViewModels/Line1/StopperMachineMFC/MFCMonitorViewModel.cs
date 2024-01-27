@@ -90,9 +90,12 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineMFC
             OnPropertyChanged(nameof(HomeRefName));
             try
             {
-                var homeRefId = _referenceStore.References.First(i => i.RefName == HomeRefName).Id;
-                var dtos = await _apiService.GetDeviceReferenceMFCAsync(homeRefId, "HC001");
-                MFCDtos = dtos.Last().MFCs;
+                if (!String.IsNullOrEmpty(HomeRefName))
+                {
+                    var homeRefId = _referenceStore.References.First(i => i.RefName == HomeRefName).Id;
+                    var dtos = await _apiService.GetDeviceReferenceMFCAsync(homeRefId, "HC001");
+                    MFCDtos = dtos.Last().MFCs;
+                }
                 ReloadData();
             }
             catch (HttpRequestException)

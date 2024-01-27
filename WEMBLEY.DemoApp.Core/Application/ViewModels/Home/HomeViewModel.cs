@@ -37,6 +37,11 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
                 status = value;
                 switch (value)
                 {
+                    case EMachineStatus.On:
+                        {
+                            ColorBack = "#394963";
+                            break;
+                        }
                     case EMachineStatus.Run:
                         {
                             ColorBack = "#3EB17F";
@@ -64,14 +69,14 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
                         }
                     default:
                         {
-                            ColorBack = "#394963";
+                            ColorBack = "#BBBBBB";
                             break;
                         }
                 }
             }
         }
 
-        public string ColorBack { get; set; } = "#394963";
+        public string ColorBack { get; set; } = "#BBBBBB";
         public double HerapinCapEfficiency { get; set; } = 0;
         public long HerapinCapAllCount { get; set; } = 0;
         public long HerapinCapGoodCount { get; set; } = 0;
@@ -141,8 +146,8 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
                                 LoadLotSettingAsync();
                                 break;
                             }
-                        case "operationTime": HerapinCapDurationTime = TimeSpan.Parse((string)tag.TagValue); break;
-                        case "goodProduct": HerapinCapGoodCount = Convert.ToInt64(tag.TagValue); break;
+                        case "operationTimeRaw": HerapinCapDurationTime = TimeSpan.Parse((string)tag.TagValue); break;
+                        case "goodProductRaw": HerapinCapGoodCount = Convert.ToInt64(tag.TagValue); break;
                         case "errorProduct": HerapinCapBadCount = Convert.ToInt64(tag.TagValue); break;
                         case "EFF": HerapinCapEfficiency = Convert.ToDouble(tag.TagValue); break;
                         case "productCount": HerapinCapAllCount = Convert.ToInt64(tag.TagValue); break;
@@ -157,10 +162,20 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
             try
             {
                 var dtos = await _apiService.GetLotDeviceReferenceByDeviceTypeAsync("HerapinCap");
-                HerapinCapProductName = dtos.Last().ProductName;
-                HerapinCapReferenceName = dtos.Last().RefName;
                 HerapinCapLotId = dtos.Last().LotId;
                 HerapinCapLotSize = dtos.Last().LotSize;
+                HerapinCapLotId = dtos.Last().LotId;
+                HerapinCapLotSize = dtos.Last().LotSize;
+                if (string.IsNullOrEmpty(HerapinCapLotId))
+                {
+                    HerapinCapProductName = "";
+                    HerapinCapReferenceName = "";
+                }
+                else
+                {
+                    HerapinCapProductName = dtos.Last().ProductName;
+                    HerapinCapReferenceName = dtos.Last().RefName;
+                }
             }
             catch (HttpRequestException)
             {

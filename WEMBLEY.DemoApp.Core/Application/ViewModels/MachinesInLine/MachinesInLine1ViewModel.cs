@@ -38,6 +38,11 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.MachinesInLine
                 status = value;
                 switch (value)
                 {
+                    case EMachineStatus.On:
+                        {
+                            ColorBack = "#394963";
+                            break;
+                        }
                     case EMachineStatus.Run:
                         {
                             ColorBack = "#3EB17F";
@@ -65,13 +70,13 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.MachinesInLine
                         }
                     default:
                         {
-                            ColorBack = "#394963";
+                            ColorBack = "#BBBBBB";
                             break;
                         }
                 }
             }
         }
-        public string ColorBack { get; set; } = "#394963";
+        public string ColorBack { get; set; } = "#BBBBBB";
         public bool IsLoading { get; set; } = true;
         public ICommand NavigateToStopperMachineViewCommand { get; set; }
         public ICommand LoadMachinesInLine1ViewCommand { get; set; }

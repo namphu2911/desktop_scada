@@ -399,9 +399,9 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
             return result;
         }
 
-        public async Task<IEnumerable<DataPoint>> GetLastestOEEAsync(string deviceId)
+        public async Task<IEnumerable<DataPoint>> GetLastestOEEAsync(string deviceId, int interval)
         {
-            HttpResponseMessage response = await _httpClient.GetAsync($"{serverUrl}/api/ShiftReports/Latest?DeviceId={deviceId}");
+            HttpResponseMessage response = await _httpClient.GetAsync($"{serverUrl}/api/ShiftReports/Latest?DeviceId={deviceId}&Interval={interval}");
 
             response.EnsureSuccessStatusCode();
             string responseBody = await response.Content.ReadAsStringAsync();

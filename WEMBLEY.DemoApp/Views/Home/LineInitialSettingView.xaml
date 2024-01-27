@@ -290,7 +290,8 @@
                           ItemsSource="{Binding LotSettingEntries}"
                           AutoGenerateColumns="False"
                           SelectionUnit="FullRow"
-                          SelectionMode="Single">
+                          SelectionMode="Single" 
+                          MouseLeftButtonDown="DataGrid_MouseLeftButtonDown">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Line" IsReadOnly="True" Width="*" Binding="{Binding DeviceType}"/>
                                 <DataGridTextColumn Header="Tên sản phẩm" IsReadOnly="True" Width="*" Binding="{Binding ProductName}"/>
@@ -307,7 +308,7 @@
                                                         Command="{Binding UpdateLotCommand}" />
                                                     </i:EventTrigger>
                                                 </i:Interaction.Triggers>
-                                                <TextBlock Text="Cập nhật"/>
+                                                <TextBlock Text="Sửa lô"/>
                                             </Button>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>

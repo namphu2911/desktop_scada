@@ -105,7 +105,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
             {
                 if (MessageBox.Show("Xác nhận cập nhật", "Xác nhận", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
-                    await _apiService.UpdateLotAsync(RefName, createDto);
+                    await _apiService!.UpdateLotAsync(RefName, createDto);
                     Updated?.Invoke();
                     MessageBox.Show("Đã Cập Nhật", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
@@ -124,7 +124,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
             {
                 if (MessageBox.Show("Xác nhận kết thúc Ref", "Xác nhận", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
-                    await _apiService.CompleteRefAsync(RefName);
+                    await _apiService!.CompleteRefAsync(RefName);
                     Updated?.Invoke();
                     MessageBox.Show("Đã Cập Nhật", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
                 }

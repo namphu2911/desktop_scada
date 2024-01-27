@@ -24,5 +24,16 @@ namespace WEMBLEY.DemoApp.Views.Home
         {
             InitializeComponent();
         }
+
+        private void DataGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is DataGrid dataGrid && e.OriginalSource is FrameworkElement frameworkElement && frameworkElement.DataContext == dataGrid.SelectedItem)
+            {
+                if (dataGrid.RowDetailsVisibilityMode == DataGridRowDetailsVisibilityMode.VisibleWhenSelected)
+                    dataGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.Collapsed;
+                else
+                    dataGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.VisibleWhenSelected;
+            }
+        }
     }
 }

@@ -28,6 +28,11 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail
                 status = value;
                 switch(value)
                 {
+                    case EMachineStatus.On:
+                        {
+                            ColorBack = "#394963";
+                            break;
+                        }
                     case EMachineStatus.Run:
                         {
                             ColorBack = "#3EB17F";
@@ -55,14 +60,14 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail
                         }
                     default:
                         {
-                            ColorBack = "#394963";
+                            ColorBack = "#BBBBBB";
                             break;
                         }
                 }
             }
         }
 
-        public string ColorBack { get; set; } = "#394963";
+        public string ColorBack { get; set; } = "#BBBBBB";
         public double Efficiency { get; set; } = 0;
         public long AllProductCount { get; set; } = 0;
         public long GoodCount { get; set; } = 0;
@@ -104,13 +109,31 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail
         public Func<double, string> ValueFormatter { get; set; }
         public ICommand LoadStopperMachineMonitorViewCommand { get; set; }
         public ICommand LoadReloadGraphCommand { get; set; }
-        public event Action? ChartUpdated; 
+        public ICommand LoadApiOEECommand { get; set; }
+        public event Action? ChartUpdated;
+        private int interval = 1;
+        public int Interval
+        {
+            get
+            {
+                return interval;
+            }
+            set
+            {
+                interval = value;
+                LoadApiOEE();
+            }
+
+        }
+        public ObservableCollection<int> Intervals { get; private set; }
         public StopperMachineMonitorViewModel(IApiService apiService, ISignalRClient signalRClient)
         {
             _apiService = apiService;
             _signalRClient = signalRClient;
+            Intervals = new ObservableCollection<int>() { 1, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200 };
             LoadStopperMachineMonitorViewCommand = new RelayCommand(LoadStopperMachineMonitorView);
             LoadReloadGraphCommand = new RelayCommand(ReloadGraph);
+            LoadApiOEECommand = new RelayCommand(LoadApiOEE);
             signalRClient.OnTagChanged += OnTagChanged;
 
             SeriesCollection = new SeriesCollection()
@@ -149,6 +172,22 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail
                 Efficiency = Convert.ToDouble(await _signalRClient.GetBufferValue("EFF"));
                 AllProductCount = Convert.ToInt64(await _signalRClient.GetBufferValue("productCount"));
 
+                if(AllProductCount > 0 && AllProductCount < 300)
+                {
+                    Interval = 1;
+                }
+                if (AllProductCount >= 300 && AllProductCount < 1500)
+                {
+                    Interval = 5;
+                }
+                if (AllProductCount >= 1500 && AllProductCount < 2800)
+                {
+                    Interval = 10;
+                }
+                if (AllProductCount >= 2800 && AllProductCount <3600)
+                {
+                    Interval = 20;
+                }
                 var errorTags = AllTags.Where(i => i.TagId == "errorStatus");
                 foreach(var tag in errorTags)
                 {
@@ -199,10 +238,18 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail
             {
                 PersonStrings = new();
                 var dtos = await _apiService.GetLotDeviceReferenceByDeviceTypeAsync("HerapinCap");
-                HerapinCapProductName = dtos.Last().ProductName;
-                HerapinCapReferenceName = dtos.Last().RefName;
                 HerapinCapLotId = dtos.Last().LotId;
                 HerapinCapLotSize = dtos.Last().LotSize;
+                if(string.IsNullOrEmpty(HerapinCapLotId))
+                {
+                    HerapinCapProductName = "";
+                    HerapinCapReferenceName = "";
+                }
+                else
+                {
+                    HerapinCapProductName = dtos.Last().ProductName;
+                    HerapinCapReferenceName = dtos.Last().RefName;
+                }
                 var persons = dtos.First().Devices.First(i => i.DeviceId == "HC001").Persons;
                 foreach(var person in persons)
                 {
@@ -220,7 +267,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail
         {
             try
             {
-                var dtos = await _apiService.GetLastestOEEAsync("HC001");
+                var dtos = await _apiService.GetLastestOEEAsync("HC001", Interval);
                 OEEGraphTags = dtos.Select(i => new DataPoint(i.OEE * 100, i.TimeStamp)).ToList();
             }
             catch (HttpRequestException)
@@ -248,13 +295,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail
                             {
                                 OEE = Convert.ToDouble(tag.TagValue) * 100;
                                 OEEGraphTags.Add(new DataPoint(Convert.ToDouble(tag.TagValue) * 100, tag.TimeStamp));
-
-                                //if (SeriesCollection[0].Values is not null && SeriesCollection[0].Values.Count > 20)
-                                //{
-                                //    var i = SeriesCollection[0].Values.Count - 20;
-                                //    SeriesCollection[0].Values.RemoveAt(i - 1);
-                                //}
-
+                                
                                 SeriesCollection[0].Values.Add(new ObservablePoint
                                 {
                                     X = tag.TimeStamp.Ticks,
@@ -271,8 +312,8 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail
                         case "Q": Q = Convert.ToDouble(tag.TagValue) * 100; break;
 
                         case "machineStatus": Status = (EMachineStatus)Convert.ToInt32(tag.TagValue); break;
-                        case "operationTime": OperationTime = TimeSpan.Parse((string)tag.TagValue); break;
-                        case "goodProduct": GoodCount = Convert.ToInt64(tag.TagValue); break;
+                        case "operationTimeRaw": OperationTime = TimeSpan.Parse((string)tag.TagValue); break;
+                        case "goodProductRaw": GoodCount = Convert.ToInt64(tag.TagValue); break;
                         case "errorProduct": BadCount = Convert.ToInt64(tag.TagValue); break;
                         case "EFF": Efficiency = Convert.ToDouble(tag.TagValue); break;
                         case "productCount": AllProductCount = Convert.ToInt64(tag.TagValue); break;

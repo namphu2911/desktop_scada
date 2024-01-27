@@ -38,6 +38,10 @@
 
                 <StackPanel Margin="5,5,10,5"  Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
                     <TextBlock 
+                           Background="#394963"
+                           Style="{StaticResource NoteBarLabel}"
+                           Text="ON" />
+                    <TextBlock 
                            Background="{StaticResource ColorPrimaryGreen}"
                            Style="{StaticResource NoteBarLabel}"
                            Text="RUN" />
@@ -145,7 +149,8 @@
                                                     BorderThickness="2,2,2,2" 
                                                     BorderBrush="Black" 
                                                     CornerRadius="15,15,15,15" 
-                                        Width="auto">
+                                        Width="auto"
+                                        Margin="0,5,0,5">
                                         <TextBlock 
                                                    Style="{StaticResource LineLabel20}"
                                                    Text="{Binding AllProductCount}" />
@@ -159,7 +164,8 @@
                                                 BorderThickness="2,2,2,2" 
                                                 BorderBrush="Black" 
                                                 CornerRadius="15,15,15,15" 
-                                    Width="auto">
+                                        Margin="0,5,0,5"
+                                        Width="auto">
                                         <TextBlock 
                                                    Style="{StaticResource LineLabel20}"
                                                    Text="{Binding GoodCount}" />
@@ -172,7 +178,8 @@
                                                     BorderThickness="2,2,2,2" 
                                                     BorderBrush="Black" 
                                                     CornerRadius="15,15,15,15" 
-                                        Width="auto">
+                                            Margin="0,5,0,5"
+                                            Width="auto">
                                         <TextBlock 
                                                    Style="{StaticResource LineLabel20}"
                                                    Text="{Binding BadCount}" />
@@ -193,7 +200,7 @@
                                     <Border Grid.Column="1" 
                                                     BorderThickness="2,2,2,2" 
                                                     BorderBrush="Black" 
-                                                    CornerRadius="15" >
+                                                    CornerRadius="15">
                                         <TextBlock 
                                                    Style="{StaticResource LineLabel20}"
                                                    Text="{Binding OperationTime, StringFormat=hh\\:mm\\:ss}" />
@@ -214,7 +221,8 @@
                                     <Border Grid.Column="1" 
                                                     BorderThickness="2,2,2,2" 
                                                     BorderBrush="Black" 
-                                                    CornerRadius="15">
+                                                    CornerRadius="15"
+                                                    Margin="0,5,0,5">
                                         <TextBlock 
                                                    Style="{StaticResource LineLabel20}"
                                                    Text="{Binding HerapinCapProductName}" />
@@ -240,7 +248,7 @@
                                                     BorderThickness="2,2,2,2" 
                                                     BorderBrush="Black" 
                                                     CornerRadius="15,15,15,15" 
-                                        
+                                                    
                                                     Width="auto">
                                         <TextBlock 
                                                    Style="{StaticResource LineValue}"
@@ -324,31 +332,75 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="auto"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="0.7*"/>
                     </Grid.RowDefinitions>
 
                     <materialDesign:Card Grid.Row="0" Margin="5">
-                        <lvc:CartesianChart
-                        Name="chart"
-                        Zoom="Xy"
-                        Pan="Xy"
-                        Series="{Binding SeriesCollection}"
-                        Foreground="Black">
-                            <lvc:CartesianChart.AxisX>
-                                <lvc:Axis Title="Thời gian" LabelFormatter="{Binding DateTimeFormatter}"
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+
+                            <lvc:CartesianChart
+                                Name="chart"
+                                Zoom="Xy"
+                                Pan="Xy"
+                                Series="{Binding SeriesCollection}"
+                                Foreground="Black">
+                                <lvc:CartesianChart.AxisX>
+                                    <lvc:Axis Title="Thời gian" LabelFormatter="{Binding DateTimeFormatter}"
                                       MinRange="{Binding MinDateValue}"
                                       MaxRange="{Binding MaxDateValue}">
-                                </lvc:Axis>
-                            </lvc:CartesianChart.AxisX>
+                                    </lvc:Axis>
+                                </lvc:CartesianChart.AxisX>
 
-                            <lvc:CartesianChart.AxisY>
-                                <lvc:Axis Title="OEE (%)" LabelFormatter="{Binding ValueFormatter}"
+                                <lvc:CartesianChart.AxisY>
+                                    <lvc:Axis Title="OEE (%)" LabelFormatter="{Binding ValueFormatter}"
                                       MinRange="0"
                                       MaxRange="100">
-                                </lvc:Axis>
-                            </lvc:CartesianChart.AxisY>
-                        </lvc:CartesianChart>
+                                    </lvc:Axis>
+                                </lvc:CartesianChart.AxisY>
+                            </lvc:CartesianChart>
+
+                            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                                <TextBlock
+                                    Margin="0"
+                                    Style="{StaticResource LineLabel}" 
+                                    HorizontalAlignment="Center"
+                                    Text="Khoảng cách: "/>
+                                <ComboBox 
+                                    Margin="0"
+                                    Width="75"
+                                    Style="{StaticResource ComboBox}"
+                                    HorizontalContentAlignment="Center"
+                                    IsEditable="False"
+                                    ItemsSource="{Binding Intervals}"
+                                    SelectedItem="{Binding Interval}">
+                                </ComboBox>
+                                <Button Grid.Column="0"
+                                    Margin="5,5,0,0"
+                                    Style="{StaticResource ButtonNavigateBack}" 
+                                    materialDesign:ButtonAssist.CornerRadius="10"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Stretch">
+                                    <materialDesign:PackIcon
+                                        Width="30"
+                                        Height="30"
+                                        Kind="Reload" 
+                                        VerticalAlignment="Center"/>    
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding LoadApiOEECommand}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+
+                                </Button>
+                            </StackPanel>
+                        </Grid>
                     </materialDesign:Card>
+
+                    
 
                     <materialDesign:Card Grid.Row="1" Margin="5">
                         <DataGrid 

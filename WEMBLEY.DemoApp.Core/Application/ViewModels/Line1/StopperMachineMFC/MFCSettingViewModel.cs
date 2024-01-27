@@ -41,10 +41,15 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineMFC
         {
             try
             {
-                HomeRefId = _referenceStore.References.First(i => i.RefName == HomeRefName).Id;
-                var dtos = await _apiService.GetDeviceReferenceMFCAsync(HomeRefId, "HC001");
-                var viewModels = dtos.Last().MFCs;
-                MFCEntries = new(viewModels);
+                if(!String.IsNullOrEmpty(HomeRefName))
+                {
+                    HomeRefId = _referenceStore.References.First(i => i.RefName == HomeRefName).Id;
+                    var dtos = await _apiService.GetDeviceReferenceMFCAsync(HomeRefId, "HC001");
+                    var viewModels = dtos.Last().MFCs;
+                    MFCEntries = new(viewModels);
+                }
+                else { }
+                
             }
             catch (HttpRequestException)
             {

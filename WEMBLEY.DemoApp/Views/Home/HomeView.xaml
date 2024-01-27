@@ -32,6 +32,10 @@
 
             <StackPanel Margin="5,5,10,5"  Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
                 <TextBlock 
+                           Background="#394963"
+                           Style="{StaticResource NoteBarLabel}"
+                           Text="ON" />
+                <TextBlock 
                            Background="{StaticResource ColorPrimaryGreen}"
                            Style="{StaticResource NoteBarLabel}"
                            Text="RUN" />
@@ -138,7 +142,8 @@
                                                     BorderThickness="2,2,2,2" 
                                                     BorderBrush="Black" 
                                                     CornerRadius="15,15,15,15" 
-                                                    Width="auto">
+                                                    Width="auto"
+                                                    >
                                                 <TextBlock 
                                                    Style="{StaticResource LineValue}"
                                                    Text="{Binding HerapinCapAllCount}" />
@@ -185,7 +190,8 @@
                                                 Text="Thời gian hoạt động: " />
                                             <Border Grid.Column="1" 
                                                     Style="{StaticResource ValueBorder}"
-                                                    Width="auto">
+                                                    Width="auto"
+                                                    Margin="0,0,0,5">
                                                 <TextBlock 
                                                    Style="{StaticResource LineValue}"
                                                    Text="{Binding HerapinCapDurationTime, StringFormat=hh\\:mm\\:ss}" />
@@ -204,7 +210,8 @@
                                                 Text="Tên sản phẩm: " />
                                             <Border Grid.Column="1" 
                                                     Style="{StaticResource ValueBorder}"
-                                                    Width="auto">
+                                                    Width="auto"
+                                                    Margin="0,0,0,5">
                                                 <TextBlock 
                                                    Style="{StaticResource LineValue}"
                                                    Text="{Binding HerapinCapProductName}" />
