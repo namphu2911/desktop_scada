@@ -17,14 +17,14 @@
         <TabControl TabStripPlacement="Top" 
                     Style="{StaticResource MaterialDesignFilledTabControl}"
                     materialDesign:ColorZoneAssist.Background="LightGray">
-            <TabItem Height="55" MaxWidth="800" Style="{StaticResource TabItem2layerRowStyle}">
+            <TabItem Height="55" Style="{StaticResource TabItem2layerRowStyle}">
                 <TabItem.Header >
                     <TextBlock Style="{StaticResource HeaderText}" Text="Theo dõi Line máy"/>
                 </TabItem.Header>
                 <local:HomeView DataContext="{Binding Home}"/>
             </TabItem>
 
-            <TabItem Height="55" MaxWidth="800" Style="{StaticResource TabItem2layerRowStyle}">
+            <TabItem Height="55" Style="{StaticResource TabItem2layerRowStyle}">
                 <TabItem.Header >
                     <TextBlock Style="{StaticResource HeaderText}" Text="Cài đặt thông số Line"/>
                 </TabItem.Header>

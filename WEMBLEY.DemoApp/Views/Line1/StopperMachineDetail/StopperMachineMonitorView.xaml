@@ -344,7 +344,7 @@
 
                             <lvc:CartesianChart
                                 Name="chart"
-                                Zoom="Xy"
+                                Zoom="X"
                                 Pan="Xy"
                                 Series="{Binding SeriesCollection}"
                                 Foreground="Black">

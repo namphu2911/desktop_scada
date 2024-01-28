@@ -79,6 +79,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail
         public int HerapinCapLotSize { get; set; } = 0;
         public long MinDateValue { get; set; } = DateTime.MinValue.Ticks;
         public long MaxDateValue { get; set; } = DateTime.MaxValue.Ticks;
+        public double NaNValue { get; set; }
 
         //OEE
         public double? OEE { get; set; }
@@ -176,18 +177,67 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail
                 {
                     Interval = 1;
                 }
-                if (AllProductCount >= 300 && AllProductCount < 1500)
+                if (AllProductCount >= 300 && AllProductCount < 1100)
                 {
                     Interval = 5;
                 }
-                if (AllProductCount >= 1500 && AllProductCount < 2800)
+                if (AllProductCount >= 1100 && AllProductCount < 2500)
                 {
                     Interval = 10;
                 }
-                if (AllProductCount >= 2800 && AllProductCount <3600)
+                if (AllProductCount >= 2500 && AllProductCount <3700)
                 {
                     Interval = 20;
                 }
+                if (AllProductCount >= 3700 && AllProductCount < 4900)
+                {
+                    Interval = 30;
+                }
+                if (AllProductCount >= 4900 && AllProductCount < 6100)
+                {
+                    Interval = 40;
+                }
+                if (AllProductCount >= 6100 && AllProductCount < 7300)
+                {
+                    Interval = 50;
+                }
+                if (AllProductCount >= 7300 && AllProductCount < 8500)
+                {
+                    Interval = 60;
+                }
+                if (AllProductCount >= 8500 && AllProductCount < 10000)
+                {
+                    Interval = 70;
+                }
+                if (AllProductCount >= 10000 && AllProductCount < 11500)
+                {
+                    Interval = 80;
+                }
+                if (AllProductCount >= 11500 && AllProductCount < 13000)
+                {
+                    Interval = 90;
+                }
+                if (AllProductCount >= 13000 && AllProductCount < 14500)
+                {
+                    Interval = 100;
+                }
+                if (AllProductCount >= 14500 && AllProductCount < 16000)
+                {
+                    Interval = 110;
+                }
+                if (AllProductCount >= 16000 && AllProductCount < 175000)
+                {
+                    Interval = 120;
+                }
+                if (AllProductCount >= 17500 && AllProductCount < 19000)
+                {
+                    Interval = 130;
+                }
+                if (AllProductCount >= 19000)
+                {
+                    Interval = 140;
+                }
+
                 var errorTags = AllTags.Where(i => i.TagId == "errorStatus");
                 foreach(var tag in errorTags)
                 {
