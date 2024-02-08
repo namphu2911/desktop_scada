@@ -1,7 +1,9 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -44,7 +46,14 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels
 
         private async void InitialRunning()
         {
-            await _signalRClient.ConnectAsync();
+            try
+            {
+                await _signalRClient.ConnectAsync();
+            }
+            catch (HttpRequestException)
+            {
+                ShowErrorMessage("Đã có lỗi xảy ra: Mất kết nối với server.");
+            }
             await Task.WhenAll(
                 _databaseSynchronizationService.SynchronizeReferencesData(),
                 _databaseSynchronizationService.SynchronizeDevicesData(),

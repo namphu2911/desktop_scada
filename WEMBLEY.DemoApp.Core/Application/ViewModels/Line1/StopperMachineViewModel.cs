@@ -122,6 +122,11 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1
                     Convert.ToDouble(await _signalRClient.GetBufferValue("S9_HEIGHT_MINIMUM_VALUE_TR4")),
                     Convert.ToDouble(await _signalRClient.GetBufferValue("S9_MAXIMUM_HEIGHT_VALUE_TR4")));
             }
+            else
+            {
+                RealMFCValues = new() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+                HcMFC = new(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+            }
 
             OnPropertyChanged(nameof(HomeRefName));
             try

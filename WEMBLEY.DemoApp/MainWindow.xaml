@@ -14,7 +14,7 @@
         xmlns:report="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineReport;assembly=WEMBLEY.DemoApp.Core" 
         xmlns:reportViews="clr-namespace:WEMBLEY.DemoApp.Views.Line1.Report" 
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
-        xmlns:viewmodels="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels;assembly=WEMBLEY.DemoApp.Core" 
+        xmlns:viewmodels="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels;assembly=WEMBLEY.DemoApp.Core" xmlns:Components="clr-namespace:WEMBLEY.DemoApp.Resources.Components"
         d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
         Background="{StaticResource ColorBackground}"
         WindowStartupLocation="CenterScreen"
@@ -26,16 +26,22 @@
             <prism:InvokeCommandAction Command="{Binding RunSignalRCommand}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
-    
-    <ContentControl Content="{Binding NavigationService.CurrentViewModel}">
-        <ContentControl.Resources>
-            <DataTemplate DataType="{x:Type homes:HomeNavigationViewModel}">
-                <views:HomeNavigationView />
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type line1:StopperMachineViewModel}">
-                <line1Views:StopperMachineView/>
-            </DataTemplate>
-        </ContentControl.Resources>
-    </ContentControl>
+
+    <materialDesign:DialogHost CloseOnClickAway="True" IsOpen="{Binding IsErrorMessageShowed}">
+        <materialDesign:DialogHost.DialogContent>
+            <Components:ErrorMessage Message="{Binding ErrorMessage}"/>
+        </materialDesign:DialogHost.DialogContent>
+
+        <ContentControl Content="{Binding NavigationService.CurrentViewModel}">
+            <ContentControl.Resources>
+                <DataTemplate DataType="{x:Type homes:HomeNavigationViewModel}">
+                    <views:HomeNavigationView />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type line1:StopperMachineViewModel}">
+                    <line1Views:StopperMachineView/>
+                </DataTemplate>
+            </ContentControl.Resources>
+        </ContentControl>
+    </materialDesign:DialogHost>
 
 </Window>

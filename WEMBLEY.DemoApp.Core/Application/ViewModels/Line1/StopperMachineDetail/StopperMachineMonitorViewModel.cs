@@ -112,7 +112,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail
         public ICommand LoadReloadGraphCommand { get; set; }
         public ICommand LoadApiOEECommand { get; set; }
         public event Action? ChartUpdated;
-        private int interval = 1;
+        private int interval;
         public int Interval
         {
             get
@@ -122,7 +122,6 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail
             set
             {
                 interval = value;
-                LoadApiOEE();
             }
 
         }
@@ -157,7 +156,6 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail
         private async void LoadStopperMachineMonitorView()
         {
             LoadLotSettingAsync();
-            LoadApiOEE();
             AllTags = await _signalRClient.GetBufferList();
             if (AllTags.Count != 0)
             {
@@ -238,6 +236,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail
                     Interval = 140;
                 }
 
+                LoadApiOEE();
                 var errorTags = AllTags.Where(i => i.TagId == "errorStatus");
                 foreach(var tag in errorTags)
                 {
