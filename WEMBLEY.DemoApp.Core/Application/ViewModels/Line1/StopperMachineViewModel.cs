@@ -8,8 +8,8 @@ using WEMBLEY.DemoApp.Core.Application.ViewModels.Home;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineMFC;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineReport;
-using WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineStatus;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.SeedWork;
+using WEMBLEY.DemoApp.Core.Application.ViewModels.Shared;
 using WEMBLEY.DemoApp.Core.Domain.Dtos.DeviceReferences;
 using WEMBLEY.DemoApp.Core.Domain.Models;
 using WEMBLEY.DemoApp.Core.Domain.Services;
@@ -32,7 +32,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1
         public StopperMachineDetailViewModel StopperMachineDetail { get; set; }
         public MFCNavigationViewModel MFCNavigation { get; set; }
         public ReportNavigationViewModel ReportNavigation { get; set; }
-        public StopperMachineStatusViewModel StopperMachineStatus { get; set; }
+        public MachineStatusViewModel StopperMachineStatus { get; set; }
 
         private INavigationService? _navigationService;
 
@@ -61,7 +61,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1
         public List<TagChangedNotification> AllTags { get; set; } = new();
         public ICommand LoadMFCMonitorViewCommand { get; set; }
         public string HomeRefName => _homeDataStore.HomeRefName;
-        public StopperMachineViewModel(INavigationService navigationService, StopperMachineDetailViewModel stopperMachineDetail, MFCNavigationViewModel mFCNavigation, ReportNavigationViewModel reportNavigation, StopperMachineStatusViewModel stopperMachineStatus, ISignalRClient signalRClient, IApiService apiService, ReferenceStore referenceStore, HomeDataStore homeDataStore)
+        public StopperMachineViewModel(INavigationService navigationService, StopperMachineDetailViewModel stopperMachineDetail, MFCNavigationViewModel mFCNavigation, ReportNavigationViewModel reportNavigation, MachineStatusViewModel stopperMachineStatus, ISignalRClient signalRClient, IApiService apiService, ReferenceStore referenceStore, HomeDataStore homeDataStore)
         {
             NavigationService = navigationService;
             NavigateBackToHomeViewCommand = new RelayCommand(NavigationService.NavigateTo<HomeNavigationViewModel>);

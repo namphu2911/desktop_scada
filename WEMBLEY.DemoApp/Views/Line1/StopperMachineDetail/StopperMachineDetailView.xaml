@@ -27,7 +27,7 @@
                 <TabItem.Header >
                     <TextBlock Style="{StaticResource HeaderText}" Text="LỊCH SỬ LỖI"/>
                 </TabItem.Header>
-                <local:StopperMachineFaultHistoryView DataContext="{Binding StopperMachineFault}"/>
+                <local:FaultHistoryView DataContext="{Binding StopperMachineFault}"/>
             </TabItem>
         </TabControl>
     </Grid>

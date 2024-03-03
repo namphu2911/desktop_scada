@@ -1,11 +1,10 @@
-﻿<UserControl x:Class="WEMBLEY.DemoApp.Views.Line1.StopperMachineStatus.StopperMachineStatusView"
+﻿<UserControl x:Class="WEMBLEY.DemoApp.Views.Shared.MachineStatusView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:WEMBLEY.DemoApp.Views.Line1.StopperMachineStatus"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:stoppermachinestatus="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineStatus;assembly=WEMBLEY.DemoApp.Core" xmlns:Components="clr-namespace:WEMBLEY.DemoApp.Resources.Components" d:DataContext="{d:DesignInstance Type=stoppermachinestatus:StopperMachineStatusViewModel}"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:Components="clr-namespace:WEMBLEY.DemoApp.Resources.Components" xmlns:shared="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Shared;assembly=WEMBLEY.DemoApp.Core" d:DataContext="{d:DesignInstance Type=shared:MachineStatusViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="720" d:DesignWidth="1280"
              Background="{StaticResource ColorBackground}"
@@ -33,6 +32,8 @@
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="*"/>
@@ -42,22 +43,39 @@
                     <TextBlock Grid.Row="0" Grid.Column="0" 
                        Margin="10"
                        Style="{StaticResource FieldLabel}"
+                       Text="Trạm máy"/>
+
+                    <ComboBox Grid.Row="0" Grid.Column="1"
+                      Margin="10"
+                      materialDesign:HintAssist.Hint="Trạm máy"
+                      Style="{StaticResource ComboBox}"
+                      ItemsSource="{Binding DeviceIds}"
+                      Text="{Binding DeviceId}">
+                        <ComboBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel />
+                            </ItemsPanelTemplate>
+                        </ComboBox.ItemsPanel>
+                    </ComboBox>
+
+                    <TextBlock Grid.Row="0" Grid.Column="2" 
+                       Margin="10"
+                       Style="{StaticResource FieldLabel}"
                        Text="Từ ngày"/>
 
-
-                    <DatePicker  Grid.Row="0" Grid.Column="1"
+                    <DatePicker  Grid.Row="0" Grid.Column="3"
                          Margin="10"
                          materialDesign:HintAssist.Hint="Từ ngày"
                          Style="{StaticResource DatePicker}"
                          SelectedDate="{Binding StartDate}"/>
 
 
-                    <TextBlock Grid.Row="0" Grid.Column="2" 
+                    <TextBlock Grid.Row="0" Grid.Column="4" 
                        Margin="10"
                        Style="{StaticResource FieldLabel}" 
                        Text="Đến ngày"/>
 
-                    <DatePicker Grid.Column="3"
+                    <DatePicker Grid.Row="0" Grid.Column="5" 
                          Margin="10,0,10,0"
                          materialDesign:HintAssist.Hint="Đến ngày"
                          Style="{StaticResource DatePicker}"
@@ -71,7 +89,7 @@
                             Width="150">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction Command="{Binding LoadMachineStatusHistoryCommand}" />
+                                <i:InvokeCommandAction Command="{Binding LoadApiCommand}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>

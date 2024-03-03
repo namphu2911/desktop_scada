@@ -11,8 +11,9 @@ using WEMBLEY.DemoApp.Core.Application.ViewModels.Line1;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineMFC;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineReport;
-using WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineStatus;
+using WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.MachinesInLine;
+using WEMBLEY.DemoApp.Core.Application.ViewModels.Shared;
 
 namespace WEMBLEY.DemoApp.HostBuiders
 {
@@ -28,13 +29,14 @@ namespace WEMBLEY.DemoApp.HostBuiders
 
                 //LINES
                 services.AddTransient<MachinesInLine1ViewModel>();
-                
+                services.AddTransient<MachinesInLine2ViewModel>();
+
                 //Line 1 MAIN
                 services.AddTransient<StopperMachineViewModel>();
                 
                 services.AddTransient<StopperMachineDetailViewModel>();
                 services.AddTransient<StopperMachineMonitorViewModel>();
-                services.AddTransient<StopperMachineFaultHistoryViewModel>();
+                services.AddTransient<FaultHistoryViewModel>();
 
                 services.AddTransient<MFCNavigationViewModel>();
                 services.AddTransient<MFCMonitorViewModel>();
@@ -44,8 +46,13 @@ namespace WEMBLEY.DemoApp.HostBuiders
                 services.AddTransient<ReportLongTimeViewModel>();
                 services.AddTransient<ReportForShiftViewModel>();
 
-                services.AddTransient<StopperMachineStatusViewModel>();
+                services.AddTransient<MachineStatusViewModel>();
                 ///
+
+                //Line 2 MAIN
+                services.AddTransient<DosingDryingMachineViewModel>();
+
+                //
 
                 services.AddTransient<MainViewModel>();
                 services.AddSingleton<MainWindow>((IServiceProvider serviceProvider) => new MainWindow

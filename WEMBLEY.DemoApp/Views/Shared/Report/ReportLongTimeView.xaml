@@ -14,7 +14,7 @@
              Padding="10">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
-            <prism:InvokeCommandAction Command="{Binding MainButtonCommand}"/>
+            <prism:InvokeCommandAction Command="{Binding LoadReportViewCommand}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
@@ -41,6 +41,8 @@
                     <Grid Grid.Row="0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="*"/>
@@ -50,28 +52,46 @@
                         <TextBlock Grid.Row="0" Grid.Column="0" 
                        Margin="10"
                        Style="{StaticResource FieldLabel}"
+                       Text="Trạm máy"/>
+
+                        <ComboBox Grid.Row="0" Grid.Column="1"
+                      Margin="10"
+                      materialDesign:HintAssist.Hint="Trạm máy"
+                      Style="{StaticResource ComboBox}"
+                      ItemsSource="{Binding DeviceIds}"
+                      Text="{Binding DeviceId}">
+                            <ComboBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel />
+                                </ItemsPanelTemplate>
+                            </ComboBox.ItemsPanel>
+                        </ComboBox>
+                        
+                        <TextBlock Grid.Row="0" Grid.Column="2" 
+                       Margin="10"
+                       Style="{StaticResource FieldLabel}"
                        Text="Từ ngày"/>
 
 
-                        <DatePicker  Grid.Row="0" Grid.Column="1"
+                        <DatePicker  Grid.Row="0" Grid.Column="3"
                          Margin="10"
                          materialDesign:HintAssist.Hint="Từ ngày"
                          Style="{StaticResource DatePicker}"
                          SelectedDate="{Binding StartDate}"/>
 
 
-                        <TextBlock Grid.Row="0" Grid.Column="2" 
+                        <TextBlock Grid.Row="0" Grid.Column="4"
                        Margin="10"
                        Style="{StaticResource FieldLabel}" 
                        Text="Đến ngày"/>
 
-                        <DatePicker Grid.Column="3"
+                        <DatePicker Grid.Row="0" Grid.Column="5"
                          Margin="10,0,10,0"
                          materialDesign:HintAssist.Hint="Đến ngày"
                          Style="{StaticResource DatePicker}"
                          SelectedDate="{Binding EndDate}"/>
 
-                        <Button Grid.Row="0" Grid.Column="4"
+                        <Button Grid.Row="0" Grid.Column="6"
                             Margin="10"
                             Style="{StaticResource ButtonPrimary}" 
                             materialDesign:ButtonAssist.CornerRadius="10"

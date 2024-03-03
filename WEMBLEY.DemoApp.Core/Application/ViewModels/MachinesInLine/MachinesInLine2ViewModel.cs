@@ -6,19 +6,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using WEMBLEY.DemoApp.Core.Application.Commands;
-using WEMBLEY.DemoApp.Core.Application.Store;
-using WEMBLEY.DemoApp.Core.Application.ViewModels.Line1;
+using WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.SeedWork;
 using WEMBLEY.DemoApp.Core.Domain.Models;
 using WEMBLEY.DemoApp.Core.Domain.Services;
 
 namespace WEMBLEY.DemoApp.Core.Application.ViewModels.MachinesInLine
 {
-    public class MachinesInLine1ViewModel : BaseViewModel
+    public class MachinesInLine2ViewModel : BaseViewModel
     {
         private readonly ISignalRClient _signalRClient;
-        private readonly DeviceSelectedStore _deviceSelectedStore;
         private INavigationService? _navigationService;
 
         public INavigationService? NavigationService
@@ -80,16 +77,15 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.MachinesInLine
         }
         public string ColorBack { get; set; } = "#BBBBBB";
         public bool IsLoading { get; set; } = true;
-        public ICommand NavigateToStopperMachineViewCommand { get; set; }
-        public ICommand LoadMachinesInLine1ViewCommand { get; set; }
-        public MachinesInLine1ViewModel(INavigationService navigationService, ISignalRClient signalRClient, DeviceSelectedStore deviceSelectedStore)
+        public ICommand NavigateToDosingDryingMachineViewCommand { get; set; }
+        public ICommand LoadMachinesInLine2ViewCommand { get; set; }
+        public MachinesInLine2ViewModel(INavigationService navigationService, ISignalRClient signalRClient)
         {
-            NavigationService = navigationService; 
+            NavigationService = navigationService;
             _signalRClient = signalRClient;
-            _deviceSelectedStore = deviceSelectedStore;
 
-            NavigateToStopperMachineViewCommand = new RelayCommand(ClickCommand);
-            LoadMachinesInLine1ViewCommand = new RelayCommand(LoadMachinesInLine1View);
+            NavigateToDosingDryingMachineViewCommand = new RelayCommand(NavigationService.NavigateTo<DosingDryingMachineViewModel>);
+            LoadMachinesInLine2ViewCommand = new RelayCommand(LoadMachinesInLine2View);
 
             signalRClient.OnTagChanged += OnTagChanged;
 
@@ -102,13 +98,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.MachinesInLine
             IsLoading = false;
         }
 
-        private void ClickCommand()
-        {
-            _navigationService.NavigateTo<StopperMachineViewModel>();
-            _deviceSelectedStore.SetSeletedDevice("HC001");
-        }
-
-        private async void LoadMachinesInLine1View()
+        private async void LoadMachinesInLine2View()
         {
             var a = await _signalRClient.GetBufferList();
             if (a.Count != 0)
@@ -121,7 +111,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.MachinesInLine
         {
             var tag = JsonConvert.DeserializeObject<TagChangedNotification>(json);
 
-            if(tag != null)
+            if (tag != null)
             {
                 switch (tag.TagId)
                 {
@@ -133,7 +123,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.MachinesInLine
                     default: break;
                 }
             }
-            
+
         }
     }
 }

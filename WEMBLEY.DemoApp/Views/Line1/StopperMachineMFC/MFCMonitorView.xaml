@@ -35,28 +35,10 @@
                            Text="ALARM" Margin="0,0,0,5" />
             </StackPanel>
 
-            <Grid Grid.Row="1">
-                <materialDesign:Card
-                Margin="10"
-                Background="{StaticResource ColorPrimaryL1}" 
-                Grid.Column="0"
-                UniformCornerRadius="15">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-
-                        <TextBlock 
-                        Grid.Row="0" 
-                        Style="{StaticResource LineTitle}"
-                        Foreground="{StaticResource ColorSurface}"
-                        Text="Theo dõi thông số" />
-                        <materialDesign:Card  
-                        Margin="20"
-                        UniformCornerRadius="20"
-                        Grid.Row="1" >
-                            <DataGrid
+            <materialDesign:Card Grid.Row="1"
+                                     Background="{StaticResource ColorSurface}"
+                                     Margin="5">
+                <DataGrid
                               Style="{StaticResource MaterialDesignDataGrid}"
                               Background="{StaticResource ColorSurface}"
                               IsReadOnly="True"
@@ -65,28 +47,25 @@
                               SelectionUnit="FullRow"
                               SelectionMode="Single">
 
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Station" Binding="{Binding Name}" Width="*"/>
-                                    <DataGridTextColumn Header="Setting MinValue" Binding="{Binding MinValue}" Width="0.7*"/>
-                                    <DataGridTextColumn Header="Setting MaxValue" Binding="{Binding MaxValue}" Width="0.7*"/>
-                                    <DataGridTextColumn Header="Current Value" Binding="{Binding RealValue}" Width="0.7*">
-                                        <DataGridTextColumn.CellStyle>
-                                            <Style TargetType="{x:Type DataGridCell}">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding IsAlarmed}" Value="True">
-                                                        <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
-                                                        <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </DataGridTextColumn.CellStyle>
-                                    </DataGridTextColumn>
-                                </DataGrid.Columns>
-                            </DataGrid>
-                        </materialDesign:Card>
-                    </Grid>
-                </materialDesign:Card>
-            </Grid>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Station" Binding="{Binding Name}" Width="*"/>
+                        <DataGridTextColumn Header="Setting MinValue" Binding="{Binding MinValue}" Width="0.7*"/>
+                        <DataGridTextColumn Header="Setting MaxValue" Binding="{Binding MaxValue}" Width="0.7*"/>
+                        <DataGridTextColumn Header="Current Value" Binding="{Binding RealValue}" Width="0.7*">
+                            <DataGridTextColumn.CellStyle>
+                                <Style TargetType="{x:Type DataGridCell}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsAlarmed}" Value="True">
+                                            <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
+                                            <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </materialDesign:Card>
         </Grid>
     </materialDesign:DialogHost>
 </UserControl>

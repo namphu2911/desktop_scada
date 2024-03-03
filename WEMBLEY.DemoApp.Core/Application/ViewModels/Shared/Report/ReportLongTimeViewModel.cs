@@ -26,7 +26,14 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineReport
     public class ReportLongTimeViewModel : BaseViewModel
     {
         private readonly IApiService _apiService;
-        public DateTime StartDate { get; set; } = DateTime.Today.AddDays(-7).Date;
+        private readonly DeviceStore _deviceStore;
+        public ObservableCollection<string> DeviceIds => _deviceStore.DeviceIds;
+        //
+        private readonly DeviceSelectedStore _deviceSelectedStore;
+        public string SeletedDeviceId => _deviceSelectedStore.SeletedDeviceId;
+        public string DeviceId { get; set; } = "";
+        //
+        public DateTime StartDate { get; set; } = DateTime.Today.AddDays(-65).Date;
         public DateTime EndDate { get; set; } = DateTime.Today.Date;
         //
         public string IsSeleted { get; set; } = "All";
@@ -59,6 +66,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineReport
         }
         public SeriesCollection SeriesCollection { set; get; }
         public ObservableCollection<string> Datelabel { get; set; } = new();
+        public ICommand LoadReportViewCommand { get; set; }
         public ICommand MainButtonCommand { get; set; }
         public ICommand ExportReportCommand { get; set; }
         public ICommand LoadReportLongTimeCommand { get; set; }
@@ -66,10 +74,12 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineReport
         public ICommand LoadACommand { get; set; }
         public ICommand LoadPCommand { get; set; }
         public ICommand LoadQCommand { get; set; }
-        public ReportLongTimeViewModel(IApiService apiService, IdTransferStore idTransferStore)
+        public ReportLongTimeViewModel(IApiService apiService, IdTransferStore idTransferStore, DeviceStore deviceStore, DeviceSelectedStore deviceSelectedStore)
         {
             _apiService = apiService;
             _idTransferStore = idTransferStore;
+            _deviceStore = deviceStore;
+            _deviceSelectedStore = deviceSelectedStore;
 
             SeriesCollection = new SeriesCollection()
             {
@@ -84,6 +94,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineReport
                 }
             };
 
+            LoadReportViewCommand = new RelayCommand(LoadReportView);
             MainButtonCommand = new RelayCommand(MainButton);
             ExportReportCommand = new RelayCommand<string>(ExportReport);
             LoadReportLongTimeCommand = new RelayCommand(LoadReportLongTime);
@@ -100,7 +111,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineReport
             {
                 try
                 {
-                    var fileBytes = await _apiService.DownloadShiftReportFileAsync("HC001", StartDate, EndDate);
+                    var fileBytes = await _apiService.DownloadShiftReportFileAsync(DeviceId, StartDate, EndDate);
                     if (fileBytes != null)
                     {
                         File.WriteAllBytes(filePath, fileBytes);
@@ -198,7 +209,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineReport
         {
             try
             {
-                var dtos = await _apiService.GetShiftReportHistoryAsync("HC001", StartDate, EndDate);
+                var dtos = await _apiService.GetShiftReportHistoryAsync(DeviceId, StartDate, EndDate);
                 foreach (var d in dtos)
                 {
                     d.UpdateOEE(d.OEE,d.A , d.P, d.Q);
@@ -212,6 +223,12 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineReport
             }
             OnPropertyChanged(nameof(ShiftReportEntries));
             OnPropertyChanged(nameof(ShiftTableEntries));
+        }
+
+        private void LoadReportView()
+        {
+            DeviceId = SeletedDeviceId;
+            MainButton();
         }
 
         private void MainButton()

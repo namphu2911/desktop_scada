@@ -1,21 +1,15 @@
-﻿<UserControl x:Class="WEMBLEY.DemoApp.Views.Line1.StopperMachineView"
+﻿<UserControl x:Class="WEMBLEY.DemoApp.Views.Line2.DosingDryingMachine.DosingDryingMachineView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WEMBLEY.DemoApp.Views.Line2.DosingDryingMachine"
              xmlns:prism="http://prismlibrary.com/"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             xmlns:line1="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line1;assembly=WEMBLEY.DemoApp.Core" xmlns:line11="clr-namespace:WEMBLEY.DemoApp.Views.Line1" xmlns:mfc="clr-namespace:WEMBLEY.DemoApp.Views.Line1.MFC" xmlns:report="clr-namespace:WEMBLEY.DemoApp.Views.Line1.Report" xmlns:shared="clr-namespace:WEMBLEY.DemoApp.Views.Shared" d:DataContext="{d:DesignInstance Type=line1:StopperMachineViewModel}"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:dosingdryingmachine="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine;assembly=WEMBLEY.DemoApp.Core" d:DataContext="{d:DesignInstance Type=dosingdryingmachine:DosingDryingMachineViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1300"
              Background="{StaticResource ColorBackground}">
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <prism:InvokeCommandAction Command="{Binding LoadMFCMonitorViewCommand}"/>
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
-    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -60,7 +54,7 @@
                             <Image 
                             Source="/Resources/Images/logohcmut.jpg" 
                             Width="49" Height="49" HorizontalAlignment="Left" />
-                            
+
                         </StackPanel>
                     </TabItem.Header>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -90,8 +84,12 @@
                                                                  FontWeight="Bold" Margin="0,0,50,0" />
                         </StackPanel>
                     </TabItem.Header>
-                    <line11:StopperMachineDetailView DataContext="{Binding StopperMachineDetail}"/>
+                    
+
+
                 </TabItem>
+
+
 
                 <TabItem 
                 IsSelected="{Binding IsMFCTabSeleted}"
@@ -146,7 +144,7 @@
                                                                  FontWeight="Bold" Margin="0,0,20,0" />
                         </StackPanel>
                     </TabItem.Header>
-                    <mfc:MFCNavigationView DataContext="{Binding MFCNavigation}"/>
+                    
                 </TabItem>
 
                 <TabItem
@@ -165,9 +163,9 @@
                                                                  FontWeight="Bold" />
                         </StackPanel>
                     </TabItem.Header>
-                    <report:ReportNavigationView DataContext="{Binding ReportNavigation}"/>
+                    
                 </TabItem>
-                
+
                 <TabItem 
                 Style="{StaticResource TabItemStyle}" 
                 Height="70">
@@ -184,7 +182,7 @@
                                                                  FontWeight="Bold" />
                         </StackPanel>
                     </TabItem.Header>
-                    <shared:MachineStatusView DataContext="{Binding StopperMachineStatus}"/>
+                    
                 </TabItem>
             </TabControl>
         </materialDesign:Card>

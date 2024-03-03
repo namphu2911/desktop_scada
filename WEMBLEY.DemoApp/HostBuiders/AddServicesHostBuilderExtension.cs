@@ -32,6 +32,7 @@ namespace WEMBLEY.DemoApp.HostBuiders
                 services.AddSingleton<PersonStore>();
                 services.AddSingleton<HomeDataStore>();
                 services.AddSingleton<IdTransferStore>();
+                services.AddSingleton<DeviceSelectedStore>();
 
                 services.AddSingleton<IApiService, ApiService>();
                 services.AddSingleton<IDatabaseSynchronizationService, DatabaseSynchronizationService>();

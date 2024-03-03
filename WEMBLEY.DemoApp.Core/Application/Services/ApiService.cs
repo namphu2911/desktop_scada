@@ -21,8 +21,9 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
     {
         private readonly HttpClient _httpClient;
 
-        private const string serverUrl = "http://10.0.70.45:81";
+        private const string serverUrl = "https://wembleyscadacloud.azurewebsites.net";
 
+        //http://10.0.70.45:81
         public ApiService()
         {
             _httpClient = new HttpClient();

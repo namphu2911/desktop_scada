@@ -93,8 +93,8 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
 
         ///
         public MachinesInLine1ViewModel MachinesInLine1 { get; set; }
-
-        public HomeViewModel(IApiService apiService, IDatabaseSynchronizationService databaseSynchronizationService, ISignalRClient signalRClient, ReferenceStore referenceStore, MachinesInLine1ViewModel machinesInLine1)
+        public MachinesInLine2ViewModel MachinesInLine2 { get; set; }
+        public HomeViewModel(IApiService apiService, IDatabaseSynchronizationService databaseSynchronizationService, ISignalRClient signalRClient, ReferenceStore referenceStore, MachinesInLine1ViewModel machinesInLine1, MachinesInLine2ViewModel machinesInLine2)
         {
             _apiService = apiService;
             _databaseSynchronizationService = databaseSynchronizationService;
@@ -102,6 +102,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
             _referenceStore = referenceStore;
 
             MachinesInLine1 = machinesInLine1;
+            MachinesInLine2 = machinesInLine2;
 
             LoadHomeViewCommand = new RelayCommand(LoadHomeView);
 
@@ -163,7 +164,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
             {
                 var dtos = await _apiService.GetLotDeviceReferenceByDeviceTypeAsync("HerapinCap");
                 HerapinCapLotId = dtos.Last().LotId;
-                HerapinCapLotSize = dtos.Last().LotSize;
+                HerapinCapLotSize = dtos.Last().LotSize; 
                 HerapinCapLotId = dtos.Last().LotId;
                 HerapinCapLotSize = dtos.Last().LotSize;
                 if (string.IsNullOrEmpty(HerapinCapLotId))

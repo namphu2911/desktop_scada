@@ -17,7 +17,7 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
         public SignalRClient()
         {
             connection = new HubConnectionBuilder()
-                .WithUrl("http://10.0.70.45:81/notificationHub")
+                .WithUrl("https://wembleyscadacloud.azurewebsites.net/notificationHub")
                 .WithAutomaticReconnect()
                 .Build();
         }

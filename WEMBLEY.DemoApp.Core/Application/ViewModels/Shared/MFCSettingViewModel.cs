@@ -13,43 +13,66 @@ using WEMBLEY.DemoApp.Core.Application.ViewModels.SeedWork;
 using WEMBLEY.DemoApp.Core.Domain.Dtos.DeviceReferences;
 using WEMBLEY.DemoApp.Core.Domain.Services;
 
-namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineMFC
+namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Shared
 {
     public class MFCSettingViewModel : BaseViewModel
     {
         private readonly IApiService _apiService;
         private readonly ReferenceStore _referenceStore;
         private readonly HomeDataStore _homeDataStore;
-
+        //Doi lai la Device
+        private readonly DeviceStore _deviceStore;
+        public ObservableCollection<string> DeviceIds => _deviceStore.DeviceIds;
+        //
+        private readonly DeviceSelectedStore _deviceSelectedStore;
+        public string SeletedDeviceId => _deviceSelectedStore.SeletedDeviceId;
+        public string DeviceId { get; set; } = "";
+        //
         public ObservableCollection<MFCDto> MFCEntries { get; set; } = new();
 
         public ICommand LoadMFCSettingViewCommand { get; set; }
         public ICommand UpdateMFCCommand { get; set; }
+        public ICommand LoadApiCommand { get; set; }
         public string HomeRefName => _homeDataStore.HomeRefName;
         public int HomeRefId { get; set; } = 0;
-        public MFCSettingViewModel(IApiService apiService, ReferenceStore referenceStore, HomeDataStore homeDataStore)
+        public MFCSettingViewModel(IApiService apiService, ReferenceStore referenceStore, DeviceStore deviceStore, HomeDataStore homeDataStore, DeviceSelectedStore deviceSelectedStore)
         {
             _apiService = apiService;
             _referenceStore = referenceStore;
+            _deviceStore = deviceStore;
             _homeDataStore = homeDataStore;
+            _deviceSelectedStore = deviceSelectedStore;
 
             LoadMFCSettingViewCommand = new RelayCommand(LoadMFCSettingViewAsync);
             UpdateMFCCommand = new RelayCommand(UpdateMFCAsync);
+            LoadApiCommand = new RelayCommand(LoadApi);
         }
 
-        private async void LoadMFCSettingViewAsync()
+        private void LoadMFCSettingViewAsync()
+        {
+            DeviceId = SeletedDeviceId;
+            LoadApi();
+        }
+        private async void LoadApi()
         {
             try
             {
-                if(!String.IsNullOrEmpty(HomeRefName))
+                if (!string.IsNullOrEmpty(HomeRefName))
                 {
                     HomeRefId = _referenceStore.References.First(i => i.RefName == HomeRefName).Id;
-                    var dtos = await _apiService.GetDeviceReferenceMFCAsync(HomeRefId, "HC001");
-                    var viewModels = dtos.Last().MFCs;
-                    MFCEntries = new(viewModels);
+                    var dtos = await _apiService.GetDeviceReferenceMFCAsync(HomeRefId, DeviceId);
+                    if(dtos.Count() != 0)
+                    {
+                        var viewModels = dtos.Last().MFCs;
+                        MFCEntries = new(viewModels);
+                    }
+                    else
+                    {
+                        MFCEntries = new();
+                    }
                 }
                 else { }
-                
+
             }
             catch (HttpRequestException)
             {
@@ -64,7 +87,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineMFC
             {
                 try
                 {
-                    await _apiService.FixMFCAsync(HomeRefId, "HC001", fixDto);
+                    await _apiService.FixMFCAsync(HomeRefId, DeviceId, fixDto);
                     MessageBox.Show("Đã Cập Nhật", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
                     LoadMFCSettingViewAsync();
                 }
@@ -78,7 +101,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineMFC
                 }
             }
             else { }
-                
+
 
         }
     }

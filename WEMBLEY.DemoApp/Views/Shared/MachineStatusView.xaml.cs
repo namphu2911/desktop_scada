@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WEMBLEY.DemoApp.Views.Line1.StopperMachineStatus
+namespace WEMBLEY.DemoApp.Views.Shared
 {
     /// <summary>
-    /// Interaction logic for StopperMachineStatusView.xaml
+    /// Interaction logic for MachineStatusView.xaml
     /// </summary>
-    public partial class StopperMachineStatusView : UserControl
+    public partial class MachineStatusView : UserControl
     {
-        public StopperMachineStatusView()
+        public MachineStatusView()
         {
             InitializeComponent();
         }

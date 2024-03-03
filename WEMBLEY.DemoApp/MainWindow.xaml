@@ -14,7 +14,7 @@
         xmlns:report="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineReport;assembly=WEMBLEY.DemoApp.Core" 
         xmlns:reportViews="clr-namespace:WEMBLEY.DemoApp.Views.Line1.Report" 
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
-        xmlns:viewmodels="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels;assembly=WEMBLEY.DemoApp.Core" xmlns:Components="clr-namespace:WEMBLEY.DemoApp.Resources.Components"
+        xmlns:viewmodels="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels;assembly=WEMBLEY.DemoApp.Core" xmlns:Components="clr-namespace:WEMBLEY.DemoApp.Resources.Components" xmlns:dosingdryingmachine="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine;assembly=WEMBLEY.DemoApp.Core" xmlns:dosingdryingmachine1="clr-namespace:WEMBLEY.DemoApp.Views.Line2.DosingDryingMachine"
         d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
         Background="{StaticResource ColorBackground}"
         WindowStartupLocation="CenterScreen"
@@ -39,6 +39,9 @@
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type line1:StopperMachineViewModel}">
                     <line1Views:StopperMachineView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type dosingdryingmachine:DosingDryingMachineViewModel}">
+                    <dosingdryingmachine1:DosingDryingMachineView/>
                 </DataTemplate>
             </ContentControl.Resources>
         </ContentControl>
