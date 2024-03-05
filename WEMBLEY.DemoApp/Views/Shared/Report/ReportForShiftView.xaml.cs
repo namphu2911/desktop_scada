@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WEMBLEY.DemoApp.Views.Line1.Report
+namespace WEMBLEY.DemoApp.Views.Shared.Report
 {
     /// <summary>
     /// Interaction logic for ReportForShiftView.xaml

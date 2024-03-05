@@ -10,12 +10,15 @@ namespace WEMBLEY.DemoApp.Core.Application.Store
 {
     public class HomeDataStore : BaseViewModel
     {
-        public string HomeRefName { get; private set; } = "";
-        public int HomeRefId { get; private set; } = 0;
+        public List<ParameterDto> HomeDatas { get; private set; }
+        public HomeDataStore()
+        {
+            HomeDatas = new();
+        }
 
         public void SetHomeRef(IEnumerable<ParameterDto> dtos)
         {
-            HomeRefName = dtos.Last().RefName;
+            HomeDatas = dtos.ToList();
         }
 
     }

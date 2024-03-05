@@ -8,10 +8,11 @@ using System.Net.Http;
 using System.Windows.Input;
 using System.Windows.Media;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.SeedWork;
+using WEMBLEY.DemoApp.Core.Application.ViewModels.Shared;
 using WEMBLEY.DemoApp.Core.Domain.Models;
 using WEMBLEY.DemoApp.Core.Domain.Services;
 
-namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail
+namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
 {
     public class StopperMachineMonitorViewModel : BaseViewModel
     {

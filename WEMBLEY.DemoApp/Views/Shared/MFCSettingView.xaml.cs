@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WEMBLEY.DemoApp.Views.Line1.MFC
+namespace WEMBLEY.DemoApp.Views.Shared
 {
     /// <summary>
     /// Interaction logic for MFCSettingView.xaml

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using WEMBLEY.DemoApp.Core.Application.Store;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.SeedWork;
 using WEMBLEY.DemoApp.Core.Domain.Models;
@@ -16,6 +17,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.MachinesInLine
     public class MachinesInLine2ViewModel : BaseViewModel
     {
         private readonly ISignalRClient _signalRClient;
+        private readonly DeviceSelectedStore _deviceSelectedStore;
         private INavigationService? _navigationService;
 
         public INavigationService? NavigationService
@@ -79,12 +81,13 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.MachinesInLine
         public bool IsLoading { get; set; } = true;
         public ICommand NavigateToDosingDryingMachineViewCommand { get; set; }
         public ICommand LoadMachinesInLine2ViewCommand { get; set; }
-        public MachinesInLine2ViewModel(INavigationService navigationService, ISignalRClient signalRClient)
+        public MachinesInLine2ViewModel(INavigationService navigationService, ISignalRClient signalRClient, DeviceSelectedStore deviceSelectedStore)
         {
             NavigationService = navigationService;
             _signalRClient = signalRClient;
+            _deviceSelectedStore = deviceSelectedStore;
 
-            NavigateToDosingDryingMachineViewCommand = new RelayCommand(NavigationService.NavigateTo<DosingDryingMachineViewModel>);
+            NavigateToDosingDryingMachineViewCommand = new RelayCommand(ClickCommand);
             LoadMachinesInLine2ViewCommand = new RelayCommand(LoadMachinesInLine2View);
 
             signalRClient.OnTagChanged += OnTagChanged;
@@ -96,6 +99,12 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.MachinesInLine
         {
             await Task.Delay(6000);
             IsLoading = false;
+        }
+
+        private void ClickCommand()
+        {
+            _navigationService.NavigateTo<DosingDryingMachineViewModel>();
+            _deviceSelectedStore.SetSeletedDevice("HC001");
         }
 
         private async void LoadMachinesInLine2View()

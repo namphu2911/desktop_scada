@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using WEMBLEY.DemoApp.Core.Application.Services;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Home;
-using WEMBLEY.DemoApp.Core.Application.ViewModels.Line1;
+using WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.SeedWork;
 using WEMBLEY.DemoApp.Core.Domain.Services;
 

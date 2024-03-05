@@ -1,12 +1,12 @@
-﻿<UserControl x:Class="WEMBLEY.DemoApp.Views.Line1.StopperMachineView"
+﻿<UserControl x:Class="WEMBLEY.DemoApp.Views.Line1.StopperMachine.StopperMachineView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WEMBLEY.DemoApp.Views.Line1.StopperMachine"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             xmlns:line1="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line1;assembly=WEMBLEY.DemoApp.Core" xmlns:line11="clr-namespace:WEMBLEY.DemoApp.Views.Line1" xmlns:mfc="clr-namespace:WEMBLEY.DemoApp.Views.Line1.MFC" xmlns:report="clr-namespace:WEMBLEY.DemoApp.Views.Line1.Report" xmlns:shared="clr-namespace:WEMBLEY.DemoApp.Views.Shared" d:DataContext="{d:DesignInstance Type=line1:StopperMachineViewModel}"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:stoppermachine="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine;assembly=WEMBLEY.DemoApp.Core" xmlns:shared="clr-namespace:WEMBLEY.DemoApp.Views.Shared" xmlns:report="clr-namespace:WEMBLEY.DemoApp.Views.Shared.Report" d:DataContext="{d:DesignInstance Type=stoppermachine:StopperMachineViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1300"
              Background="{StaticResource ColorBackground}">
@@ -15,7 +15,7 @@
             <prism:InvokeCommandAction Command="{Binding LoadMFCMonitorViewCommand}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -60,7 +60,7 @@
                             <Image 
                             Source="/Resources/Images/logohcmut.jpg" 
                             Width="49" Height="49" HorizontalAlignment="Left" />
-                            
+
                         </StackPanel>
                     </TabItem.Header>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -90,7 +90,24 @@
                                                                  FontWeight="Bold" Margin="0,0,50,0" />
                         </StackPanel>
                     </TabItem.Header>
-                    <line11:StopperMachineDetailView DataContext="{Binding StopperMachineDetail}"/>
+
+                    <TabControl TabStripPlacement="Top" 
+                    Style="{StaticResource MaterialDesignFilledTabControl}"
+                    materialDesign:ColorZoneAssist.Background="LightGray">
+                        <TabItem Height="55" MaxWidth="800" Style="{StaticResource TabItem2layerRowStyle}">
+                            <TabItem.Header >
+                                <TextBlock Style="{StaticResource HeaderText}" Text="GIÁM SÁT"/>
+                            </TabItem.Header>
+                            <local:StopperMachineMonitorView DataContext="{Binding StopperMachineMonitor}"/>
+                        </TabItem>
+
+                        <TabItem Height="55" MaxWidth="800" Style="{StaticResource TabItem2layerRowStyle}">
+                            <TabItem.Header >
+                                <TextBlock Style="{StaticResource HeaderText}" Text="LỊCH SỬ LỖI"/>
+                            </TabItem.Header>
+                            <shared:FaultHistoryView DataContext="{Binding StopperMachineFault}"/>
+                        </TabItem>
+                    </TabControl>
                 </TabItem>
 
                 <TabItem 
@@ -146,7 +163,24 @@
                                                                  FontWeight="Bold" Margin="0,0,20,0" />
                         </StackPanel>
                     </TabItem.Header>
-                    <mfc:MFCNavigationView DataContext="{Binding MFCNavigation}"/>
+
+                    <TabControl TabStripPlacement="Top" 
+                    Style="{StaticResource MaterialDesignFilledTabControl}"
+                    materialDesign:ColorZoneAssist.Background="LightGray">
+                        <TabItem Height="55" MaxWidth="800" Style="{StaticResource TabItem2layerRowStyle}">
+                            <TabItem.Header >
+                                <TextBlock Style="{StaticResource HeaderText}" Text="THEO DÕI MFC"/>
+                            </TabItem.Header>
+                            <local:MFCMonitorView DataContext="{Binding MFCMonitor}"/>
+                        </TabItem>
+
+                        <TabItem Height="55" MaxWidth="800" Style="{StaticResource TabItem2layerRowStyle}">
+                            <TabItem.Header >
+                                <TextBlock Style="{StaticResource HeaderText}" Text="CÀI ĐẶT MFC"/>
+                            </TabItem.Header>
+                            <shared:MFCSettingView DataContext="{Binding MFCSetting}"/>
+                        </TabItem>
+                    </TabControl>
                 </TabItem>
 
                 <TabItem
@@ -165,9 +199,27 @@
                                                                  FontWeight="Bold" />
                         </StackPanel>
                     </TabItem.Header>
-                    <report:ReportNavigationView DataContext="{Binding ReportNavigation}"/>
+
+                    <TabControl SelectedIndex="{Binding SeletedTabIndex}"
+                    TabStripPlacement="Top" 
+                    Style="{StaticResource MaterialDesignFilledTabControl}"
+                    materialDesign:ColorZoneAssist.Background="LightGray">
+                        <TabItem Height="55" MaxWidth="800" Style="{StaticResource TabItem2layerRowStyle}">
+                            <TabItem.Header >
+                                <TextBlock Style="{StaticResource HeaderText}" Text="BÁO CÁO TỔNG"/>
+                            </TabItem.Header>
+                            <report:ReportLongTimeView DataContext="{Binding ReportLongTime}"/>
+                        </TabItem>
+
+                        <TabItem Height="55" MaxWidth="800" Style="{StaticResource TabItem2layerRowStyle}">
+                            <TabItem.Header >
+                                <TextBlock Style="{StaticResource HeaderText}" Text="BÁO CÁO THEO CA"/>
+                            </TabItem.Header>
+                            <report:ReportForShiftView DataContext="{Binding ReportForShift}"/>
+                        </TabItem>
+                    </TabControl>
                 </TabItem>
-                
+
                 <TabItem 
                 Style="{StaticResource TabItemStyle}" 
                 Height="70">

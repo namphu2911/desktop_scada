@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineReport
+namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Shared.Report
 {
     public class ShiftReportEntry
     {

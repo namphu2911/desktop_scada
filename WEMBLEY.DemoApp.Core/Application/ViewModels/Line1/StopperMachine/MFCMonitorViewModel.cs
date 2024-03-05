@@ -4,51 +4,15 @@ using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Windows.Input;
 using WEMBLEY.DemoApp.Core.Application.Store;
-using WEMBLEY.DemoApp.Core.Application.ViewModels.Home;
-using WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail;
-using WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineMFC;
-using WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineReport;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.SeedWork;
-using WEMBLEY.DemoApp.Core.Application.ViewModels.Shared;
 using WEMBLEY.DemoApp.Core.Domain.Dtos.DeviceReferences;
 using WEMBLEY.DemoApp.Core.Domain.Models;
 using WEMBLEY.DemoApp.Core.Domain.Services;
 
-namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1
+namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
 {
-    public class StopperMachineViewModel : BaseViewModel
+    public class MFCMonitorViewModel : BaseViewModel
     {
-        private bool isMFCTabSeleted;
-        public bool IsMFCTabSeleted
-        {
-            get => isMFCTabSeleted;
-            set
-            {
-                isMFCTabSeleted = value;
-                ReloadData();
-            }
-        }
-        public string IsMFCError { get; set; } = "#FFFFFF";
-        public StopperMachineDetailViewModel StopperMachineDetail { get; set; }
-        public MFCNavigationViewModel MFCNavigation { get; set; }
-        public ReportNavigationViewModel ReportNavigation { get; set; }
-        public MachineStatusViewModel StopperMachineStatus { get; set; }
-
-        private INavigationService? _navigationService;
-
-        public INavigationService? NavigationService
-        {
-            get => _navigationService;
-            set
-            {
-                _navigationService = value;
-                OnPropertyChanged();
-            }
-        }
-        public ICommand NavigateBackToHomeViewCommand { get; set; }
-        //
-        //
-        //
         private readonly IApiService _apiService;
         private readonly ISignalRClient _signalRClient;
         private readonly ReferenceStore _referenceStore;
@@ -60,16 +24,10 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1
         public List<double?> RealMFCValues { get; set; } = new();
         public List<TagChangedNotification> AllTags { get; set; } = new();
         public ICommand LoadMFCMonitorViewCommand { get; set; }
-        public string HomeRefName => _homeDataStore.HomeRefName;
-        public StopperMachineViewModel(INavigationService navigationService, StopperMachineDetailViewModel stopperMachineDetail, MFCNavigationViewModel mFCNavigation, ReportNavigationViewModel reportNavigation, MachineStatusViewModel stopperMachineStatus, ISignalRClient signalRClient, IApiService apiService, ReferenceStore referenceStore, HomeDataStore homeDataStore)
-        {
-            NavigationService = navigationService;
-            NavigateBackToHomeViewCommand = new RelayCommand(NavigationService.NavigateTo<HomeNavigationViewModel>);
-            StopperMachineDetail = stopperMachineDetail;
-            MFCNavigation = mFCNavigation;
-            ReportNavigation = reportNavigation;
-            StopperMachineStatus = stopperMachineStatus;
+        public int HomeRefId => _homeDataStore.HomeDatas.First(i => i.DeviceType == "HerapinCap").RefId;
 
+        public MFCMonitorViewModel(ISignalRClient signalRClient, IApiService apiService, ReferenceStore referenceStore, HomeDataStore homeDataStore)
+        {
             _signalRClient = signalRClient;
             _apiService = apiService;
             _referenceStore = referenceStore;
@@ -77,7 +35,6 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1
 
             signalRClient.OnTagChanged += OnTagChanged;
             LoadMFCMonitorViewCommand = new RelayCommand(LoadMFCMonitorViewAsync);
-
         }
 
         private async void LoadMFCMonitorViewAsync()
@@ -128,13 +85,12 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1
                 HcMFC = new(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
             }
 
-            OnPropertyChanged(nameof(HomeRefName));
+            OnPropertyChanged(nameof(HomeRefId));
             try
             {
-                if (!String.IsNullOrEmpty(HomeRefName))
+                if (HomeRefId != 0)
                 {
-                    var homeRefId = _referenceStore.References.First(i => i.RefName == HomeRefName).Id;
-                    var dtos = await _apiService.GetDeviceReferenceMFCAsync(homeRefId, "HC001");
+                    var dtos = await _apiService.GetDeviceReferenceMFCAsync(HomeRefId, "HC001");
                     MFCDtos = dtos.Last().MFCs;
                 }
                 ReloadData();
@@ -187,22 +143,6 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1
         {
             var newViewModels = MFCDtos.Select((tag, index) => new ComparedMFC(tag.Name, tag.Value, tag.MinValue, tag.MaxValue, RealMFCValues[index])).ToList();
             MFCEntries = new(newViewModels);
-            var a = MFCEntries.Select(i => i.IsAlarmed);
-            if (a.Contains(true))
-            {
-                IsMFCError = "#ED5152";
-            }
-            else
-            {
-                if(IsMFCTabSeleted)
-                {
-                    IsMFCError = "#4169e1";
-                }
-                else
-                {
-                    IsMFCError = "#FFFFFF";
-                }
-            }
         }
     }
 }

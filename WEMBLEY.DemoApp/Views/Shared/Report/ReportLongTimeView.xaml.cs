@@ -13,9 +13,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineReport;
+using WEMBLEY.DemoApp.Core.Application.ViewModels.Shared.Report;
 
-namespace WEMBLEY.DemoApp.Views.Line1.Report
+namespace WEMBLEY.DemoApp.Views.Shared.Report
 {
     /// <summary>
     /// Interaction logic for ReportLongTimeView.xaml

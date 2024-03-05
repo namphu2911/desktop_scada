@@ -1,11 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using WEMBLEY.DemoApp.Core.Application.Store;
@@ -33,8 +28,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Shared
         public ICommand LoadMFCSettingViewCommand { get; set; }
         public ICommand UpdateMFCCommand { get; set; }
         public ICommand LoadApiCommand { get; set; }
-        public string HomeRefName => _homeDataStore.HomeRefName;
-        public int HomeRefId { get; set; } = 0;
+        public int HomeRefId => _homeDataStore.HomeDatas.First(i => i.DeviceType == "HerapinCap").RefId;
         public MFCSettingViewModel(IApiService apiService, ReferenceStore referenceStore, DeviceStore deviceStore, HomeDataStore homeDataStore, DeviceSelectedStore deviceSelectedStore)
         {
             _apiService = apiService;
@@ -57,9 +51,8 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Shared
         {
             try
             {
-                if (!string.IsNullOrEmpty(HomeRefName))
+                if (HomeRefId != 0)
                 {
-                    HomeRefId = _referenceStore.References.First(i => i.RefName == HomeRefName).Id;
                     var dtos = await _apiService.GetDeviceReferenceMFCAsync(HomeRefId, DeviceId);
                     if(dtos.Count() != 0)
                     {

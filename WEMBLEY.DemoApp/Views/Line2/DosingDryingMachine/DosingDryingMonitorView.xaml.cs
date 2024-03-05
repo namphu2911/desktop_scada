@@ -13,17 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WEMBLEY.DemoApp.Views.Line1
+namespace WEMBLEY.DemoApp.Views.Line2.DosingDryingMachine
 {
     /// <summary>
-    /// Interaction logic for StopperMachineView.xaml
+    /// Interaction logic for DosingDryingMonitorView.xaml
     /// </summary>
-    public partial class StopperMachineView : UserControl
+    public partial class DosingDryingMonitorView : UserControl
     {
-        public StopperMachineView()
+        public DosingDryingMonitorView()
         {
             InitializeComponent();
         }
-
     }
 }

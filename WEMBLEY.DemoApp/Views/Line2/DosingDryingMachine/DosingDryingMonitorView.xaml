@@ -1,18 +1,18 @@
-﻿<UserControl x:Class="WEMBLEY.DemoApp.Views.Line1.StopperMachineMonitorView"
+﻿<UserControl x:Class="WEMBLEY.DemoApp.Views.Line2.DosingDryingMachine.DosingDryingMonitorView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:WEMBLEY.DemoApp.Views.Line1"
+             xmlns:local="clr-namespace:WEMBLEY.DemoApp.Views.Line2.DosingDryingMachine"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:stoppermachinedetail="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail;assembly=WEMBLEY.DemoApp.Core" xmlns:Components="clr-namespace:WEMBLEY.DemoApp.Resources.Components" d:DataContext="{d:DesignInstance Type=stoppermachinedetail:StopperMachineMonitorViewModel}"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:Components="clr-namespace:WEMBLEY.DemoApp.Resources.Components"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="1260"
              Background="{StaticResource ColorBackground}"
-             Padding="10" 
-             Loaded="UserControl_Loaded">
+             Padding="10">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <prism:InvokeCommandAction Command="{Binding LoadStopperMachineMonitorViewCommand}"/>
@@ -88,7 +88,7 @@
                             <TextBlock 
                                         Grid.Column="0" 
                                         Style="{StaticResource LineTitle}"
-                                        Text="Line 1: Nút chặn" 
+                                        Text="Line 2: Ống máu thường - Trạm phun hóa chất" 
                             />
                         </Grid>
 
@@ -388,7 +388,7 @@
                                         Width="30"
                                         Height="30"
                                         Kind="Reload" 
-                                        VerticalAlignment="Center"/>    
+                                        VerticalAlignment="Center"/>
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Click">
                                             <i:InvokeCommandAction Command="{Binding LoadApiOEECommand}" />
@@ -400,7 +400,7 @@
                         </Grid>
                     </materialDesign:Card>
 
-                    
+
 
                     <materialDesign:Card Grid.Row="1" Margin="5">
                         <DataGrid 
@@ -439,7 +439,7 @@
                         </materialDesign:Card>
 
                         <Image Grid.Column="1"
-                       Source="/Resources/Images/Nutchan.jpg"/>
+                       Source="/Resources/Images/Ongmauthuong.jpg"/>
                     </Grid>
                 </Grid>
             </Grid>

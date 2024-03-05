@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WEMBLEY.DemoApp.Views.Line1.MFC
+namespace WEMBLEY.DemoApp.Views.Line1.StopperMachine
 {
     /// <summary>
-    /// Interaction logic for MFCNavigationView.xaml
+    /// Interaction logic for MFCMonitorView.xaml
     /// </summary>
-    public partial class MFCNavigationView : UserControl
+    public partial class MFCMonitorView : UserControl
     {
-        public MFCNavigationView()
+        public MFCMonitorView()
         {
             InitializeComponent();
         }

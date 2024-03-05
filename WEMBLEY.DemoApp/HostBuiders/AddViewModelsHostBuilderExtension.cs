@@ -7,13 +7,11 @@ using System.Text;
 using System.Threading.Tasks;
 using WEMBLEY.DemoApp.Core.Application.ViewModels;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Home;
-using WEMBLEY.DemoApp.Core.Application.ViewModels.Line1;
-using WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineDetail;
-using WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineMFC;
-using WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineReport;
+using WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.MachinesInLine;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Shared;
+using WEMBLEY.DemoApp.Core.Application.ViewModels.Shared.Report;
 
 namespace WEMBLEY.DemoApp.HostBuiders
 {
@@ -34,15 +32,12 @@ namespace WEMBLEY.DemoApp.HostBuiders
                 //Line 1 MAIN
                 services.AddTransient<StopperMachineViewModel>();
                 
-                services.AddTransient<StopperMachineDetailViewModel>();
                 services.AddTransient<StopperMachineMonitorViewModel>();
                 services.AddTransient<FaultHistoryViewModel>();
 
-                services.AddTransient<MFCNavigationViewModel>();
                 services.AddTransient<MFCMonitorViewModel>();
                 services.AddTransient<MFCSettingViewModel>();
 
-                services.AddTransient<ReportNavigationViewModel>();
                 services.AddTransient<ReportLongTimeViewModel>();
                 services.AddTransient<ReportForShiftViewModel>();
 
@@ -51,7 +46,8 @@ namespace WEMBLEY.DemoApp.HostBuiders
 
                 //Line 2 MAIN
                 services.AddTransient<DosingDryingMachineViewModel>();
-
+                services.AddTransient<DosingDryingMonitorViewModel>();
+                services.AddTransient<DosingDryingParameterMonitorViewModel>();
                 //
 
                 services.AddTransient<MainViewModel>();

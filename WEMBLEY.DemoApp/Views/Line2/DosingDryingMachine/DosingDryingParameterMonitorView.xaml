@@ -1,0 +1,72 @@
+﻿<UserControl x:Class="WEMBLEY.DemoApp.Views.Line2.DosingDryingMachine.DosingDryingParameterMonitorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WEMBLEY.DemoApp.Views.Line2.DosingDryingMachine"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:Components="clr-namespace:WEMBLEY.DemoApp.Resources.Components"
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="1260"
+             Background="{StaticResource ColorBackground}"
+             Padding="10">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <prism:InvokeCommandAction Command="{Binding LoadMFCMonitorViewCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <materialDesign:DialogHost CloseOnClickAway="True" IsOpen="{Binding IsErrorMessageShowed}">
+        <materialDesign:DialogHost.DialogContent>
+            <Components:ErrorMessage Message="{Binding ErrorMessage}"/>
+        </materialDesign:DialogHost.DialogContent>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
+                <TextBlock
+                           Background="{StaticResource ColorPrimaryRed}"
+                           Style="{StaticResource NoteBarLabel}"
+                           Text="ALARM" Margin="0,0,0,5" />
+            </StackPanel>
+
+            <materialDesign:Card Grid.Row="1"
+                                     Background="{StaticResource ColorSurface}"
+                                     Margin="5">
+                <DataGrid
+                              Style="{StaticResource MaterialDesignDataGrid}"
+                              Background="{StaticResource ColorSurface}"
+                              IsReadOnly="True"
+                              ItemsSource="{Binding MFCEntries}"
+                              AutoGenerateColumns="False"
+                              SelectionUnit="FullRow"
+                              SelectionMode="Single">
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Station" Binding="{Binding Name}" Width="*"/>
+                        <DataGridTextColumn Header="Setting MinValue" Binding="{Binding MinValue}" Width="0.7*"/>
+                        <DataGridTextColumn Header="Setting MaxValue" Binding="{Binding MaxValue}" Width="0.7*"/>
+                        <DataGridTextColumn Header="Current Value" Binding="{Binding RealValue}" Width="0.7*">
+                            <DataGridTextColumn.CellStyle>
+                                <Style TargetType="{x:Type DataGridCell}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsAlarmed}" Value="True">
+                                            <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
+                                            <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </materialDesign:Card>
+        </Grid>
+    </materialDesign:DialogHost>
+</UserControl>

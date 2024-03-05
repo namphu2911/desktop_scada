@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WEMBLEY.DemoApp.Views.Line1.Report
+namespace WEMBLEY.DemoApp.Views.Line2.DosingDryingMachine
 {
     /// <summary>
-    /// Interaction logic for ReportNavigationView.xaml
+    /// Interaction logic for DosingDryingParameterMonitorView.xaml
     /// </summary>
-    public partial class ReportNavigationView : UserControl
+    public partial class DosingDryingParameterMonitorView : UserControl
     {
-        public ReportNavigationView()
+        public DosingDryingParameterMonitorView()
         {
             InitializeComponent();
         }

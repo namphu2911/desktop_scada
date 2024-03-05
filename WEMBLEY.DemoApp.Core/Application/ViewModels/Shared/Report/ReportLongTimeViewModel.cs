@@ -21,7 +21,7 @@ using WEMBLEY.DemoApp.Core.Application.ViewModels.SeedWork;
 using WEMBLEY.DemoApp.Core.Domain.Dtos.ShiftReports;
 using WEMBLEY.DemoApp.Core.Domain.Services;
 
-namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineReport
+namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Shared.Report
 {
     public class ReportLongTimeViewModel : BaseViewModel
     {
@@ -104,7 +104,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineReport
             LoadQCommand = new RelayCommand(LoadQReport); ;
         }
 
-       
+
         private async void ExportReport(string? filePath)
         {
             if (filePath is not null)
@@ -141,8 +141,8 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineReport
             QRowVis = Visibility.Collapsed;
             OnPropertyChanged(nameof(ShiftReportEntries));
 
-            Datelabel = new (ShiftReportEntries.Select(g => $"{g.Date:dd/MM/yyyy} - {g.ShiftNumber}"));
-            SeriesCollection[0].Values = ShiftReportEntries.Select(g => Math.Round(g.OEE,2)).AsChartValues();
+            Datelabel = new(ShiftReportEntries.Select(g => $"{g.Date:dd/MM/yyyy} - {g.ShiftNumber}"));
+            SeriesCollection[0].Values = ShiftReportEntries.Select(g => Math.Round(g.OEE, 2)).AsChartValues();
         }
 
         private void LoadAReport()
@@ -212,7 +212,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineReport
                 var dtos = await _apiService.GetShiftReportHistoryAsync(DeviceId, StartDate, EndDate);
                 foreach (var d in dtos)
                 {
-                    d.UpdateOEE(d.OEE,d.A , d.P, d.Q);
+                    d.UpdateOEE(d.OEE, d.A, d.P, d.Q);
                 }
                 ShiftReportEntries = new(dtos.OrderBy(s => s.Date).ThenBy(s => s.ShiftNumber));
                 ShiftTableEntries = new(dtos);
@@ -240,7 +240,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineReport
                 case "A": LoadAReport(); break;
                 case "P": LoadPReport(); break;
                 case "Q": LoadQReport(); break;
-                    default: break;
+                default: break;
             }
         }
     }

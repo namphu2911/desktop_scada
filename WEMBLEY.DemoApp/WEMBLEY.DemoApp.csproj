@@ -13,6 +13,7 @@
     <None Remove="Resources\Images\logohcmut.jpg" />
     <None Remove="Resources\Images\logowembly.jpg" />
     <None Remove="Resources\Images\Nutchan.jpg" />
+    <None Remove="Resources\Images\Ongmauthuong.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,6 +30,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\Nutchan.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Ongmauthuong.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
@@ -50,6 +54,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\WEMBLEY.DemoApp.Core\WEMBLEY.DemoApp.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Line2\NoStopperCappingMachine\" />
+    <Folder Include="Views\Line2\StopperCappingMachine\" />
   </ItemGroup>
 
 </Project>

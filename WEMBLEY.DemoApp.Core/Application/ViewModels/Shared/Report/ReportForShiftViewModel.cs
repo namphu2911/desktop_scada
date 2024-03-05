@@ -17,7 +17,7 @@ using WEMBLEY.DemoApp.Core.Application.ViewModels.SeedWork;
 using WEMBLEY.DemoApp.Core.Domain.Dtos.ShiftReports;
 using WEMBLEY.DemoApp.Core.Domain.Services;
 
-namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachineReport
+namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Shared.Report
 {
     public class ReportForShiftViewModel : BaseViewModel
     {
