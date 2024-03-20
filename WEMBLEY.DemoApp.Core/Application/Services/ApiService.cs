@@ -111,6 +111,7 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
             return result;
         }
 
+        //Tao Lo
         public async Task CreateLotAsync(string refName, CreateLotDto createDto)
         {
             var json = JsonConvert.SerializeObject(createDto);
@@ -148,6 +149,7 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
             }
         }
 
+        //Update LO
         public async Task UpdateLotAsync(string refName, CreateLotDto createDto)
         {
             var json = JsonConvert.SerializeObject(createDto);
@@ -157,12 +159,14 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
             response.EnsureSuccessStatusCode();
         }
 
+        //Ket thuc Lo
         public async Task CompleteRefAsync(string refName)
         {
             HttpResponseMessage response = await _httpClient.PutAsync($"{serverUrl}/api/References/Parameters/Completed/{refName}", null);
             response.EnsureSuccessStatusCode();
         }
 
+        //Get MFC theo station va Ref
         public async Task<IEnumerable<DeviceReferenceDto>> GetStationReferencesMFCAsync(string stationId, string referenceId)
         {
             HttpResponseMessage response = await _httpClient.GetAsync($"{serverUrl}/api/StationReferences?StationId={stationId}&ReferenceId={referenceId}");
@@ -195,6 +199,7 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
             return result;
         }
 
+        //UpdateMFC
         public async Task FixMFCAsync(string referenceId, string stationId, IEnumerable<MFCDto> fixDto)
         {
             var json = JsonConvert.SerializeObject(fixDto);
@@ -204,6 +209,7 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
             response.EnsureSuccessStatusCode();
         }
 
+        //Lay tat ca Paramter hien tai
         public async Task<IEnumerable<ParameterDto>> GetAllLotDeviceReferenceAsync()
         {
             HttpResponseMessage response = await _httpClient.GetAsync($"{serverUrl}/api/References/Parameters");
@@ -220,6 +226,7 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
             return result;
         }
 
+        //Lay Paramter theo Line
         public async Task<IEnumerable<ParameterDto>> GetLotDeviceReferenceByDeviceAsync(string lineId)
         {
             HttpResponseMessage response = await _httpClient.GetAsync($"{serverUrl}/api/References/Parameters?LineId={lineId}");
@@ -310,7 +317,8 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
 
             response.EnsureSuccessStatusCode();
         }
-
+        
+        //Trang tao lo
         public async Task AddPersonToDeviceAsync(string stationId, AddPersonToDeviceDto createDto)
         {
             var json = JsonConvert.SerializeObject(createDto);
@@ -347,7 +355,8 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
                 }
             }
         }
-
+        
+        //Trang tao lo
         public async Task UpdatePersonToDeviceAsync(string stationId, AddPersonToDeviceDto fixDto)
         {
             var json = JsonConvert.SerializeObject(fixDto);
@@ -357,6 +366,7 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
             response.EnsureSuccessStatusCode();
         }
 
+        //Trang tao lo
         public async Task DeletePersonToDeviceAsync(string stationId, AddPersonToDeviceDto createDto)
         {
             var json = JsonConvert.SerializeObject(createDto);
@@ -373,7 +383,7 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
             response.EnsureSuccessStatusCode();
         }
 
-
+        //Trang lich su loi
         public async Task<IEnumerable<ErrorStatusDto>> GetErrorsHistoryAsync(string stationId, DateTime startDate, DateTime endDate)
         {
             string startDateString = startDate.ToString("yyyy-MM-dd");
@@ -394,26 +404,7 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
             return result;
         }
 
-        //public async Task<IEnumerable<ErrorStatusDto>> GetErrorsHistoryAsync(string stationId, DateTime startDate, DateTime endDate)
-        //{
-        //    string startDateString = startDate.ToString("yyyy-MM-dd");
-        //    string endDateString = endDate.ToString("yyyy-MM-dd");
-
-        //    HttpResponseMessage response = await _httpClient.GetAsync($"{serverUrl2}/api/ErrorInformations?DeviceId={stationId}&StartTime={startDateString}&EndTime={endDateString}");
-
-        //    response.EnsureSuccessStatusCode();
-        //    string responseBody = await response.Content.ReadAsStringAsync();
-
-        //    var result = JsonConvert.DeserializeObject<IEnumerable<ErrorStatusDto>>(responseBody);
-
-        //    if (result is null)
-        //    {
-        //        throw new Exception();
-        //    }
-
-        //    return result;
-        //}
-
+        // Trang trang thai may
         public async Task<IEnumerable<MachineStatusDto>> GetStatusHistoryAsync(string stationId, DateTime startDate, DateTime endDate)
         {
             string startDateString = startDate.ToString("yyyy-MM-dd");
@@ -432,28 +423,9 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
             }
 
             return result;
-        }
+        }       
 
-        //public async Task<IEnumerable<MachineStatusDto>> GetStatusHistoryAsync(string stationId, DateTime startDate, DateTime endDate)
-        //{
-        //    string startDateString = startDate.ToString("yyyy-MM-dd");
-        //    string endDateString = endDate.ToString("yyyy-MM-dd");
-
-        //    HttpResponseMessage response = await _httpClient.GetAsync($"{serverUrl2}/api/MachineStatus?DeviceId={stationId}&StartTime={startDateString}&EndTime={endDateString}");
-
-        //    response.EnsureSuccessStatusCode();
-        //    string responseBody = await response.Content.ReadAsStringAsync();
-
-        //    var result = JsonConvert.DeserializeObject<IEnumerable<MachineStatusDto>>(responseBody);
-
-        //    if (result is null)
-        //    {
-        //        throw new Exception();
-        //    }
-
-        //    return result;
-        //}
-
+        //Bao cao tong
         public async Task<IEnumerable<ShiftReportDto>> GetShiftReportHistoryAsync(string stationId, DateTime startDate, DateTime endDate)
         {
             string startDateString = startDate.ToString("yyyy-MM-dd");
@@ -474,6 +446,7 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
             return result;
         }
 
+        //No using
         public async Task<IEnumerable<DataPoint>> GetLastestOEEAsync(string stationId, int interval)
         {
             HttpResponseMessage response = await _httpClient.GetAsync($"{serverUrl}/api/ShiftReports/Latest?StationId={stationId}&Interval={interval}");
@@ -489,25 +462,9 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
             }
 
             return result;
-        }
+        }        
 
-        //public async Task<IEnumerable<ShiftReportWithShotDto>> GetShortenShiftReportWithShotByShiftIdAsync(string shiftReportId, int interval)
-        //{
-        //    HttpResponseMessage response = await _httpClient.GetAsync($"{serverUrl}/api/ShiftReports/ShortenDetails?ShiftReportId={shiftReportId}&Interval={interval}");
-
-        //    response.EnsureSuccessStatusCode();
-        //    string responseBody = await response.Content.ReadAsStringAsync();
-
-        //    var result = JsonConvert.DeserializeObject<IEnumerable<ShiftReportWithShotDto>>(responseBody);
-
-        //    if (result is null)
-        //    {
-        //        throw new Exception();
-        //    }
-
-        //    return result;
-        //}
-
+        //Bao cao theo ca
         public async Task<IEnumerable<ShiftReportWithShotDto>> GetShortenShiftReportWithShotByShiftIdAsync(string shiftReportId, int interval)
         {
             HttpResponseMessage response = await _httpClient.GetAsync($"{serverUrl}/api/ShiftReports/ShortenDetails?ShiftReportId={shiftReportId}&Interval={interval}");
@@ -525,6 +482,7 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
             return result;
         }
 
+        //No using
         public async Task<IEnumerable<ShiftReportWithShotDto>> GetShiftReportWithShotByShiftIdAsync(int shiftReportId, int pageIndex, int pageSize)
         {
             HttpResponseMessage response = await _httpClient.GetAsync($"{serverUrl}/api/ShiftReports/Details?ShiftReportId={shiftReportId}&PageIndex={pageIndex}&PageSize={pageSize}");
@@ -542,6 +500,7 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
             return result;
         }
 
+        //No using
         public async Task<IEnumerable<ShiftReportWithShotDto>> GetShiftReportWithShotByDateAsync(DateTime Date, int shiftNumber)
         {
             string date = Date.ToString("yyyy-MM-dd");
@@ -560,6 +519,7 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
             return result;
         }
 
+        //Download Report
         public async Task<byte[]> DownloadShiftReportFileAsync(string stationId, DateTime startDate, DateTime endDate)
         {
             string startDateString = startDate.ToString("yyyy-MM-dd");
