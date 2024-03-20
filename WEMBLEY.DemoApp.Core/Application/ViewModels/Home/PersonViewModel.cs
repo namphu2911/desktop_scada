@@ -1,10 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.SeedWork;
@@ -15,8 +10,8 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
     public class PersonViewModel : BaseViewModel
     {
         private IApiService _apiService;
-        public string PersonId { get; set; }
-        public string PersonName { get; set; }
+        public string EmployeeId { get; set; }
+        public string EmployeeName { get; set; }
         public ICommand DeleteCommand { get; set; }
         public event Action? OnRemoved;
         public event Action? OnException;
@@ -27,11 +22,11 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
             DeleteCommand = new RelayCommand(DeleteAsync);
         }
 
-        public PersonViewModel(IApiService apiService, string personId, string personName)
+        public PersonViewModel(IApiService apiService, string employeeId, string employeeName)
         {
             _apiService = apiService;
-            PersonId = personId;
-            PersonName = personName;
+            EmployeeId = employeeId;
+            EmployeeName = employeeName;
             
             DeleteCommand = new RelayCommand(DeleteAsync);
         }
@@ -55,7 +50,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
             {
                 if (MessageBox.Show("Xác nhận xóa", "Xác nhận", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
-                    await _apiService.DeletePersonAsync(PersonId);
+                    await _apiService.DeletePersonAsync(EmployeeId);
                     OnRemoved?.Invoke();
                     MessageBox.Show("Đã Cập Nhật", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
                 }

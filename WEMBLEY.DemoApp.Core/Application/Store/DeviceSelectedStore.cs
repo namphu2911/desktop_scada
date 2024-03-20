@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WEMBLEY.DemoApp.Core.Application.Store
+﻿namespace WEMBLEY.DemoApp.Core.Application.Store
 {
     public class DeviceSelectedStore
     {

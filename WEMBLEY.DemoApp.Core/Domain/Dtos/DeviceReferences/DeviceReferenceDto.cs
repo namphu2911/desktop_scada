@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WEMBLEY.DemoApp.Core.Domain.Dtos.DeviceReferences
+﻿namespace WEMBLEY.DemoApp.Core.Domain.Dtos.DeviceReferences
 {
     public class DeviceReferenceDto
     {
-        public string DeviceId { get; set; }
+        public string StationId { get; set; }
         public List<MFCDto> MFCs { get; set; }
-        public DeviceReferenceDto(string deviceId, List<MFCDto> mFCs)
+        public DeviceReferenceDto(string stationId, List<MFCDto> mFCs)
         {
-            DeviceId = deviceId;
+            StationId = stationId;
             MFCs = mFCs;
         }
     }

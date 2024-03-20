@@ -1,23 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using WEMBLEY.DemoApp.Core.Domain.Dtos.Lines;
 
 namespace WEMBLEY.DemoApp.Core.Domain.Dtos.References
 {
     public class ReferenceDto
     {
-        public int Id { get; set; }
-        public string RefName { get; set; }
-        public string DeviceType { get; set; }
+        public string ReferenceId { get; set; }
+        public string ReferenceName { get; set; }
         public string ProductName { get; set; }
-        public ReferenceDto(int id, string refName, string deviceType, string productName)
+        public List<UsableLinesDto> UsableLines { get; set; }
+        public ReferenceDto(string referenceId, string referenceName, string productName, List<UsableLinesDto> usableLines)
         {
-            Id = id;
-            RefName = refName;
-            DeviceType = deviceType;
+            ReferenceId = referenceId;
+            ReferenceName = referenceName;
             ProductName = productName;
+            UsableLines = usableLines;
         }
     }
 }

@@ -1,10 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using WEMBLEY.DemoApp.Core.Application.Store;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine;
@@ -104,7 +99,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.MachinesInLine
         private void ClickCommand()
         {
             _navigationService.NavigateTo<DosingDryingMachineViewModel>();
-            _deviceSelectedStore.SetSeletedDevice("HC001");
+            _deviceSelectedStore.SetSeletedDevice("IE-F3-BLO06");
         }
 
         private async void LoadMachinesInLine2View()

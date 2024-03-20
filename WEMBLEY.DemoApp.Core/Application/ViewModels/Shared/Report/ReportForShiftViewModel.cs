@@ -23,7 +23,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Shared.Report
     {
         private readonly IApiService _apiService;
         private readonly IdTransferStore _idTransferStore;
-        public int Id => _idTransferStore.Id;
+        public string Id => _idTransferStore.Id;
         public string IsSeleted => _idTransferStore.IsSelected;
         public Visibility OEERowVis => _idTransferStore.OEERowVis;
         public Visibility ARowVis => _idTransferStore.ARowVis;
@@ -98,7 +98,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Shared.Report
 
         private async void LoadApiReport()
         {
-            if (Id != 0)
+            if (!(String.IsNullOrEmpty(Id)))
             {
                 try
                 {

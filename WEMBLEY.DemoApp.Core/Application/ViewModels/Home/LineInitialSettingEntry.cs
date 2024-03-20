@@ -1,27 +1,21 @@
 ﻿using AutoMapper;
 using CommunityToolkit.Mvvm.Input;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using WEMBLEY.DemoApp.Core.Application.Store;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.SeedWork;
 using WEMBLEY.DemoApp.Core.Domain.Dtos.References;
-using WEMBLEY.DemoApp.Core.Domain.Exceptions;
 using WEMBLEY.DemoApp.Core.Domain.Services;
 
 namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
 {
     public class LineInitialSettingEntry : BaseViewModel
     {
-        private PersonStore? _personStore;
-        public ObservableCollection<string>? PersonIds => _personStore?.PersonIds;
-        public ObservableCollection<string>? PersonNames => _personStore?.PersonNames;
+        private EmployeeStore? _personStore;
+        public ObservableCollection<string>? PersonIds => _personStore?.EmployeeIds;
+        public ObservableCollection<string>? PersonNames => _personStore?.EmployeeNames;
         private IApiService? _apiService;
         private IMapper? _mapper;
         public string DeviceType { get; set; }
@@ -46,8 +40,8 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
                 personId = value;
                 if (_personStore is not null && !String.IsNullOrEmpty(value))
                 {
-                    var person = _personStore.Persons.First(i => i.PersonId == personId);
-                    personName = person.PersonName;
+                    var person = _personStore.Employees.First(i => i.EmployeeId == personId);
+                    personName = person.EmployeeName;
                     OnPropertyChanged(nameof(PersonName));
                 }
             }
@@ -64,8 +58,8 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
                 personName = value;
                 if (_personStore is not null && !String.IsNullOrEmpty(value))
                 {
-                    var person = _personStore.Persons.First(i => i.PersonName == personName);
-                    personId = person.PersonId;
+                    var person = _personStore.Employees.First(i => i.EmployeeName == personName);
+                    personId = person.EmployeeId;
                     OnPropertyChanged(nameof(PersonId));
                 }
             }
@@ -156,7 +150,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
             _mapper = mapper;
             OnPropertyChanged();
         }
-        public void SetStore(PersonStore personStore)
+        public void SetStore(EmployeeStore personStore)
         {
             _personStore = personStore;
             OnPropertyChanged();

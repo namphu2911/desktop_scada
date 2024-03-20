@@ -15,7 +15,6 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
     {
         private readonly IApiService _apiService;
         private readonly ISignalRClient _signalRClient;
-        private readonly ReferenceStore _referenceStore;
         private readonly HomeDataStore _homeDataStore;
 
         public HerapinCapMFC HcMFC { get; set; } = new(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
@@ -24,13 +23,12 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
         public List<double?> RealMFCValues { get; set; } = new();
         public List<TagChangedNotification> AllTags { get; set; } = new();
         public ICommand LoadMFCMonitorViewCommand { get; set; }
-        public int HomeRefId => _homeDataStore.HomeDatas.First(i => i.DeviceType == "HerapinCap").RefId;
+        public string HomeRefId => _homeDataStore.HomeDatas.First(i => i.Line.LineId == "HerapinCap").ReferenceId;
 
-        public MFCMonitorViewModel(ISignalRClient signalRClient, IApiService apiService, ReferenceStore referenceStore, HomeDataStore homeDataStore)
+        public MFCMonitorViewModel(ISignalRClient signalRClient, IApiService apiService, HomeDataStore homeDataStore)
         {
             _signalRClient = signalRClient;
             _apiService = apiService;
-            _referenceStore = referenceStore;
             _homeDataStore = homeDataStore;
 
             signalRClient.OnTagChanged += OnTagChanged;
@@ -88,9 +86,9 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
             OnPropertyChanged(nameof(HomeRefId));
             try
             {
-                if (HomeRefId != 0)
+                if(!(String.IsNullOrEmpty(HomeRefId)))
                 {
-                    var dtos = await _apiService.GetDeviceReferenceMFCAsync(HomeRefId, "HC001");
+                    var dtos = await _apiService.GetStationReferencesMFCAsync("IE-F2-HCA01", HomeRefId);
                     MFCDtos = dtos.Last().MFCs;
                 }
                 ReloadData();
@@ -141,7 +139,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
 
         private void ReloadData()
         {
-            var newViewModels = MFCDtos.Select((tag, index) => new ComparedMFC(tag.Name, tag.Value, tag.MinValue, tag.MaxValue, RealMFCValues[index])).ToList();
+            var newViewModels = MFCDtos.Select((tag, index) => new ComparedMFC(tag.MFCName, tag.Value, tag.MinValue, tag.MaxValue, RealMFCValues[index])).ToList();
             MFCEntries = new(newViewModels);
         }
     }

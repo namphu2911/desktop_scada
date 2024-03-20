@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WEMBLEY.DemoApp.Core.Domain.Services
+﻿namespace WEMBLEY.DemoApp.Core.Domain.Services
 {
     public interface IDatabaseSynchronizationService
     {
         Task SynchronizeReferencesData();
-        Task SynchronizeDevicesData();
+        Task SynchronizeStationsData();
         Task SynchronizeHomeData();
-        Task SynchronizePersonsData();
+        Task SynchronizeEmployeesData();
     }
 }

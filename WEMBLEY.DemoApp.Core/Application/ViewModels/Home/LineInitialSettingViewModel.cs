@@ -1,17 +1,12 @@
 ﻿using AutoMapper;
 using CommunityToolkit.Mvvm.Input;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using WEMBLEY.DemoApp.Core.Application.Store;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.SeedWork;
-using WEMBLEY.DemoApp.Core.Domain.Dtos.Persons;
+using WEMBLEY.DemoApp.Core.Domain.Dtos.Employees;
 using WEMBLEY.DemoApp.Core.Domain.Dtos.References;
 using WEMBLEY.DemoApp.Core.Domain.Exceptions;
 using WEMBLEY.DemoApp.Core.Domain.Services;
@@ -25,8 +20,8 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
 
         private readonly IDatabaseSynchronizationService _databaseSynchronizationService;
         private readonly ReferenceStore _referenceStore;
-        private readonly PersonStore _personStore;
-        public ObservableCollection<string> DeviceTypes => _referenceStore.DeviceTypes;
+        private readonly EmployeeStore _personStore;
+        public ObservableCollection<string> DeviceTypes => _referenceStore.LineIds;
         public ObservableCollection<string> ProductNames => _referenceStore.ProductNames;
         public ObservableCollection<string> ReferenceNames => _referenceStore.ReferenceNames;
         public ObservableCollection<string> ProductNamesFilled { get; set; } = new();
@@ -60,7 +55,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
                 }
                 else
                 {
-                    var sortedReference = _referenceStore.References.Where(i => i.DeviceType == deviceType).ToList();
+                    var sortedReference = _referenceStore.ReferenceSimples.Where(i => i.LineId == deviceType).ToList();
                     ProductNamesFilled = new ObservableCollection<string>(sortedReference.Select(i => i.ProductName).Distinct().OrderBy(s => s));
                     OnPropertyChanged(nameof(ProductNamesFilled));
                     OnPropertyChanged(nameof(ReferenceNamesFilled));
@@ -88,7 +83,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
                 else
                 {
                     var sortedReference = _referenceStore.References.Where(i => i.ProductName == productName); 
-                    ReferenceNamesFilled = new ObservableCollection<string>(sortedReference.Select(i => i.RefName).OrderBy(s => s));
+                    ReferenceNamesFilled = new ObservableCollection<string>(sortedReference.Select(i => i.ReferenceName).OrderBy(s => s));
                     OnPropertyChanged(nameof(ReferenceNamesFilled));
                     OnPropertyChanged(nameof(ReferenceName));
                 }
@@ -110,8 +105,8 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
                 }
                 else
                 {
-                  var reference = _referenceStore.References.First(i => i.RefName == referenceName);
-                    DeviceType = reference.DeviceType;
+                    var reference = _referenceStore.ReferenceSimples.First(i => i.ReferenceName == referenceName);
+                    DeviceType = reference.LineId;
                     ProductName = reference.ProductName;
                     OnPropertyChanged(nameof(DeviceType));
                     OnPropertyChanged(nameof(ProductName));
@@ -129,7 +124,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
         public ICommand CreateInitialSettingCommand { get; set; }
         public ICommand LoadLineInitialSettingViewCommand { get; set; }
         public ICommand CreatePersonCommand { get; set; }
-        public LineInitialSettingViewModel(IApiService apiService, IMapper mapper, IDatabaseSynchronizationService databaseSynchronizationService, ReferenceStore referenceStore, PersonStore personStore)
+        public LineInitialSettingViewModel(IApiService apiService, IMapper mapper, IDatabaseSynchronizationService databaseSynchronizationService, ReferenceStore referenceStore, EmployeeStore personStore)
         {
             _apiService = apiService;
             _mapper = mapper;
@@ -174,7 +169,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
 
         private async void CreatePerson()
         {
-            var createDto = new PersonWorkingDto(
+            var createDto = new EmployeeWorkingDto(
                 PersonId,
                 PersonName);
             try
@@ -216,7 +211,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
             try
             {
                 var dtos = await _apiService.GetAllPersonAsync();
-                var viewModels = _mapper.Map<IEnumerable<PersonDto>, IEnumerable<PersonViewModel>>(dtos);
+                var viewModels = _mapper.Map<IEnumerable<EmployeeDto>, IEnumerable<PersonViewModel>>(dtos);
                 PersonsEntries = new(viewModels);
                 foreach (var viewModel in PersonsEntries)
                 {
@@ -226,7 +221,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
                 }
 
 
-                await _databaseSynchronizationService.SynchronizePersonsData();
+                await _databaseSynchronizationService.SynchronizeEmployeesData();
                 LoadLotSettingAsync();
 
             }
@@ -243,39 +238,42 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
                 var dtos = await _apiService.GetAllLotDeviceReferenceAsync();
                 foreach(var dto in dtos)
                 {
-                    foreach(var device in  dto.Devices)
+                    foreach(var station in  dto.Stations)
                     {
-                        if(device.Persons.Count == 0)
+                        if(station.Employees.Count == 0)
                         {
-                            device.Persons.Add(new PersonWorkingDto("", ""));
+                            station.Employees.Add(new EmployeeWorkingDto("", ""));
                         }
                     }
                 }
                 var viewModels = dtos.Select(c => new LineInitialSettingEntry(
-                    c.DeviceType,
+                    c.Line.LineName,
                     c.ProductName,
-                    c.RefName,
-                    c.LotId,
+                    c.ReferenceName,
+                    c.LotCode,
                     c.LotSize,
-                    c.Devices.SelectMany(i => i.Persons.Select(x => new DeviceInfoViewModel(
-                        i.DeviceId,
-                        x.PersonId,
-                        x.PersonName))).ToList()));
-                if (viewModels != null)
-                {
-                    foreach (var viewModel in viewModels)
-                    {
-                        for (int i = 0; i < viewModel.Devices.Count - 1; i++)
-                        {
-                            if (viewModel.Devices[i + 1].DeviceId == viewModel.Devices[i].DeviceId)
-                            {
-                                viewModel.Devices[i + 1].DeviceId = "";
-                            }
-                            OnPropertyChanged(nameof(viewModels));
-                        }
-                    }
-                    LotSettingEntries = new(viewModels);
-                }
+                    c.Stations.SelectMany(i => i.Employees.Select(x => new DeviceInfoViewModel(
+                        i.StationId,
+                        x.EmployeeId,
+                        x.EmployeeName))).ToList()));
+
+                LotSettingEntries = new(viewModels);
+
+                //if (viewModels != null)
+                //{
+                //    foreach (var viewModel in viewModels)
+                //    {
+                //        for (int i = 0; i < viewModel.Devices.Count - 1; i++)
+                //        {
+                //            if (viewModel.Devices[i + 1].DeviceId == viewModel.Devices[i].DeviceId)
+                //            {
+                //                viewModel.Devices[i + 1].DeviceId = "";
+                //            }
+                //            OnPropertyChanged(nameof(viewModels));
+                //        }
+                //    }
+                //    LotSettingEntries = new(viewModels);
+                //}
 
                 foreach (var entry in LotSettingEntries)
                 {

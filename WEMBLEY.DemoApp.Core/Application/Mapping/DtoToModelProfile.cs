@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Home;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Shared.Report;
-using WEMBLEY.DemoApp.Core.Domain.Dtos.Persons;
+using WEMBLEY.DemoApp.Core.Domain.Dtos.Employees;
 using WEMBLEY.DemoApp.Core.Domain.Dtos.References;
 using WEMBLEY.DemoApp.Core.Domain.Dtos.ShiftReports;
 
@@ -18,7 +18,7 @@ namespace WEMBLEY.DemoApp.Core.Application.Mapping
         {
             CreateMap<ParameterDto, LineInitialSettingEntry>();
             CreateMap<ShiftReportDto, ShiftReportEntry>();
-            CreateMap<PersonDto, PersonViewModel>();
+            CreateMap<EmployeeDto, PersonViewModel>();
         }
     }
 }

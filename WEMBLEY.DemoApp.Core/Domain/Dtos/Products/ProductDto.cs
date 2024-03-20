@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using WEMBLEY.DemoApp.Core.Domain.Dtos.Lines;
 
 namespace WEMBLEY.DemoApp.Core.Domain.Dtos.Products
 {
     public class ProductDto
     {
-        public int Id { get; set; }
+        public string ProductId { get; set; }
         public string ProductName { get; set; }
-        public string DeviceType { get; set; }
-        public ProductDto(int id, string productName, string deviceType)
+        public List<UsableLinesDto> UsableLines { get; set; }
+        public ProductDto(string productId, string productName, List<UsableLinesDto> usableLines)
         {
-            Id = id;
+            ProductId = productId;
             ProductName = productName;
-            DeviceType = deviceType;
+            UsableLines = usableLines;
         }
     }
 }

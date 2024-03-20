@@ -28,8 +28,8 @@ namespace WEMBLEY.DemoApp.HostBuiders
 
                 services.AddSingleton<ProductStore>();
                 services.AddSingleton<ReferenceStore>();
-                services.AddSingleton<DeviceStore>();
-                services.AddSingleton<PersonStore>();
+                services.AddSingleton<StationStore>();
+                services.AddSingleton<EmployeeStore>();
                 services.AddSingleton<HomeDataStore>();
                 services.AddSingleton<IdTransferStore>();
                 services.AddSingleton<DeviceSelectedStore>();

@@ -1,11 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WEMBLEY.DemoApp.Core.Application.Store;
-using WEMBLEY.DemoApp.Core.Application.ViewModels.SeedWork;
+﻿using WEMBLEY.DemoApp.Core.Application.Store;
 using WEMBLEY.DemoApp.Core.Domain.Services;
 
 namespace WEMBLEY.DemoApp.Core.Application.Services
@@ -14,19 +7,19 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
     {
         private readonly IApiService _apiService;
         private readonly ReferenceStore _referenceStore;
-        private readonly DeviceStore _deviceStore;
-        private readonly PersonStore _personStore;
+        private readonly StationStore _deviceStore;
+        private readonly EmployeeStore _employeeStore;
         private readonly HomeDataStore _homeDataStore;
 
         List<string> Errors { get; set; } = new();
 
-        public DatabaseSynchronizationService(IApiService apiService, ReferenceStore referenceStore, DeviceStore deviceStore, HomeDataStore homeDataStore, PersonStore personStore)
+        public DatabaseSynchronizationService(IApiService apiService, ReferenceStore referenceStore, StationStore deviceStore, HomeDataStore homeDataStore, EmployeeStore employeeStore)
         {
             _apiService = apiService;
             _referenceStore = referenceStore;
             _deviceStore = deviceStore;
             _homeDataStore = homeDataStore;
-            _personStore = personStore;
+            _employeeStore = employeeStore;
         }
 
         public async Task SynchronizeReferencesData()
@@ -35,16 +28,16 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
             _referenceStore.SetReference(referenceDto);
         }
 
-        public async Task SynchronizeDevicesData()
+        public async Task SynchronizeStationsData()
         {
-            var deviceDtos = await _apiService.GetAllDeviceTypeAsync();
-            _deviceStore.SetDevice(deviceDtos);
+            var deviceDtos = await _apiService.GetStationReferencesInfoAsync();
+            _deviceStore.SetStation(deviceDtos);
         }
 
-        public async Task SynchronizePersonsData()
+        public async Task SynchronizeEmployeesData()
         {
-            var personDtos = await _apiService.GetAllPersonAsync();
-            _personStore.SetPerson(personDtos);
+            var employeeDtos = await _apiService.GetAllPersonAsync();
+            _employeeStore.SetEmployee(employeeDtos);
         }
 
         public async Task SynchronizeHomeData()

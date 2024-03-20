@@ -1,30 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WEMBLEY.DemoApp.Core.Domain.Dtos.DeviceReferences;
+﻿using WEMBLEY.DemoApp.Core.Domain.Dtos.Lines;
 
 namespace WEMBLEY.DemoApp.Core.Domain.Dtos.References
 {
     public class ParameterDto
     {
-        public string DeviceType { get; set; }
         public string ProductName { get; set; }
-        public int RefId { get; set; }
-        public string RefName { get; set; }
-        public string LotId { get; set; }
+        public string ReferenceId { get; set; }
+        public string ReferenceName { get; set; }
+        public string LotCode { get; set; }
         public int LotSize { get; set; }
-        public List<DeviceInfoDto> Devices { get; set; }
-        public ParameterDto(string deviceType, string productName, int refId, string refName, string lotId, int lotSize, List<DeviceInfoDto> devices)
+        public UsableLinesDto Line { get; set; }
+        public List<StationInfoDto> Stations { get; set; }
+        public ParameterDto(string productName, string referenceId, string referenceName, string lotCode, int lotSize, UsableLinesDto line, List<StationInfoDto> stations)
         {
-            DeviceType = deviceType;
             ProductName = productName;
-            RefId = refId;
-            RefName = refName;
-            LotId = lotId;
+            ReferenceId = referenceId;
+            ReferenceName = referenceName;
+            LotCode = lotCode;
             LotSize = lotSize;
-            Devices = devices;
+            Line = line;
+            Stations = stations;
         }
     }
 }

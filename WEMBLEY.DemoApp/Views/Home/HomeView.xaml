@@ -216,32 +216,6 @@
                                                    Style="{StaticResource LineValue}"
                                                    Text="{Binding HerapinCapProductName}" />
                                             </Border>
-                                            
-                                            <!--<ComboBox Grid.Column="1"
-                                                  Margin="5"
-                                                  materialDesign:HintAssist.Hint="Tên sản phẩm"
-                                                  Style="{StaticResource ComboBox}"
-                                                  ItemsSource="{Binding HerapinCapProductNames, UpdateSourceTrigger=PropertyChanged}"
-                                                  Text="{Binding HerapinCapProductName}">
-                                                <ComboBox.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <VirtualizingStackPanel />
-                                                    </ItemsPanelTemplate>
-                                                </ComboBox.ItemsPanel>
-                                            </ComboBox>-->
-
-                                            <!--<ComboBox Grid.Column="3"
-                                                  Margin="5"
-                                                  materialDesign:HintAssist.Hint="Mã Ref"
-                                                  Style="{StaticResource ComboBox}"
-                                                  ItemsSource="{Binding HerapinCapReferenceNamesFilled, UpdateSourceTrigger=PropertyChanged}"
-                                                  Text="{Binding HerapinCapReferenceName}">
-                                                <ComboBox.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <VirtualizingStackPanel />
-                                                    </ItemsPanelTemplate>
-                                                </ComboBox.ItemsPanel>
-                                            </ComboBox>-->
                                         </Grid>
 
                                         <Grid Grid.Row="4">
@@ -460,32 +434,6 @@
                                                    Style="{StaticResource LineValue}"
                                                    Text="{Binding HerapinCapProductName}" />
                                             </Border>
-
-                                            <!--<ComboBox Grid.Column="1"
-                                                  Margin="5"
-                                                  materialDesign:HintAssist.Hint="Tên sản phẩm"
-                                                  Style="{StaticResource ComboBox}"
-                                                  ItemsSource="{Binding HerapinCapProductNames, UpdateSourceTrigger=PropertyChanged}"
-                                                  Text="{Binding HerapinCapProductName}">
-                                                <ComboBox.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <VirtualizingStackPanel />
-                                                    </ItemsPanelTemplate>
-                                                </ComboBox.ItemsPanel>
-                                            </ComboBox>-->
-
-                                            <!--<ComboBox Grid.Column="3"
-                                                  Margin="5"
-                                                  materialDesign:HintAssist.Hint="Mã Ref"
-                                                  Style="{StaticResource ComboBox}"
-                                                  ItemsSource="{Binding HerapinCapReferenceNamesFilled, UpdateSourceTrigger=PropertyChanged}"
-                                                  Text="{Binding HerapinCapReferenceName}">
-                                                <ComboBox.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <VirtualizingStackPanel />
-                                                    </ItemsPanelTemplate>
-                                                </ComboBox.ItemsPanel>
-                                            </ComboBox>-->
                                         </Grid>
 
                                         <Grid Grid.Row="4">

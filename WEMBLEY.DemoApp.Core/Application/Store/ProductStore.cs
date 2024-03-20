@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.SeedWork;
 using WEMBLEY.DemoApp.Core.Domain.Dtos.Products;
 
@@ -11,18 +6,38 @@ namespace WEMBLEY.DemoApp.Core.Application.Store
 {
     public class ProductStore : BaseViewModel
     {
-        public List<ProductDto> HerapinCapProducts { get; private set; }
-        public ObservableCollection<string> HerapinCapProductNames { get; private set; }
+        public List<ProductDto> Products { get; private set; }
+        public List<ProductSimpleDto> ProductSimples { get; private set; }
+        public ObservableCollection<string> ProductIds { get; private set; }
+        public ObservableCollection<string> ProductNames { get; private set; }
+        public ObservableCollection<string> LineIds { get; private set; }
+        public ObservableCollection<string> LineNames { get; private set; }
         public ProductStore()
         {
-            HerapinCapProducts = new List<ProductDto>();
-            HerapinCapProductNames = new ObservableCollection<string>();
+            Products = new List<ProductDto>();
+            ProductSimples = new List<ProductSimpleDto>();
+
+            ProductIds = new ObservableCollection<string>();
+            ProductNames = new ObservableCollection<string>();
+            LineIds = new ObservableCollection<string>();
+            LineNames = new ObservableCollection<string>();
         }
 
-        public void SetHerapinCapProduct(IEnumerable<ProductDto> products)
+        public void SetProduct(IEnumerable<ProductDto> products)
         {
-            HerapinCapProducts = products.ToList();
-            HerapinCapProductNames = new ObservableCollection<string>(HerapinCapProducts.Select(i => i.ProductName).OrderBy(s => s));
+            Products = products.ToList();
+            ProductSimples = products.SelectMany(i => i.UsableLines.Select(x => new ProductSimpleDto(
+                i.ProductId,
+                i.ProductName,
+                x.LineId,
+                x.LineName,
+                x.LineType))).ToList();
+
+            ProductIds = new ObservableCollection<string>(ProductSimples.Select(i => i.ProductId).Distinct().OrderBy(s => s));
+            ProductNames = new ObservableCollection<string>(ProductSimples.Select(i => i.ProductName).Distinct().OrderBy(s => s));
+
+            LineIds = new ObservableCollection<string>(ProductSimples.Select(i => i.LineId).Distinct().OrderBy(s => s));
+            LineNames = new ObservableCollection<string>(ProductSimples.Select(i => i.LineName).Distinct().OrderBy(s => s));
         }
     }
 }

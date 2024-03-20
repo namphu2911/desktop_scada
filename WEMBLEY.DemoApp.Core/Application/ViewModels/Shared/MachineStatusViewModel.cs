@@ -18,8 +18,8 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Shared
     {
         private readonly IApiService _apiService;
         //Doi lai la Device
-        private readonly DeviceStore _deviceStore;
-        public ObservableCollection<string> DeviceIds => _deviceStore.DeviceIds;
+        private readonly StationStore _deviceStore;
+        public ObservableCollection<string> DeviceIds => _deviceStore.StationIds;
         //
         private readonly DeviceSelectedStore _deviceSelectedStore;
         public string SeletedDeviceId => _deviceSelectedStore.SeletedDeviceId;
@@ -30,7 +30,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Shared
         public ICommand LoadMachineStatusHistoryCommand { get; set; }
         public ICommand LoadApiCommand { get; set; }
         public ObservableCollection<MachineStatusDto> StatusHistoryEntries { get; set; } = new();
-        public MachineStatusViewModel(IApiService apiService, DeviceStore deviceStore, DeviceSelectedStore deviceSelectedStore)
+        public MachineStatusViewModel(IApiService apiService, StationStore deviceStore, DeviceSelectedStore deviceSelectedStore)
         {
             _apiService = apiService;
             _deviceStore = deviceStore;

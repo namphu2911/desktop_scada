@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WEMBLEY.DemoApp.Core.Domain.Dtos.ShiftReports
+﻿namespace WEMBLEY.DemoApp.Core.Domain.Dtos.ShiftReports
 {
     public class ShiftReportWithShotDto
     {

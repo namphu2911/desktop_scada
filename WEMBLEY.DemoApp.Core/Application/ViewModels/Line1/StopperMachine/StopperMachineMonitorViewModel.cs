@@ -287,8 +287,8 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
             try
             {
                 PersonStrings = new();
-                var dtos = await _apiService.GetLotDeviceReferenceByDeviceTypeAsync("HerapinCap");
-                HerapinCapLotId = dtos.Last().LotId;
+                var dtos = await _apiService.GetLotDeviceReferenceByDeviceAsync("HerapinCap");
+                HerapinCapLotId = dtos.Last().LotCode;
                 HerapinCapLotSize = dtos.Last().LotSize;
                 if(string.IsNullOrEmpty(HerapinCapLotId))
                 {
@@ -298,14 +298,17 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
                 else
                 {
                     HerapinCapProductName = dtos.Last().ProductName;
-                    HerapinCapReferenceName = dtos.Last().RefName;
+                    HerapinCapReferenceName = dtos.Last().ReferenceName;
                 }
-                var persons = dtos.First().Devices.First(i => i.DeviceId == "HC001").Persons;
-                foreach(var person in persons)
+                if(dtos.First().Stations.Count() != 0)
                 {
-                    PersonStrings.Add($"{person.PersonId} - {person.PersonName}");
+                    var persons = dtos.First().Stations.First(i => i.StationId == "IE-F2-HCA01").Employees;
+                    foreach (var person in persons)
+                    {
+                        PersonStrings.Add($"{person.EmployeeId} - {person.EmployeeName}");
+                    }
+                    OnPropertyChanged(nameof(PersonStrings));
                 }
-                OnPropertyChanged(nameof(PersonStrings));
             }
             catch (HttpRequestException)
             {
@@ -317,7 +320,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
         {
             try
             {
-                var dtos = await _apiService.GetLastestOEEAsync("HC001", Interval);
+                var dtos = await _apiService.GetLastestOEEAsync("IE-F2-HCA01", Interval);
                 OEEGraphTags = dtos.Select(i => new DataPoint(i.OEE * 100, i.TimeStamp)).ToList();
             }
             catch (HttpRequestException)

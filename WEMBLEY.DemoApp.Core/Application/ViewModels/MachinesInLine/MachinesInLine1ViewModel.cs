@@ -105,7 +105,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.MachinesInLine
         private void ClickCommand()
         {
             _navigationService.NavigateTo<StopperMachineViewModel>();
-            _deviceSelectedStore.SetSeletedDevice("HC001");
+            _deviceSelectedStore.SetSeletedDevice("IE-F2-HCA01");
         }
 
         private async void LoadMachinesInLine1View()

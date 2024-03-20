@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WEMBLEY.DemoApp.Core.Domain.Dtos.DeviceReferences
+﻿namespace WEMBLEY.DemoApp.Core.Domain.Dtos.DeviceReferences
 {
     public class MFCDto
     {
-        public string Name { get; set; }
+        public string MFCName { get; set; }
         public double Value { get; set; }
         public double MinValue { get; set; }
         public double MaxValue { get; set; }
-        public MFCDto(string name, double value, double minValue, double maxValue)
+        public MFCDto(string mFCName, double value, double minValue, double maxValue)
         {
-            Name = name;
+            MFCName = mFCName;
             Value = value;
             MinValue = minValue;
             MaxValue = maxValue;

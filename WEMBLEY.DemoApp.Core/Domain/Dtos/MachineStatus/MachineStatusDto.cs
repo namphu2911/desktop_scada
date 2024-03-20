@@ -1,26 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WEMBLEY.DemoApp.Core.Domain.Models;
+﻿using WEMBLEY.DemoApp.Core.Domain.Models;
 
 namespace WEMBLEY.DemoApp.Core.Domain.Dtos.MachineStatus
 {
     public class MachineStatusDto
     {
-        public string DeviceId { get; set; }
+        public string StationId { get; set; }
+        public int ShiftNumber { get; set; }
         public EMachineStatus Status { get; set; }
         public DateTime Date { get; set; }
-        public int ShiftNumber { get; set; }
         public DateTime Timestamp { get; set; }
-
-        public MachineStatusDto(string deviceId, EMachineStatus status, DateTime date, int shiftNumber, DateTime timestamp)
+        public MachineStatusDto(string stationId, int shiftNumber, EMachineStatus status, DateTime date,  DateTime timestamp)
         {
-            DeviceId = deviceId;
+            StationId = stationId;
+            ShiftNumber = shiftNumber;
             Status = status;
             Date = date;
-            ShiftNumber = shiftNumber;
             Timestamp = timestamp;
         }
     }

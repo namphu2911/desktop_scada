@@ -26,8 +26,8 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Shared.Report
     public class ReportLongTimeViewModel : BaseViewModel
     {
         private readonly IApiService _apiService;
-        private readonly DeviceStore _deviceStore;
-        public ObservableCollection<string> DeviceIds => _deviceStore.DeviceIds;
+        private readonly StationStore _deviceStore;
+        public ObservableCollection<string> DeviceIds => _deviceStore.StationIds;
         //
         private readonly DeviceSelectedStore _deviceSelectedStore;
         public string SeletedDeviceId => _deviceSelectedStore.SeletedDeviceId;
@@ -60,7 +60,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Shared.Report
                 if (selectedEntry is not null)
                 {
                     Changed?.Invoke();
-                    _idTransferStore.SetIdTransfer(selectedEntry.Id, IsSeleted, OEERowVis, ARowVis, PRowVis, QRowVis);
+                    _idTransferStore.SetIdTransfer(selectedEntry.ShiftReportId, IsSeleted, OEERowVis, ARowVis, PRowVis, QRowVis);
                 }
             }
         }
@@ -74,7 +74,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Shared.Report
         public ICommand LoadACommand { get; set; }
         public ICommand LoadPCommand { get; set; }
         public ICommand LoadQCommand { get; set; }
-        public ReportLongTimeViewModel(IApiService apiService, IdTransferStore idTransferStore, DeviceStore deviceStore, DeviceSelectedStore deviceSelectedStore)
+        public ReportLongTimeViewModel(IApiService apiService, IdTransferStore idTransferStore, StationStore deviceStore, DeviceSelectedStore deviceSelectedStore)
         {
             _apiService = apiService;
             _idTransferStore = idTransferStore;
@@ -141,7 +141,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Shared.Report
             QRowVis = Visibility.Collapsed;
             OnPropertyChanged(nameof(ShiftReportEntries));
 
-            Datelabel = new(ShiftReportEntries.Select(g => $"{g.Date:dd/MM/yyyy} - {g.ShiftNumber}"));
+            Datelabel = new(ShiftReportEntries.Select(g => $"{g.Date:dd/MM/yyyy} - {g.StationId}"));
             SeriesCollection[0].Values = ShiftReportEntries.Select(g => Math.Round(g.OEE, 2)).AsChartValues();
         }
 
@@ -157,7 +157,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Shared.Report
             QRowVis = Visibility.Collapsed;
             OnPropertyChanged(nameof(ShiftReportEntries));
 
-            Datelabel = new(ShiftReportEntries.Select(g => $"{g.Date:dd/MM/yyyy} - {g.ShiftNumber}"));
+            Datelabel = new(ShiftReportEntries.Select(g => $"{g.Date:dd/MM/yyyy} - {g.StationId}"));
             SeriesCollection[0].Values = ShiftReportEntries.Select(g => Math.Round(g.A, 2)).AsChartValues();
         }
 
@@ -173,7 +173,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Shared.Report
             QRowVis = Visibility.Collapsed;
             OnPropertyChanged(nameof(ShiftReportEntries));
 
-            Datelabel = new(ShiftReportEntries.Select(g => $"{g.Date:dd/MM/yyyy} - {g.ShiftNumber}"));
+            Datelabel = new(ShiftReportEntries.Select(g => $"{g.Date:dd/MM/yyyy} - {g.StationId}"));
             SeriesCollection[0].Values = ShiftReportEntries.Select(g => Math.Round(g.P, 2)).AsChartValues();
         }
 
@@ -189,7 +189,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Shared.Report
             OEERowVis = Visibility.Collapsed;
             OnPropertyChanged(nameof(ShiftReportEntries));
 
-            Datelabel = new(ShiftReportEntries.Select(g => $"{g.Date:dd/MM/yyyy} - {g.ShiftNumber}"));
+            Datelabel = new(ShiftReportEntries.Select(g => $"{g.Date:dd/MM/yyyy} - {g.StationId}"));
             SeriesCollection[0].Values = ShiftReportEntries.Select(g => Math.Round(g.Q, 2)).AsChartValues();
         }
 
@@ -214,7 +214,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Shared.Report
                 {
                     d.UpdateOEE(d.OEE, d.A, d.P, d.Q);
                 }
-                ShiftReportEntries = new(dtos.OrderBy(s => s.Date).ThenBy(s => s.ShiftNumber));
+                ShiftReportEntries = new(dtos.OrderBy(s => s.Date).ThenBy(s => s.StationId));
                 ShiftTableEntries = new(dtos);
             }
             catch (HttpRequestException)

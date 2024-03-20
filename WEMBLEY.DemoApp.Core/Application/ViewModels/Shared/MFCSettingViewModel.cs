@@ -16,20 +16,42 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Shared
         private readonly ReferenceStore _referenceStore;
         private readonly HomeDataStore _homeDataStore;
         //Doi lai la Device
-        private readonly DeviceStore _deviceStore;
-        public ObservableCollection<string> DeviceIds => _deviceStore.DeviceIds;
+        private readonly StationStore _deviceStore;
+        public ObservableCollection<string> DeviceIds => _deviceStore.StationIds;
+        public ObservableCollection<string> ReferenceIds => _referenceStore.ReferenceIds;
+
+        public ObservableCollection<string> DeviceIdsFilled { get; set; } = new();
+        public ObservableCollection<string> ReferenceIdsFilled { get; set; } = new();
         //
         private readonly DeviceSelectedStore _deviceSelectedStore;
         public string SeletedDeviceId => _deviceSelectedStore.SeletedDeviceId;
-        public string DeviceId { get; set; } = "";
+        private string deviceId = "";
+
+        public string DeviceId 
+        {
+            get
+            {
+                return deviceId;
+            }
+            set
+            {
+                deviceId = value;
+                var sortedStations = _deviceStore.Stations.Where(i => i.StationId == deviceId).ToList();
+                ReferenceIdsFilled = new ObservableCollection<string>(sortedStations.Select(i => i.ReferenceId).Distinct().OrderBy(s => s));
+                OnPropertyChanged(nameof(ReferenceIdsFilled));
+            }
+        }
+
+        public string ReferenceId { get; set; } = "";
+
         //
         public ObservableCollection<MFCDto> MFCEntries { get; set; } = new();
 
         public ICommand LoadMFCSettingViewCommand { get; set; }
         public ICommand UpdateMFCCommand { get; set; }
         public ICommand LoadApiCommand { get; set; }
-        public int HomeRefId => _homeDataStore.HomeDatas.First(i => i.DeviceType == "HerapinCap").RefId;
-        public MFCSettingViewModel(IApiService apiService, ReferenceStore referenceStore, DeviceStore deviceStore, HomeDataStore homeDataStore, DeviceSelectedStore deviceSelectedStore)
+        public string HomeRefId => _homeDataStore.HomeDatas.First(i => i.Line.LineId == "HerapinCap").ReferenceId;
+        public MFCSettingViewModel(IApiService apiService, ReferenceStore referenceStore, StationStore deviceStore, HomeDataStore homeDataStore, DeviceSelectedStore deviceSelectedStore)
         {
             _apiService = apiService;
             _referenceStore = referenceStore;
@@ -44,16 +66,18 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Shared
 
         private void LoadMFCSettingViewAsync()
         {
+            DeviceIdsFilled = new(DeviceIds);
             DeviceId = SeletedDeviceId;
+            ReferenceId = HomeRefId;
             LoadApi();
         }
         private async void LoadApi()
         {
             try
             {
-                if (HomeRefId != 0)
+                if (!(String.IsNullOrEmpty(HomeRefId)))
                 {
-                    var dtos = await _apiService.GetDeviceReferenceMFCAsync(HomeRefId, DeviceId);
+                    var dtos = await _apiService.GetStationReferencesMFCAsync(DeviceId, ReferenceId);
                     if(dtos.Count() != 0)
                     {
                         var viewModels = dtos.Last().MFCs;

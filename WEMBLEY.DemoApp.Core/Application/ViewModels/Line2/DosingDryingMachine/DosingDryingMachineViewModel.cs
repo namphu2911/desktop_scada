@@ -56,7 +56,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine
         private readonly ISignalRClient _signalRClient;
         private readonly ReferenceStore _referenceStore;
         private readonly HomeDataStore _homeDataStore;
-        public int HomeRefId => _homeDataStore.HomeDatas.First(i => i.DeviceType == "HerapinCap").RefId;
+        public string HomeRefId => _homeDataStore.HomeDatas.First(i => i.Line.LineId == "NonVacuumBloodTube").ReferenceId;
 
         //Đoạn code báo đỏ MFC
 

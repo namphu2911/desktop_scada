@@ -36,7 +36,9 @@
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="500"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
 
@@ -47,9 +49,10 @@
 
                     <ComboBox Grid.Row="0" Grid.Column="1"
                       Margin="10"
+                      IsEditable="False"
                       materialDesign:HintAssist.Hint="Trạm máy"
                       Style="{StaticResource ComboBox}"
-                      ItemsSource="{Binding DeviceIds}"
+                      ItemsSource="{Binding DeviceIdsFilled}"
                       Text="{Binding DeviceId}">
                         <ComboBox.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -58,9 +61,26 @@
                         </ComboBox.ItemsPanel>
                     </ComboBox>
 
+                    <TextBlock Grid.Row="0" Grid.Column="2" 
+                       Margin="10"
+                       Style="{StaticResource FieldLabel}"
+                       Text="Mã Ref"/>
 
+                    <ComboBox Grid.Row="0" Grid.Column="3"
+                      Margin="10"
+                      IsEditable="False"
+                      materialDesign:HintAssist.Hint="Trạm máy"
+                      Style="{StaticResource ComboBox}"
+                      ItemsSource="{Binding ReferenceIdsFilled}"
+                      Text="{Binding ReferenceId}">
+                        <ComboBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel />
+                            </ItemsPanelTemplate>
+                        </ComboBox.ItemsPanel>
+                    </ComboBox>
 
-                    <Button Grid.Row="0" Grid.Column="6"
+                    <Button Grid.Row="0" Grid.Column="4"
                             Margin="10"
                             Style="{StaticResource ButtonPrimary}" materialDesign:ButtonAssist.CornerRadius="10"
                             Content="Truy xuất"
@@ -88,7 +108,7 @@
                               SelectionUnit="FullRow"
                               SelectionMode="Single">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Station" Binding="{Binding Name}" IsReadOnly="True" Width="auto"/>
+                        <DataGridTextColumn Header="Station" Binding="{Binding MFCName}" IsReadOnly="True" Width="auto"/>
                         <DataGridTextColumn Header="MinValue" Binding="{Binding MinValue}" Width="auto"/>
                         <DataGridTextColumn Header="MaxValue" Binding="{Binding MaxValue}" Width="auto"/>
                     </DataGrid.Columns>

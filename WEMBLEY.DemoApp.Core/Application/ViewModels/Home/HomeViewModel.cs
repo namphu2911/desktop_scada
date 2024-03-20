@@ -1,13 +1,7 @@
-﻿using AutoMapper;
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using WEMBLEY.DemoApp.Core.Application.Store;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.MachinesInLine;
@@ -20,13 +14,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
     public class HomeViewModel : BaseViewModel
     {
         private readonly IApiService _apiService;
-        private readonly IDatabaseSynchronizationService _databaseSynchronizationService;
         private readonly ISignalRClient _signalRClient;
-
-        private readonly ReferenceStore _referenceStore;
-        public ObservableCollection<string> HerapinCapProductNames => _referenceStore.HerapinCapProductNames;
-        public ObservableCollection<string> HerapinCapReferenceNames => _referenceStore.HerapinCapReferenceNames;
-        public ObservableCollection<string> HerapinCapReferenceNamesFilled { get; set; } = new();
         //
         private EMachineStatus status;
         public EMachineStatus Status
@@ -94,12 +82,10 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
         ///
         public MachinesInLine1ViewModel MachinesInLine1 { get; set; }
         public MachinesInLine2ViewModel MachinesInLine2 { get; set; }
-        public HomeViewModel(IApiService apiService, IDatabaseSynchronizationService databaseSynchronizationService, ISignalRClient signalRClient, ReferenceStore referenceStore, MachinesInLine1ViewModel machinesInLine1, MachinesInLine2ViewModel machinesInLine2)
+        public HomeViewModel(IApiService apiService, ISignalRClient signalRClient, MachinesInLine1ViewModel machinesInLine1, MachinesInLine2ViewModel machinesInLine2)
         {
             _apiService = apiService;
-            _databaseSynchronizationService = databaseSynchronizationService;
             _signalRClient = signalRClient;
-            _referenceStore = referenceStore;
 
             MachinesInLine1 = machinesInLine1;
             MachinesInLine2 = machinesInLine2;
@@ -111,13 +97,6 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
 
         private async void LoadHomeView()
         {
-            await _databaseSynchronizationService.SynchronizeReferencesData();
-            OnPropertyChanged(nameof(HerapinCapProductNames));
-
-            HerapinCapReferenceNamesFilled = new ObservableCollection<string>(HerapinCapReferenceNames);
-            OnPropertyChanged(nameof(HerapinCapReferenceNamesFilled));
-            OnPropertyChanged(nameof(HerapinCapReferenceNames));
-
             var a = await _signalRClient.GetBufferList();
             if (a.Count != 0)
             {
@@ -162,10 +141,10 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
         {
             try
             {
-                var dtos = await _apiService.GetLotDeviceReferenceByDeviceTypeAsync("HerapinCap");
-                HerapinCapLotId = dtos.Last().LotId;
+                var dtos = await _apiService.GetLotDeviceReferenceByDeviceAsync("HerapinCap");
+                HerapinCapLotId = dtos.Last().LotCode;
                 HerapinCapLotSize = dtos.Last().LotSize; 
-                HerapinCapLotId = dtos.Last().LotId;
+                HerapinCapLotId = dtos.Last().LotCode;
                 HerapinCapLotSize = dtos.Last().LotSize;
                 if (string.IsNullOrEmpty(HerapinCapLotId))
                 {
@@ -175,7 +154,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
                 else
                 {
                     HerapinCapProductName = dtos.Last().ProductName;
-                    HerapinCapReferenceName = dtos.Last().RefName;
+                    HerapinCapReferenceName = dtos.Last().ReferenceName;
                 }
             }
             catch (HttpRequestException)

@@ -124,8 +124,8 @@
                               Background="{StaticResource ColorSurface}"
                               VirtualizingPanel.ScrollUnit="Pixel" Grid.ColumnSpan="3">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Mã nhân viên" Binding="{Binding PersonId}" Width="auto"/>
-                                    <DataGridTextColumn Header="Tên nhân viên" Binding="{Binding PersonName}" Width="auto"/>
+                                    <DataGridTextColumn Header="Mã nhân viên" Binding="{Binding EmployeeId}" Width="auto"/>
+                                    <DataGridTextColumn Header="Tên nhân viên" Binding="{Binding EmployeeName}" Width="auto"/>
                                     <DataGridTemplateColumn Width="auto">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
