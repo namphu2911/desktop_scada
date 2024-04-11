@@ -116,7 +116,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
             var tag = JsonConvert.DeserializeObject<TagChangedNotification>(json);
             if (tag != null)
             {
-                if(tag.DeviceId == "HC001")
+                if(tag.StationId == "IE-F2-HCA01")
                 {
                     switch (tag.TagId)
                     {

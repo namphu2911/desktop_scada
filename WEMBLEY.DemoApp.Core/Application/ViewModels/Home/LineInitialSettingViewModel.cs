@@ -265,9 +265,9 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
                 //    {
                 //        for (int i = 0; i < viewModel.Devices.Count - 1; i++)
                 //        {
-                //            if (viewModel.Devices[i + 1].DeviceId == viewModel.Devices[i].DeviceId)
+                //            if (viewModel.Devices[i + 1].StationId == viewModel.Devices[i].StationId)
                 //            {
-                //                viewModel.Devices[i + 1].DeviceId = "";
+                //                viewModel.Devices[i + 1].StationId = "";
                 //            }
                 //            OnPropertyChanged(nameof(viewModels));
                 //        }

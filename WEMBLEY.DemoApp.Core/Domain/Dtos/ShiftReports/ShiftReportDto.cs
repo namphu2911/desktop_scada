@@ -8,11 +8,11 @@
         public double P { get; set; }
         public double Q { get; set; }
         public DateTime Date { get; set; }
+        public int ShiftNumber { get; set; }
         public string StationId { get; set; }
-        public string DeviceId { get; set; }
         public int ProductCount { get; set; }
         public int DefectCount { get; set; }
-        public ShiftReportDto(string shiftReportId, double oEE, double a, double p, double q, DateTime date, string stationId, string deviceId, int productCount, int defectCount)
+        public ShiftReportDto(string shiftReportId, double oEE, double a, double p, double q, DateTime date, int shiftNumber, string stationId, int productCount, int defectCount)
         {
             ShiftReportId = shiftReportId;
             OEE = oEE;
@@ -20,8 +20,8 @@
             P = p;
             Q = q;
             Date = date;
+            ShiftNumber = shiftNumber;
             StationId = stationId;
-            DeviceId = deviceId;
             ProductCount = productCount;
             DefectCount = defectCount;
         }

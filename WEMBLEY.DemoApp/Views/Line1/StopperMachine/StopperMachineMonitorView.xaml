@@ -77,6 +77,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
 
                     <Grid Grid.Row="0" Margin="5" Background="{Binding ColorBack}">
@@ -308,13 +309,14 @@
                             </Grid>
                         </materialDesign:Card>
                     </Grid>
-                    <materialDesign:Card Grid.Row="1" Margin="5">
+                    
+                    <materialDesign:Card Grid.Row="1" Margin="5" Visibility="{Binding RejectionVis}">
                         <DataGrid 
                               Style="{StaticResource MaterialDesignDataGrid}"
                               Background="{StaticResource ColorSurface}"
                               Margin="10"
                               IsReadOnly="True"
-                              ItemsSource="{Binding RejectionEntries}"
+                              ItemsSource="{Binding RejectionEntries, UpdateSourceTrigger=PropertyChanged}"
                               AutoGenerateColumns="False"
                               SelectionUnit="FullRow"
                               SelectionMode="Single">
@@ -327,6 +329,139 @@
                             </DataGrid.Columns>
                         </DataGrid>
                     </materialDesign:Card>
+
+                    <materialDesign:Card Grid.Row="1" Margin="5" Visibility="{Binding UltrasonicWelding13Vis}">
+                        <StackPanel>
+                            <TextBlock 
+                                Style="{StaticResource LineLabel20}"
+                                Text="Ultrasonic Tr1-3"/>
+                            <DataGrid 
+                                  Style="{StaticResource MaterialDesignDataGrid}"
+                                  Background="{StaticResource ColorSurface}"
+                                  Margin="10"
+                                  IsReadOnly="True"
+                                  ItemsSource="{Binding UltrasonicWeldingTR13Entries, UpdateSourceTrigger=PropertyChanged}"
+                                  AutoGenerateColumns="False"
+                                  SelectionUnit="FullRow"
+                                  SelectionMode="Single">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Cycle" Binding="{Binding Cycle}" Width="*"/>
+                                    <DataGridTextColumn Header="RunTime" Binding="{Binding RunTime}" Width="*"/>
+                                    <DataGridTextColumn Header="Pk Pwr" Binding="{Binding PkPwr}" Width="*"/>
+                                    <DataGridTextColumn Header="Energy" Binding="{Binding Energy}" Width="*"/>
+                                    <DataGridTextColumn Header="Weld Abs" Binding="{Binding WeldAbs}" Width="*"/>
+                                    <DataGridTextColumn Header="Weld Col" Binding="{Binding WeldCol}" Width="*"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <DataGrid 
+                                  Style="{StaticResource MaterialDesignDataGrid}"
+                                  Background="{StaticResource ColorSurface}"
+                                  Margin="10"
+                                  IsReadOnly="True"
+                                  ItemsSource="{Binding UltrasonicWeldingTR13Entries, UpdateSourceTrigger=PropertyChanged}"
+                                  AutoGenerateColumns="False"
+                                  SelectionUnit="FullRow"
+                                  SelectionMode="Single">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Total Col" Binding="{Binding TotalCol}" Width="*"/>
+                                    <DataGridTextColumn Header="Trig Force" Binding="{Binding TrigForce}" Width="*"/>
+                                    <DataGridTextColumn Header="Weld Force" Binding="{Binding WeldForce}" Width="*"/>
+                                    <DataGridTextColumn Header="Freq Chg" Binding="{Binding FreqChg}" Width="*"/>
+                                    <DataGridTextColumn Header="Set AMP A" Binding="{Binding SetAMPA}" Width="*"/>
+                                    <DataGridTextColumn Header="Velocity" Binding="{Binding Velocity}" Width="*"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
+                    </materialDesign:Card>
+
+                    <materialDesign:Card Grid.Row="1" Margin="5" Visibility="{Binding UltrasonicWelding24Vis}">
+                        <StackPanel>
+                            <TextBlock 
+                                Style="{StaticResource LineLabel20}"
+                                Text="Ultrasonic Tr2-4"/>
+                            <DataGrid 
+                                  Style="{StaticResource MaterialDesignDataGrid}"
+                                  Background="{StaticResource ColorSurface}"
+                                  Margin="10"
+                                  IsReadOnly="True"
+                                  ItemsSource="{Binding UltrasonicWeldingTR24Entries, UpdateSourceTrigger=PropertyChanged}"
+                                  AutoGenerateColumns="False"
+                                  SelectionUnit="FullRow"
+                                  SelectionMode="Single">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Cycle" Binding="{Binding Cycle}" Width="*"/>
+                                    <DataGridTextColumn Header="RunTime" Binding="{Binding RunTime}" Width="*"/>
+                                    <DataGridTextColumn Header="Pk Pwr" Binding="{Binding PkPwr}" Width="*"/>
+                                    <DataGridTextColumn Header="Energy" Binding="{Binding Energy}" Width="*"/>
+                                    <DataGridTextColumn Header="Weld Abs" Binding="{Binding WeldAbs}" Width="*"/>
+                                    <DataGridTextColumn Header="Weld Col" Binding="{Binding WeldCol}" Width="*"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <DataGrid 
+                                  Style="{StaticResource MaterialDesignDataGrid}"
+                                  Background="{StaticResource ColorSurface}"
+                                  Margin="10"
+                                  IsReadOnly="True"
+                                  ItemsSource="{Binding UltrasonicWeldingTR24Entries, UpdateSourceTrigger=PropertyChanged}"
+                                  AutoGenerateColumns="False"
+                                  SelectionUnit="FullRow"
+                                  SelectionMode="Single">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Total Col" Binding="{Binding TotalCol}" Width="*"/>
+                                    <DataGridTextColumn Header="Trig Force" Binding="{Binding TrigForce}" Width="*"/>
+                                    <DataGridTextColumn Header="Weld Force" Binding="{Binding WeldForce}" Width="*"/>
+                                    <DataGridTextColumn Header="Freq Chg" Binding="{Binding FreqChg}" Width="*"/>
+                                    <DataGridTextColumn Header="Set AMP A" Binding="{Binding SetAMPA}" Width="*"/>
+                                    <DataGridTextColumn Header="Velocity" Binding="{Binding Velocity}" Width="*"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
+                    </materialDesign:Card>
+
+                    <Grid Grid.Row="2">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Grid.Row="0" Grid.Column="6"
+                                     Margin="10"
+                                     Style="{StaticResource ButtonChanged}" materialDesign:ButtonAssist.CornerRadius="10"
+                                     Content="Rejection"
+                                     HorizontalAlignment="Center"
+                                     Width="150">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding ShowRejectionCommand}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+
+                            <Button Grid.Row="0" Grid.Column="6"
+                                     Margin="10"
+                                     Style="{StaticResource ButtonChanged}" materialDesign:ButtonAssist.CornerRadius="10"
+                                     Content="Ultrasonic TR1-3"
+                                     HorizontalAlignment="Center"
+                                     Width="160">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding ShowUltrasonicWelding13Command}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+
+                            <Button Grid.Row="0" Grid.Column="6"
+                                     Margin="10"
+                                     Style="{StaticResource ButtonChanged}" materialDesign:ButtonAssist.CornerRadius="10"
+                                     Content="Ultrasonic TR2-4"
+                                     HorizontalAlignment="Center"
+                                     Width="160">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding ShowUltrasonicWelding24Command}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
                 </Grid>
 
                 <Grid Grid.Column="1">
@@ -409,7 +544,7 @@
                               Background="{StaticResource ColorSurface}"
                               Margin="10"
                               IsReadOnly="True"
-                              ItemsSource="{Binding OEEEntries}"
+                              ItemsSource="{Binding OEEEntries, UpdateSourceTrigger=PropertyChanged}"
                               AutoGenerateColumns="False"
                               SelectionUnit="FullRow"
                               SelectionMode="Single">

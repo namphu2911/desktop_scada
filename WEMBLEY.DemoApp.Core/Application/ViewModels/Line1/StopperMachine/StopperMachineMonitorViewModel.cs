@@ -5,6 +5,7 @@ using LiveCharts.Wpf;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using System.Net.Http;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.SeedWork;
@@ -27,7 +28,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
             set
             {
                 status = value;
-                switch(value)
+                switch (value)
                 {
                     case EMachineStatus.On:
                         {
@@ -80,7 +81,6 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
         public int HerapinCapLotSize { get; set; } = 0;
         public long MinDateValue { get; set; } = DateTime.MinValue.Ticks;
         public long MaxDateValue { get; set; } = DateTime.MaxValue.Ticks;
-        public double NaNValue { get; set; }
 
         //OEE
         public double? OEE { get; set; }
@@ -94,7 +94,13 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
         public HerapinCapRejection TR3 { get; set; } = new(0, 0, 0, 0, 0);
         public HerapinCapRejection TR4 { get; set; } = new(0, 0, 0, 0, 0);
 
-
+        //sieu am
+        public Visibility RejectionVis { get; set; } = Visibility.Visible;
+        public Visibility UltrasonicWelding13Vis { get; set; } = Visibility.Collapsed;
+        public Visibility UltrasonicWelding24Vis { get; set; } = Visibility.Collapsed;
+        public UltrasonicWeldingViewModel TR13 { get; set; } = new(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        public UltrasonicWeldingViewModel TR24 { get; set; } = new(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        //
         public string? Error { get; set; }
         List<string> Errors { get; set; } = new();
 
@@ -102,6 +108,8 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
         public ObservableCollection<string> ErrorStrings { get; set; } = new();
         public ObservableCollection<string> PersonStrings { get; set; } = new();
         public ObservableCollection<OEEEntryViewModel> OEEEntries { get; set; } = new();
+        public ObservableCollection<UltrasonicWeldingViewModel> UltrasonicWeldingTR13Entries { get; set; } = new();
+        public ObservableCollection<UltrasonicWeldingViewModel> UltrasonicWeldingTR24Entries { get; set; } = new();
         public List<TagChangedNotification> AllTags { get; set; } = new();
         //
         public List<DataPoint> OEEGraphTags { get; set; } = new();
@@ -112,6 +120,9 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
         public ICommand LoadStopperMachineMonitorViewCommand { get; set; }
         public ICommand LoadReloadGraphCommand { get; set; }
         public ICommand LoadApiOEECommand { get; set; }
+        public ICommand ShowRejectionCommand { get; set; }
+        public ICommand ShowUltrasonicWelding13Command { get; set; }
+        public ICommand ShowUltrasonicWelding24Command { get; set; }
         public event Action? ChartUpdated;
         private int interval;
         public int Interval
@@ -135,6 +146,10 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
             LoadStopperMachineMonitorViewCommand = new RelayCommand(LoadStopperMachineMonitorView);
             LoadReloadGraphCommand = new RelayCommand(ReloadGraph);
             LoadApiOEECommand = new RelayCommand(LoadApiOEE);
+            ShowRejectionCommand = new RelayCommand(ShowRejection);
+            ShowUltrasonicWelding13Command = new RelayCommand(ShowUltrasonicWelding13);
+            ShowUltrasonicWelding24Command = new RelayCommand(ShowUltrasonicWelding24);
+
             signalRClient.OnTagChanged += OnTagChanged;
 
             SeriesCollection = new SeriesCollection()
@@ -154,6 +169,27 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
             ValueFormatter = value => value.ToString("0.00");
         }
 
+        private void ShowRejection()
+        {
+            RejectionVis = Visibility.Visible;
+            UltrasonicWelding13Vis = Visibility.Collapsed;
+            UltrasonicWelding24Vis = Visibility.Collapsed;
+        }
+
+        private void ShowUltrasonicWelding13()
+        {
+            RejectionVis = Visibility.Collapsed;
+            UltrasonicWelding13Vis = Visibility.Visible;
+            UltrasonicWelding24Vis = Visibility.Collapsed;
+        }
+
+        private void ShowUltrasonicWelding24()
+        {
+            RejectionVis = Visibility.Collapsed;
+            UltrasonicWelding13Vis = Visibility.Collapsed;
+            UltrasonicWelding24Vis = Visibility.Visible;
+        }
+
         private async void LoadStopperMachineMonitorView()
         {
             LoadLotSettingAsync();
@@ -166,13 +202,44 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
                 Q = Convert.ToDouble(await _signalRClient.GetBufferValue("Q")) * 100;
 
                 Status = (EMachineStatus)Convert.ToInt32(await _signalRClient.GetBufferValue("machineStatus"));
-                OperationTime = TimeSpan.TryParse(Convert.ToString((await _signalRClient.GetBufferValue("operationTime"))), out var span) ? span : default;
-                GoodCount = Convert.ToInt64(await _signalRClient.GetBufferValue("goodProduct"));
+                OperationTime = TimeSpan.TryParse(Convert.ToString((await _signalRClient.GetBufferValue("operationTimeRaw"))), out var span) ? span : default;
+                GoodCount = Convert.ToInt64(await _signalRClient.GetBufferValue("goodProductRaw"));
                 BadCount = Convert.ToInt64(await _signalRClient.GetBufferValue("errorProduct"));
                 Efficiency = Convert.ToDouble(await _signalRClient.GetBufferValue("EFF"));
                 AllProductCount = Convert.ToInt64(await _signalRClient.GetBufferValue("productCount"));
 
-                if(AllProductCount > 0 && AllProductCount < 300)
+                TR13.Cycle = Convert.ToInt64(await _signalRClient.GetBufferValue("Weld_Cycle_Tr1&3_S7"));
+
+                TR13.RunTime = Convert.ToDouble(await _signalRClient.GetBufferValue("RunTime_Tr1&3_S7"));
+                TR13.PkPwr = Convert.ToDouble(await _signalRClient.GetBufferValue("Pk_Pwr_Tr1&3_S7")); 
+                TR13.Energy = Convert.ToDouble(await _signalRClient.GetBufferValue("Energy_Tr1&3_S7"));
+                TR13.WeldAbs = Convert.ToDouble(await _signalRClient.GetBufferValue("Weld_Abs_Tr1&3_S7"));
+                TR13.WeldCol = Convert.ToDouble(await _signalRClient.GetBufferValue("Weld_Col_Tr1&3_S7"));
+                TR13.TotalCol = Convert.ToDouble(await _signalRClient.GetBufferValue("Total_Col_Tr1&3_S7"));
+                
+                TR13.TrigForce = Convert.ToInt64(await _signalRClient.GetBufferValue("Trig_Force_Tr1&3_S7"));
+                TR13.WeldForce = Convert.ToInt64(await _signalRClient.GetBufferValue("Weld_Force_Tr1&3_S7"));
+                TR13.FreqChg = Convert.ToInt64(await _signalRClient.GetBufferValue("Freq_Chg_Tr1&3_S7"));
+                TR13.SetAMPA = Convert.ToInt64(await _signalRClient.GetBufferValue("Set_AMP_A_Tr1&3_S7"));
+                TR13.Velocity = Convert.ToInt64(await _signalRClient.GetBufferValue("Velocity_Tr1&3_S7"));
+                
+                //
+                TR24.Cycle = Convert.ToInt64(await _signalRClient.GetBufferValue("Weld_Cycle_Tr2&4_S6"));
+                
+                TR24.RunTime = Convert.ToDouble(await _signalRClient.GetBufferValue("RunTime_Tr2&4_S6"));
+                TR24.PkPwr = Convert.ToDouble(await _signalRClient.GetBufferValue("Pk_Pwr_Tr2&4_S6"));
+                TR24.Energy = Convert.ToDouble(await _signalRClient.GetBufferValue("Energy_Tr2&4_S6"));
+                TR24.WeldAbs = Convert.ToDouble(await _signalRClient.GetBufferValue("Weld_Abs_Tr2&4_S6"));
+                TR24.WeldCol = Convert.ToDouble(await _signalRClient.GetBufferValue("Weld_Col_Tr2&4_S6"));
+                TR24.TotalCol = Convert.ToDouble(await _signalRClient.GetBufferValue("Total_Col_Tr2&4_S6"));
+                
+                TR24.TrigForce = Convert.ToInt64(await _signalRClient.GetBufferValue("Trig_Force_Tr2&4_S6"));
+                TR24.WeldForce = Convert.ToInt64(await _signalRClient.GetBufferValue("Weld_Force_Tr2&4_S6"));
+                TR24.FreqChg = Convert.ToInt64(await _signalRClient.GetBufferValue("Freq_Chg_Tr2&4_S6"));
+                TR24.SetAMPA = Convert.ToInt64(await _signalRClient.GetBufferValue("Set_AMP_A_Tr2&4_S6"));
+                TR24.Velocity = Convert.ToInt64(await _signalRClient.GetBufferValue("Velocity_Tr2&4_S6"));
+
+                if (AllProductCount > 0 && AllProductCount < 300)
                 {
                     Interval = 1;
                 }
@@ -184,7 +251,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
                 {
                     Interval = 10;
                 }
-                if (AllProductCount >= 2500 && AllProductCount <3700)
+                if (AllProductCount >= 2500 && AllProductCount < 3700)
                 {
                     Interval = 20;
                 }
@@ -239,7 +306,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
 
                 LoadApiOEE();
                 var errorTags = AllTags.Where(i => i.TagId == "errorStatus");
-                foreach(var tag in errorTags)
+                foreach (var tag in errorTags)
                 {
                     Error = $"{tag.TimeStamp:MM/dd/yyyy HH:mm:ss}: {(string)tag.TagValue}";
                     if (!(Errors.Contains(Error)))
@@ -267,8 +334,6 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
                     new OEEEntryViewModel(OEE, A, P, Q)
                 };
                 OnPropertyChanged(nameof(OEEEntries));
-                //OnPropertyChanged(nameof(SeriesCollection));
-                //OnPropertyChanged(nameof(OEEGraphTags));
 
                 RejectionEntries = new ObservableCollection<RejectionEntryViewModel>()
                 {
@@ -279,6 +344,18 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
                     new RejectionEntryViewModel("Station-10 Leak Check", TR1.LEAKTESTCHKOK, TR2.LEAKTESTCHKOK, TR3.LEAKTESTCHKOK, TR4.LEAKTESTCHKOK)
                 };
                 OnPropertyChanged(nameof(RejectionEntries));
+
+                UltrasonicWeldingTR13Entries = new ObservableCollection<UltrasonicWeldingViewModel>()
+                {
+                    new UltrasonicWeldingViewModel(TR13.Cycle, TR13.RunTime, TR13.PkPwr, TR13.Energy, TR13.WeldAbs, TR13.WeldCol, TR13.TotalCol, TR13.TrigForce, TR13.WeldForce, TR13.FreqChg, TR13.SetAMPA, TR13.Velocity)
+                };
+                OnPropertyChanged(nameof(UltrasonicWeldingTR13Entries));
+
+                UltrasonicWeldingTR24Entries = new ObservableCollection<UltrasonicWeldingViewModel>()
+                {
+                    new UltrasonicWeldingViewModel(TR24.Cycle, TR24.RunTime, TR24.PkPwr, TR24.Energy, TR24.WeldAbs, TR24.WeldCol, TR24.TotalCol, TR24.TrigForce, TR24.WeldForce, TR24.FreqChg, TR24.SetAMPA, TR24.Velocity)
+                };
+                OnPropertyChanged(nameof(UltrasonicWeldingTR24Entries));
             }
         }
 
@@ -290,7 +367,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
                 var dtos = await _apiService.GetLotDeviceReferenceByDeviceAsync("HerapinCap");
                 HerapinCapLotId = dtos.Last().LotCode;
                 HerapinCapLotSize = dtos.Last().LotSize;
-                if(string.IsNullOrEmpty(HerapinCapLotId))
+                if (string.IsNullOrEmpty(HerapinCapLotId))
                 {
                     HerapinCapProductName = "";
                     HerapinCapReferenceName = "";
@@ -300,7 +377,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
                     HerapinCapProductName = dtos.Last().ProductName;
                     HerapinCapReferenceName = dtos.Last().ReferenceName;
                 }
-                if(dtos.First().Stations.Count() != 0)
+                if (dtos.First().Stations.Count() != 0)
                 {
                     var persons = dtos.First().Stations.First(i => i.StationId == "IE-F2-HCA01").Employees;
                     foreach (var person in persons)
@@ -340,7 +417,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
             var tag = JsonConvert.DeserializeObject<TagChangedNotification>(json);
             if (tag != null)
             {
-                if (tag.DeviceId == "HC001")
+                if (tag.StationId == "IE-F2-HCA01")
                 {
                     switch (tag.TagId)
                     {
@@ -348,7 +425,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
                             {
                                 OEE = Convert.ToDouble(tag.TagValue) * 100;
                                 OEEGraphTags.Add(new DataPoint(Convert.ToDouble(tag.TagValue) * 100, tag.TimeStamp));
-                                
+
                                 SeriesCollection[0].Values.Add(new ObservablePoint
                                 {
                                     X = tag.TimeStamp.Ticks,
@@ -410,12 +487,43 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
                         case "LEAK_TEST_CHK_TR3": TR3.LEAKTESTCHKOK = Convert.ToInt64(tag.TagValue); break;
                         case "LEAK_TEST_CHK_TR4": TR4.LEAKTESTCHKOK = Convert.ToInt64(tag.TagValue); break;
 
+                        case "Weld_Cycle_Tr1&3_S7": TR13.Cycle = Convert.ToInt64(tag.TagValue); break;
+
+                        case "RunTime_Tr1&3_S7": TR13.RunTime = Convert.ToDouble(tag.TagValue); break;
+                        case "Pk_Pwr_Tr1&3_S7": TR13.PkPwr = Convert.ToDouble(tag.TagValue); break;
+                        case "Energy_Tr1&3_S7": TR13.Energy = Convert.ToDouble(tag.TagValue); break;
+                        case "Weld_Abs_Tr1&3_S7": TR13.WeldAbs = Convert.ToDouble(tag.TagValue); break;
+                        case "Weld_Col_Tr1&3_S7": TR13.WeldCol = Convert.ToDouble(tag.TagValue); break;
+                        case "Total_Col_Tr1&3_S7": TR13.TotalCol = Convert.ToDouble(tag.TagValue); break;
+
+                        case "Trig_Force_Tr1&3_S7": TR13.TrigForce = Convert.ToInt64(tag.TagValue); break;
+                        case "Weld_Force_Tr1&3_S7": TR13.WeldForce = Convert.ToInt64(tag.TagValue); break;
+                        case "Freq_Chg_Tr1&3_S7": TR13.FreqChg = Convert.ToInt64(tag.TagValue); break;
+                        case "Set_AMP_A_Tr1&3_S7": TR13.SetAMPA = Convert.ToInt64(tag.TagValue); break;
+                        case "Velocity_Tr1&3_S7": TR13.Velocity = Convert.ToInt64(tag.TagValue); break;
+
+                        //
+                        case "Weld_Cycle_Tr2&4_S6": TR24.Cycle = Convert.ToInt64(tag.TagValue); break;
+
+                        case "RunTime_Tr2&4_S6": TR24.RunTime = Convert.ToDouble(tag.TagValue); break;
+                        case "Pk_Pwr_Tr2&4_S6": TR24.PkPwr = Convert.ToDouble(tag.TagValue); break;
+                        case "Energy_Tr2&4_S6": TR24.Energy = Convert.ToDouble(tag.TagValue); break;
+                        case "Weld_Abs_Tr2&4_S6": TR24.WeldAbs = Convert.ToDouble(tag.TagValue); break;
+                        case "Weld_Col_Tr2&4_S6": TR24.WeldCol = Convert.ToDouble(tag.TagValue); break;
+                        case "Total_Col_Tr2&4_S6": TR24.TotalCol = Convert.ToDouble(tag.TagValue); break;
+
+                        case "Trig_Force_Tr2&4_S6": TR24.TrigForce = Convert.ToInt64(tag.TagValue); break;
+                        case "Weld_Force_Tr2&4_S6": TR24.WeldForce = Convert.ToInt64(tag.TagValue); break;
+                        case "Freq_Chg_Tr2&4_S6": TR24.FreqChg = Convert.ToInt64(tag.TagValue); break;
+                        case "Set_AMP_A_Tr2&4_S6": TR24.SetAMPA = Convert.ToInt64(tag.TagValue); break;
+                        case "Velocity_Tr2&4_S6": TR24.Velocity = Convert.ToInt64(tag.TagValue); break;
+
                         default: break;
                     }
                 }
-                
+
             }
-            
+
             OEEEntries = new ObservableCollection<OEEEntryViewModel>()
             {
                 new OEEEntryViewModel(OEE, A, P, Q)
@@ -431,6 +539,18 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
                 new RejectionEntryViewModel("Station-10 Leak Check", TR1.LEAKTESTCHKOK, TR2.LEAKTESTCHKOK, TR3.LEAKTESTCHKOK, TR4.LEAKTESTCHKOK)
             };
             OnPropertyChanged(nameof(RejectionEntries));
+
+            UltrasonicWeldingTR13Entries = new ObservableCollection<UltrasonicWeldingViewModel>()
+            {
+                new UltrasonicWeldingViewModel(TR13.Cycle, TR13.RunTime, TR13.PkPwr, TR13.Energy, TR13.WeldAbs, TR13.WeldCol, TR13.TotalCol, TR13.TrigForce, TR13.WeldForce, TR13.FreqChg, TR13.SetAMPA, TR13.Velocity)
+            };
+            OnPropertyChanged(nameof(UltrasonicWeldingTR13Entries));
+
+            UltrasonicWeldingTR24Entries = new ObservableCollection<UltrasonicWeldingViewModel>()
+            {
+                new UltrasonicWeldingViewModel(TR24.Cycle, TR24.RunTime, TR24.PkPwr, TR24.Energy, TR24.WeldAbs, TR24.WeldCol, TR24.TotalCol, TR24.TrigForce, TR24.WeldForce, TR24.FreqChg, TR24.SetAMPA, TR24.Velocity)
+            };
+            OnPropertyChanged(nameof(UltrasonicWeldingTR24Entries));
         }
     }
 }

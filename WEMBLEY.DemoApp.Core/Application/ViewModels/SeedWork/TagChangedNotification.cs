@@ -8,15 +8,15 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.SeedWork
 {
     public class TagChangedNotification
     {
-        public string DeviceType { get; set; }
-        public string DeviceId { get; set; }
+        public string StationId { get; set; }
+        public string LineId { get; set; }
         public string TagId { get; set; }
         public object TagValue { get; set; }
         public DateTime TimeStamp { get; set; }
-        public TagChangedNotification(string deviceType, string deviceId, string tagId, object tagValue, DateTime timeStamp)
+        public TagChangedNotification(string stationId, string lineId, string tagId, object tagValue, DateTime timeStamp)
         {
-            DeviceType = deviceType;
-            DeviceId = deviceId;
+            StationId = stationId;
+            LineId = lineId;
             TagId = tagId;
             TagValue = tagValue;
             TimeStamp = timeStamp;
