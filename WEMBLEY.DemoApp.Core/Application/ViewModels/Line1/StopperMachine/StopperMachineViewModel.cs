@@ -38,7 +38,6 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
         public MachineStatusViewModel StopperMachineStatus { get; set; }
 
         private INavigationService? _navigationService;
-
         public INavigationService? NavigationService
         {
             get => _navigationService;
@@ -54,7 +53,6 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
         //
         private readonly IApiService _apiService;
         private readonly ISignalRClient _signalRClient;
-        private readonly ReferenceStore _referenceStore;
         private readonly HomeDataStore _homeDataStore;
 
         public HerapinCapMFC HcMFC { get; set; } = new(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
@@ -64,7 +62,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
         public List<TagChangedNotification> AllTags { get; set; } = new();
         public ICommand LoadMFCMonitorViewCommand { get; set; }
         public string HomeRefId => _homeDataStore.HomeDatas.First(i => i.Line.LineId == "HerapinCap").ReferenceId;
-        public StopperMachineViewModel(INavigationService navigationService, StopperMachineMonitorViewModel stopperMachineMonitor, FaultHistoryViewModel stopperMachineFault, MFCMonitorViewModel mFCMonitor, MFCSettingViewModel mFCSetting, ReportLongTimeViewModel reportLongTime, ReportForShiftViewModel reportForShift, MachineStatusViewModel stopperMachineStatus, ISignalRClient signalRClient, IApiService apiService, ReferenceStore referenceStore, HomeDataStore homeDataStore)
+        public StopperMachineViewModel(INavigationService navigationService, StopperMachineMonitorViewModel stopperMachineMonitor, FaultHistoryViewModel stopperMachineFault, MFCMonitorViewModel mFCMonitor, MFCSettingViewModel mFCSetting, ReportLongTimeViewModel reportLongTime, ReportForShiftViewModel reportForShift, MachineStatusViewModel stopperMachineStatus, ISignalRClient signalRClient, IApiService apiService, HomeDataStore homeDataStore)
         {
             NavigationService = navigationService;
             NavigateBackToHomeViewCommand = new RelayCommand(NavigationService.NavigateTo<HomeNavigationViewModel>);
@@ -78,10 +76,10 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
             StopperMachineStatus = stopperMachineStatus;
 
             ReportLongTime.Changed += TabChanged;
+            MFCSetting.UpdateMFCApi += LoadMFCMonitorViewAsync;
 
             _signalRClient = signalRClient;
             _apiService = apiService;
-            _referenceStore = referenceStore;
             _homeDataStore = homeDataStore;
 
             signalRClient.OnTagChanged += OnTagChanged;
@@ -198,6 +196,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
 
         private void ReloadData()
         {
+            OnPropertyChanged(nameof(MFCDtos));
             var newViewModels = MFCDtos.Select((tag, index) => new ComparedMFC(tag.MFCName, tag.Value, tag.MinValue, tag.MaxValue, RealMFCValues[index])).ToList();
             MFCEntries = new(newViewModels);
             var a = MFCEntries.Select(i => i.IsAlarmed);

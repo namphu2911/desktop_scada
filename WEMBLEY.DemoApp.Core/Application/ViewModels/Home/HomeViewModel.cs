@@ -1,9 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
-using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Windows.Input;
-using WEMBLEY.DemoApp.Core.Application.Store;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.MachinesInLine;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.SeedWork;
 using WEMBLEY.DemoApp.Core.Domain.Models;
@@ -16,55 +14,55 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
         private readonly IApiService _apiService;
         private readonly ISignalRClient _signalRClient;
         //
-        private EMachineStatus status;
-        public EMachineStatus Status
+        private EMachineStatus herapinCapStatus;
+        public EMachineStatus HerapinCapStatus
         {
-            get { return status; }
+            get { return herapinCapStatus; }
             set
             {
-                status = value;
+                herapinCapStatus = value;
                 switch (value)
                 {
                     case EMachineStatus.On:
                         {
-                            ColorBack = "#394963";
+                            HerapinCapColorBack = "#394963";
                             break;
                         }
                     case EMachineStatus.Run:
                         {
-                            ColorBack = "#3EB17F";
+                            HerapinCapColorBack = "#3EB17F";
                             break;
                         }
                     case EMachineStatus.Off:
                         {
-                            ColorBack = "#BBBBBB";
+                            HerapinCapColorBack = "#BBBBBB";
                             break;
                         }
                     case EMachineStatus.Alarm:
                         {
-                            ColorBack = "#ED5152";
+                            HerapinCapColorBack = "#ED5152";
                             break;
                         }
                     case EMachineStatus.Idle:
                         {
-                            ColorBack = "#FAAF24";
+                            HerapinCapColorBack = "#FAAF24";
                             break;
                         }
                     case EMachineStatus.Setup:
                         {
-                            ColorBack = "#8B72C8";
+                            HerapinCapColorBack = "#8B72C8";
                             break;
                         }
                     default:
                         {
-                            ColorBack = "#BBBBBB";
+                            HerapinCapColorBack = "#BBBBBB";
                             break;
                         }
                 }
             }
         }
 
-        public string ColorBack { get; set; } = "#BBBBBB";
+        public string HerapinCapColorBack { get; set; } = "#BBBBBB";
         public double HerapinCapEfficiency { get; set; } = 0;
         public long HerapinCapAllCount { get; set; } = 0;
         public long HerapinCapGoodCount { get; set; } = 0;
@@ -76,7 +74,68 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
         public int HerapinCapLotSize { get; set; } = 0;
 
         //
+        private EMachineStatus bloodTubeStatus;
+        public EMachineStatus BloodTubeStatus
+        {
+            get { return bloodTubeStatus; }
+            set
+            {
+                bloodTubeStatus = value;
+                switch (value)
+                {
+                    case EMachineStatus.On:
+                        {
+                            BloodTubeColorBack = "#394963";
+                            break;
+                        }
+                    case EMachineStatus.Run:
+                        {
+                            BloodTubeColorBack = "#3EB17F";
+                            break;
+                        }
+                    case EMachineStatus.Off:
+                        {
+                            BloodTubeColorBack = "#BBBBBB";
+                            break;
+                        }
+                    case EMachineStatus.Alarm:
+                        {
+                            BloodTubeColorBack = "#ED5152";
+                            break;
+                        }
+                    case EMachineStatus.Idle:
+                        {
+                            BloodTubeColorBack = "#FAAF24";
+                            break;
+                        }
+                    case EMachineStatus.Setup:
+                        {
+                            BloodTubeColorBack = "#8B72C8";
+                            break;
+                        }
+                    default:
+                        {
+                            BloodTubeColorBack = "#BBBBBB";
+                            break;
+                        }
+                }
+            }
+        }
+
+        public string BloodTubeColorBack { get; set; } = "#BBBBBB";
+        public double BloodTubeEfficiency { get; set; } = 0;
+        public long BloodTubeAllCount { get; set; } = 0;
+        public long BloodTubeGoodCount { get; set; } = 0;
+        public long BloodTubeBadCount { get; set; } = 0;
+        public TimeSpan? BloodTubeDurationTime { get; set; }
+        public string BloodTubeProductName { get; set; } = "";
+        public string BloodTubeReferenceName { get; set; } = "";
+        public string BloodTubeLotId { get; set; } = "";
+        public int BloodTubeLotSize { get; set; } = 0;
+
+
         //
+        public List<TagChangedNotification> AllTags { get; set; } = new();
         public ICommand LoadHomeViewCommand { get; set; }
 
         ///
@@ -97,15 +156,22 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
 
         private async void LoadHomeView()
         {
-            var a = await _signalRClient.GetBufferList();
-            if (a.Count != 0)
+            AllTags = await _signalRClient.GetBufferList();
+            if (AllTags.Count != 0)
             {
-                Status = (EMachineStatus)Convert.ToInt32(await _signalRClient.GetBufferValue("machineStatus"));
-                HerapinCapDurationTime = TimeSpan.TryParse(Convert.ToString((await _signalRClient.GetBufferValue("operationTime"))), out var span) ? span : default;
-                HerapinCapGoodCount = Convert.ToInt64(await _signalRClient.GetBufferValue("goodProduct"));
-                HerapinCapBadCount = Convert.ToInt64(await _signalRClient.GetBufferValue("errorProduct"));
-                HerapinCapEfficiency = Convert.ToDouble(await _signalRClient.GetBufferValue("EFF"));
-                HerapinCapAllCount = Convert.ToInt64(await _signalRClient.GetBufferValue("productCount"));
+                HerapinCapStatus = (EMachineStatus)Convert.ToInt32(await _signalRClient.GetBufferValue("IE-F2-HCA01","machineStatus"));
+                HerapinCapDurationTime = TimeSpan.TryParse(Convert.ToString((await _signalRClient.GetBufferValue("IE-F2-HCA01","operationTime"))), out var span) ? span : default;
+                HerapinCapGoodCount = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F2-HCA01","goodProduct"));
+                HerapinCapBadCount = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F2-HCA01","errorProduct"));
+                HerapinCapEfficiency = Convert.ToDouble(await _signalRClient.GetBufferValue("IE-F2-HCA01","EFF"));
+                HerapinCapAllCount = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F2-HCA01","productCount"));
+
+                BloodTubeStatus = (EMachineStatus)Convert.ToInt32(await _signalRClient.GetBufferValue("IE-F3-BLO06", "machineStatus"));
+                BloodTubeDurationTime = TimeSpan.TryParse(Convert.ToString((await _signalRClient.GetBufferValue("IE-F3-BLO06", "operationTime"))), out var span2) ? span2 : default;
+                BloodTubeGoodCount = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F3-BLO06", "goodProduct"));
+                BloodTubeBadCount = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F3-BLO06", "errorProduct"));
+                BloodTubeEfficiency = Convert.ToDouble(await _signalRClient.GetBufferValue("IE-F3-BLO06", "EFF"));
+                BloodTubeAllCount = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F3-BLO06", "productCount"));
             }
             LoadLotSettingAsync();
         }
@@ -116,13 +182,13 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
             var tag = JsonConvert.DeserializeObject<TagChangedNotification>(json);
             if (tag != null)
             {
-                if(tag.StationId == "IE-F2-HCA01")
+                if (tag.StationId == "IE-F2-HCA01")
                 {
                     switch (tag.TagId)
                     {
                         case "machineStatus":
                             {
-                                Status = (EMachineStatus)Convert.ToInt32(tag.TagValue);
+                                HerapinCapStatus = (EMachineStatus)Convert.ToInt32(tag.TagValue);
                                 LoadLotSettingAsync();
                                 break;
                             }
@@ -134,6 +200,24 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
                         default: break;
                     }
                 }
+                else if (tag.StationId == "IE-F3-BLO06")
+                {
+                    switch (tag.TagId)
+                    {
+                        case "machineStatus":
+                            {
+                                BloodTubeStatus = (EMachineStatus)Convert.ToInt32(tag.TagValue);
+                                LoadLotSettingAsync();
+                                break;
+                            }
+                        case "operationTimeRaw": BloodTubeDurationTime = TimeSpan.Parse((string)tag.TagValue); break;
+                        case "goodProductRaw": BloodTubeGoodCount = Convert.ToInt64(tag.TagValue); break;
+                        case "errorProduct": BloodTubeBadCount = Convert.ToInt64(tag.TagValue); break;
+                        case "EFF": BloodTubeEfficiency = Convert.ToDouble(tag.TagValue); break;
+                        case "productCount": BloodTubeAllCount = Convert.ToInt64(tag.TagValue); break;
+                        default: break;
+                    }
+                }   
             }
         }
 
@@ -142,6 +226,8 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
             try
             {
                 var dtos = await _apiService.GetLotDeviceReferenceByDeviceAsync("HerapinCap");
+                var dtos2 = await _apiService.GetLotDeviceReferenceByDeviceAsync("NonVacuumBloodTube");
+                
                 HerapinCapLotId = dtos.Last().LotCode;
                 HerapinCapLotSize = dtos.Last().LotSize; 
                 HerapinCapLotId = dtos.Last().LotCode;
@@ -155,6 +241,20 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
                 {
                     HerapinCapProductName = dtos.Last().ProductName;
                     HerapinCapReferenceName = dtos.Last().ReferenceName;
+                }
+
+                
+                BloodTubeLotId = dtos2.Last().LotCode;
+                BloodTubeLotSize = dtos2.Last().LotSize;
+                if (string.IsNullOrEmpty(BloodTubeLotId))
+                {
+                    BloodTubeProductName = "";
+                    BloodTubeReferenceName = "";
+                }
+                else
+                {
+                    BloodTubeProductName = dtos2.Last().ProductName;
+                    BloodTubeReferenceName = dtos2.Last().ReferenceName;
                 }
             }
             catch (HttpRequestException)

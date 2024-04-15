@@ -7,7 +7,7 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
-             xmlns:machinesinline="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.MachinesInLine;assembly=WEMBLEY.DemoApp.Core" d:DataContext="{d:DesignInstance Type=machinesinline:MachinesInLine2ViewModel}"
+             xmlns:machinesinline="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.MachinesInLine;assembly=WEMBLEY.DemoApp.Core" xmlns:loadingspinnercontrol="clr-namespace:LoadingSpinnerControl;assembly=LoadingSpinnerControl" d:DataContext="{d:DesignInstance Type=machinesinline:MachinesInLine2ViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="600"
              Background="{StaticResource ColorBackground}"
@@ -31,7 +31,7 @@
                 </Grid.RowDefinitions>
 
                 <Grid Grid.Row="0">
-                    <!--<Grid.Style>
+                    <Grid.Style>
                         <Style TargetType="Grid">
                             <Setter Property="Visibility" Value="Collapsed"/>
                             <Style.Triggers>
@@ -40,7 +40,7 @@
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
-                    </Grid.Style>-->
+                    </Grid.Style>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="*"/>
@@ -70,7 +70,7 @@
                     </Button>
                 </Grid>
 
-                <!--<Grid Grid.Row="0" Margin="0,20,0,0">
+                <Grid Grid.Row="0" Margin="0,20,0,0">
                     <Grid.Style>
                         <Style TargetType="Grid">
                             <Setter Property="Visibility" Value="Collapsed"/>
@@ -89,7 +89,7 @@
                     
                     <loadingspinnercontrol:LoadingSpinner Grid.Row="0" IsLoading="{Binding IsLoading}"/>
                     <TextBlock Grid.Row="1" HorizontalAlignment="Center" Foreground="Black" Text="Loading..."/>
-                </Grid>-->
+                </Grid>
             </Grid>
 
 

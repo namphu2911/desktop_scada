@@ -49,7 +49,7 @@
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
                             <Image 
-                            Source="/Resources/Images/logowembly.jpg" 
+                            Source="/Resources/Images/wembleynew.jpg" 
                             Width="200" Height="49"/>
                             <Image 
                             Source="/Resources/Images/logohcmut.jpg" 
@@ -59,7 +59,7 @@
                     </TabItem.Header>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                         <Image 
-                            Source="/Resources/Images/logowembly.jpg" 
+                            Source="/Resources/Images/wembleynew.jpg" 
                             Width="400" Height="100"/>
                         <Image 
                             Source="/Resources/Images/logohcmut.jpg" 

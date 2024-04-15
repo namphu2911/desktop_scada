@@ -114,11 +114,9 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
         //
         public List<DataPoint> OEEGraphTags { get; set; } = new();
         public SeriesCollection SeriesCollection { get; set; } = new();
-        public ObservableCollection<ObservablePoint> OEEObservablePoints { get; set; } = new();
         public Func<double, string> DateTimeFormatter { get; set; }
         public Func<double, string> ValueFormatter { get; set; }
         public ICommand LoadStopperMachineMonitorViewCommand { get; set; }
-        public ICommand LoadReloadGraphCommand { get; set; }
         public ICommand LoadApiOEECommand { get; set; }
         public ICommand ShowRejectionCommand { get; set; }
         public ICommand ShowUltrasonicWelding13Command { get; set; }
@@ -144,7 +142,6 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
             _signalRClient = signalRClient;
             Intervals = new ObservableCollection<int>() { 1, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200 };
             LoadStopperMachineMonitorViewCommand = new RelayCommand(LoadStopperMachineMonitorView);
-            LoadReloadGraphCommand = new RelayCommand(ReloadGraph);
             LoadApiOEECommand = new RelayCommand(LoadApiOEE);
             ShowRejectionCommand = new RelayCommand(ShowRejection);
             ShowUltrasonicWelding13Command = new RelayCommand(ShowUltrasonicWelding13);
@@ -329,33 +326,10 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
                           Convert.ToInt64(await _signalRClient.GetBufferValue("COVER_PRESENCE_REJ_TR4")), Convert.ToInt64(await _signalRClient.GetBufferValue("HEIGHT_CHK_REJ_TR4")),
                           Convert.ToInt64(await _signalRClient.GetBufferValue("LEAK_TEST_CHK_TR4")));
 
-                OEEEntries = new ObservableCollection<OEEEntryViewModel>()
-                {
-                    new OEEEntryViewModel(OEE, A, P, Q)
-                };
-                OnPropertyChanged(nameof(OEEEntries));
-
-                RejectionEntries = new ObservableCollection<RejectionEntryViewModel>()
-                {
-                    new RejectionEntryViewModel("Station-1 Bottom Cap Check", TR1.BOTTOMCAP, TR2.BOTTOMCAP, TR3.BOTTOMCAP, TR4.BOTTOMCAP),
-                    new RejectionEntryViewModel("Station-3 Silicon Check", TR1.SILICONPRESENCE, TR2.SILICONPRESENCE, TR3.SILICONPRESENCE, TR4.SILICONPRESENCE),
-                    new RejectionEntryViewModel("Station-5 Cover Check", TR1.COVERPRESENCE, TR2.COVERPRESENCE, TR3.COVERPRESENCE, TR4.COVERPRESENCE),
-                    new RejectionEntryViewModel("Station-8,9 Height Check", TR1.HEIGHTCHK, TR2.HEIGHTCHK, TR3.HEIGHTCHK, TR4.HEIGHTCHK),
-                    new RejectionEntryViewModel("Station-10 Leak Check", TR1.LEAKTESTCHKOK, TR2.LEAKTESTCHKOK, TR3.LEAKTESTCHKOK, TR4.LEAKTESTCHKOK)
-                };
-                OnPropertyChanged(nameof(RejectionEntries));
-
-                UltrasonicWeldingTR13Entries = new ObservableCollection<UltrasonicWeldingViewModel>()
-                {
-                    new UltrasonicWeldingViewModel(TR13.Cycle, TR13.RunTime, TR13.PkPwr, TR13.Energy, TR13.WeldAbs, TR13.WeldCol, TR13.TotalCol, TR13.TrigForce, TR13.WeldForce, TR13.FreqChg, TR13.SetAMPA, TR13.Velocity)
-                };
-                OnPropertyChanged(nameof(UltrasonicWeldingTR13Entries));
-
-                UltrasonicWeldingTR24Entries = new ObservableCollection<UltrasonicWeldingViewModel>()
-                {
-                    new UltrasonicWeldingViewModel(TR24.Cycle, TR24.RunTime, TR24.PkPwr, TR24.Energy, TR24.WeldAbs, TR24.WeldCol, TR24.TotalCol, TR24.TrigForce, TR24.WeldForce, TR24.FreqChg, TR24.SetAMPA, TR24.Velocity)
-                };
-                OnPropertyChanged(nameof(UltrasonicWeldingTR24Entries));
+                OEEChanged();
+                RejectionChanged();
+                UltrasonicWeldingTR13Changed();
+                UltrasonicWeldingTR24Changed();
             }
         }
 
@@ -407,11 +381,6 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
             SeriesCollection[0].Values = new ChartValues<ObservablePoint>(OEEGraphTags.Select(g => new ObservablePoint(g.TimeStamp.Ticks, g.OEE)));
         }
 
-        private void ReloadGraph()
-        {
-            OnPropertyChanged(nameof(SeriesCollection));
-        }
-
         public void OnTagChanged(string json)
         {
             var tag = JsonConvert.DeserializeObject<TagChangedNotification>(json);
@@ -435,11 +404,11 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
                                 {
                                     ChartUpdated?.Invoke();
                                 }
-                                break;
+                                OEEChanged(); break;
                             }
-                        case "A": A = Convert.ToDouble(tag.TagValue) * 100; break;
-                        case "P": P = Convert.ToDouble(tag.TagValue) * 100; break;
-                        case "Q": Q = Convert.ToDouble(tag.TagValue) * 100; break;
+                        case "A": A = Convert.ToDouble(tag.TagValue) * 100; OEEChanged(); break;
+                        case "P": P = Convert.ToDouble(tag.TagValue) * 100; OEEChanged(); break;
+                        case "Q": Q = Convert.ToDouble(tag.TagValue) * 100; OEEChanged(); break;
 
                         case "machineStatus": Status = (EMachineStatus)Convert.ToInt32(tag.TagValue); break;
                         case "operationTimeRaw": OperationTime = TimeSpan.Parse((string)tag.TagValue); break;
@@ -462,74 +431,125 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
                                 ErrorStrings = new(Errors);
                                 break;
                             }
-                        case "BOTTOM_CAP_REJ_TR1": TR1.BOTTOMCAP = Convert.ToInt64(tag.TagValue); break;
-                        case "BOTTOM_CAP_REJ_TR2": TR2.BOTTOMCAP = Convert.ToInt64(tag.TagValue); break;
-                        case "BOTTOM_CAP_REJ_TR3": TR3.BOTTOMCAP = Convert.ToInt64(tag.TagValue); break;
-                        case "BOTTOM_CAP_REJ_TR4": TR4.BOTTOMCAP = Convert.ToInt64(tag.TagValue); break;
+                        case "BOTTOM_CAP_REJ_TR1": TR1.BOTTOMCAP = Convert.ToInt64(tag.TagValue); RejectionChanged(); break;
+                        case "BOTTOM_CAP_REJ_TR2": TR2.BOTTOMCAP = Convert.ToInt64(tag.TagValue); RejectionChanged(); break;
+                        case "BOTTOM_CAP_REJ_TR3": TR3.BOTTOMCAP = Convert.ToInt64(tag.TagValue); RejectionChanged(); break;
+                        case "BOTTOM_CAP_REJ_TR4": TR4.BOTTOMCAP = Convert.ToInt64(tag.TagValue); RejectionChanged(); break;
 
-                        case "SILICON_PRESENCE_REJ_TR1": TR1.SILICONPRESENCE = Convert.ToInt64(tag.TagValue); break;
-                        case "SILICON_PRESENCE_REJ_TR2": TR2.SILICONPRESENCE = Convert.ToInt64(tag.TagValue); break;
-                        case "SILICON_PRESENCE_REJ_TR3": TR3.SILICONPRESENCE = Convert.ToInt64(tag.TagValue); break;
-                        case "SILICON_PRESENCE_REJ_TR4": TR4.SILICONPRESENCE = Convert.ToInt64(tag.TagValue); break;
+                        case "SILICON_PRESENCE_REJ_TR1": TR1.SILICONPRESENCE = Convert.ToInt64(tag.TagValue); RejectionChanged(); break;
+                        case "SILICON_PRESENCE_REJ_TR2": TR2.SILICONPRESENCE = Convert.ToInt64(tag.TagValue); RejectionChanged(); break;
+                        case "SILICON_PRESENCE_REJ_TR3": TR3.SILICONPRESENCE = Convert.ToInt64(tag.TagValue); RejectionChanged(); break;
+                        case "SILICON_PRESENCE_REJ_TR4": TR4.SILICONPRESENCE = Convert.ToInt64(tag.TagValue); RejectionChanged(); break;
 
-                        case "COVER_PRESENCE_REJ_TR1": TR1.COVERPRESENCE = Convert.ToInt64(tag.TagValue); break;
-                        case "COVER_PRESENCE_REJ_TR2": TR2.COVERPRESENCE = Convert.ToInt64(tag.TagValue); break;
-                        case "COVER_PRESENCE_REJ_TR3": TR3.COVERPRESENCE = Convert.ToInt64(tag.TagValue); break;
-                        case "COVER_PRESENCE_REJ_TR4": TR4.COVERPRESENCE = Convert.ToInt64(tag.TagValue); break;
+                        case "COVER_PRESENCE_REJ_TR1": TR1.COVERPRESENCE = Convert.ToInt64(tag.TagValue); RejectionChanged(); break;
+                        case "COVER_PRESENCE_REJ_TR2": TR2.COVERPRESENCE = Convert.ToInt64(tag.TagValue); RejectionChanged(); break;
+                        case "COVER_PRESENCE_REJ_TR3": TR3.COVERPRESENCE = Convert.ToInt64(tag.TagValue); RejectionChanged(); break;
+                        case "COVER_PRESENCE_REJ_TR4": TR4.COVERPRESENCE = Convert.ToInt64(tag.TagValue); RejectionChanged(); break;
 
-                        case "HEIGHT_CHK_REJ_TR1": TR1.HEIGHTCHK = Convert.ToInt64(tag.TagValue); break;
-                        case "HEIGHT_CHK_REJ_TR2": TR2.HEIGHTCHK = Convert.ToInt64(tag.TagValue); break;
-                        case "HEIGHT_CHK_REJ_TR3": TR3.HEIGHTCHK = Convert.ToInt64(tag.TagValue); break;
-                        case "HEIGHT_CHK_REJ_TR4": TR4.HEIGHTCHK = Convert.ToInt64(tag.TagValue); break;
+                        case "HEIGHT_CHK_REJ_TR1": TR1.HEIGHTCHK = Convert.ToInt64(tag.TagValue); RejectionChanged(); break;
+                        case "HEIGHT_CHK_REJ_TR2": TR2.HEIGHTCHK = Convert.ToInt64(tag.TagValue); RejectionChanged(); break;
+                        case "HEIGHT_CHK_REJ_TR3": TR3.HEIGHTCHK = Convert.ToInt64(tag.TagValue); RejectionChanged(); break;
+                        case "HEIGHT_CHK_REJ_TR4": TR4.HEIGHTCHK = Convert.ToInt64(tag.TagValue); RejectionChanged(); break;
 
-                        case "LEAK_TEST_CHK_OK_TR1": TR1.LEAKTESTCHKOK = Convert.ToInt64(tag.TagValue); break;
-                        case "LEAK_TEST_CHK_TR2": TR2.LEAKTESTCHKOK = Convert.ToInt64(tag.TagValue); break;
-                        case "LEAK_TEST_CHK_TR3": TR3.LEAKTESTCHKOK = Convert.ToInt64(tag.TagValue); break;
-                        case "LEAK_TEST_CHK_TR4": TR4.LEAKTESTCHKOK = Convert.ToInt64(tag.TagValue); break;
-
-                        case "Weld_Cycle_Tr1&3_S7": TR13.Cycle = Convert.ToInt64(tag.TagValue); break;
-
-                        case "RunTime_Tr1&3_S7": TR13.RunTime = Convert.ToDouble(tag.TagValue); break;
-                        case "Pk_Pwr_Tr1&3_S7": TR13.PkPwr = Convert.ToDouble(tag.TagValue); break;
-                        case "Energy_Tr1&3_S7": TR13.Energy = Convert.ToDouble(tag.TagValue); break;
-                        case "Weld_Abs_Tr1&3_S7": TR13.WeldAbs = Convert.ToDouble(tag.TagValue); break;
-                        case "Weld_Col_Tr1&3_S7": TR13.WeldCol = Convert.ToDouble(tag.TagValue); break;
-                        case "Total_Col_Tr1&3_S7": TR13.TotalCol = Convert.ToDouble(tag.TagValue); break;
-
-                        case "Trig_Force_Tr1&3_S7": TR13.TrigForce = Convert.ToInt64(tag.TagValue); break;
-                        case "Weld_Force_Tr1&3_S7": TR13.WeldForce = Convert.ToInt64(tag.TagValue); break;
-                        case "Freq_Chg_Tr1&3_S7": TR13.FreqChg = Convert.ToInt64(tag.TagValue); break;
-                        case "Set_AMP_A_Tr1&3_S7": TR13.SetAMPA = Convert.ToInt64(tag.TagValue); break;
-                        case "Velocity_Tr1&3_S7": TR13.Velocity = Convert.ToInt64(tag.TagValue); break;
+                        case "LEAK_TEST_CHK_OK_TR1": TR1.LEAKTESTCHKOK = Convert.ToInt64(tag.TagValue); RejectionChanged(); break;
+                        case "LEAK_TEST_CHK_TR2": TR2.LEAKTESTCHKOK = Convert.ToInt64(tag.TagValue); RejectionChanged(); break;
+                        case "LEAK_TEST_CHK_TR3": TR3.LEAKTESTCHKOK = Convert.ToInt64(tag.TagValue); RejectionChanged(); break;
+                        case "LEAK_TEST_CHK_TR4": TR4.LEAKTESTCHKOK = Convert.ToInt64(tag.TagValue); RejectionChanged(); break;
 
                         //
-                        case "Weld_Cycle_Tr2&4_S6": TR24.Cycle = Convert.ToInt64(tag.TagValue); break;
 
-                        case "RunTime_Tr2&4_S6": TR24.RunTime = Convert.ToDouble(tag.TagValue); break;
-                        case "Pk_Pwr_Tr2&4_S6": TR24.PkPwr = Convert.ToDouble(tag.TagValue); break;
-                        case "Energy_Tr2&4_S6": TR24.Energy = Convert.ToDouble(tag.TagValue); break;
-                        case "Weld_Abs_Tr2&4_S6": TR24.WeldAbs = Convert.ToDouble(tag.TagValue); break;
-                        case "Weld_Col_Tr2&4_S6": TR24.WeldCol = Convert.ToDouble(tag.TagValue); break;
-                        case "Total_Col_Tr2&4_S6": TR24.TotalCol = Convert.ToDouble(tag.TagValue); break;
+                        case "RunTime_Tr1&3_S7":
+                            TR13.RunTime = Convert.ToDouble(tag.TagValue);
+                            UltrasonicWeldingTR13Changed(); break;
+                        case "Pk_Pwr_Tr1&3_S7":
+                            TR13.PkPwr = Convert.ToDouble(tag.TagValue);
+                            UltrasonicWeldingTR13Changed(); break;
+                        case "Energy_Tr1&3_S7":
+                            TR13.Energy = Convert.ToDouble(tag.TagValue);
+                            UltrasonicWeldingTR13Changed(); break;
+                        case "Weld_Abs_Tr1&3_S7":
+                            TR13.WeldAbs = Convert.ToDouble(tag.TagValue);
+                            UltrasonicWeldingTR13Changed(); break;
+                        case "Weld_Col_Tr1&3_S7":
+                            TR13.WeldCol = Convert.ToDouble(tag.TagValue);
+                            UltrasonicWeldingTR13Changed(); break;
+                        case "Total_Col_Tr1&3_S7":
+                            TR13.TotalCol = Convert.ToDouble(tag.TagValue);
+                            UltrasonicWeldingTR13Changed(); break;
 
-                        case "Trig_Force_Tr2&4_S6": TR24.TrigForce = Convert.ToInt64(tag.TagValue); break;
-                        case "Weld_Force_Tr2&4_S6": TR24.WeldForce = Convert.ToInt64(tag.TagValue); break;
-                        case "Freq_Chg_Tr2&4_S6": TR24.FreqChg = Convert.ToInt64(tag.TagValue); break;
-                        case "Set_AMP_A_Tr2&4_S6": TR24.SetAMPA = Convert.ToInt64(tag.TagValue); break;
-                        case "Velocity_Tr2&4_S6": TR24.Velocity = Convert.ToInt64(tag.TagValue); break;
+                        case "Trig_Force_Tr1&3_S7":
+                            TR13.TrigForce = Convert.ToInt64(tag.TagValue);
+                            UltrasonicWeldingTR13Changed(); break;
+                        case "Weld_Force_Tr1&3_S7":
+                            TR13.WeldForce = Convert.ToInt64(tag.TagValue);
+                            UltrasonicWeldingTR13Changed(); break;
+                        case "Freq_Chg_Tr1&3_S7":
+                            TR13.FreqChg = Convert.ToInt64(tag.TagValue);
+                            UltrasonicWeldingTR13Changed(); break;
+                        case "Set_AMP_A_Tr1&3_S7":
+                            TR13.SetAMPA = Convert.ToInt64(tag.TagValue);
+                            UltrasonicWeldingTR13Changed(); break;
+                        case "Velocity_Tr1&3_S7":
+                            TR13.Velocity = Convert.ToInt64(tag.TagValue);
+                            UltrasonicWeldingTR13Changed(); break;
+
+                        //
+                        case "Weld_Cycle_Tr2&4_S6":
+                            TR24.Cycle = Convert.ToInt64(tag.TagValue);
+                            UltrasonicWeldingTR24Changed(); break;
+
+                        case "RunTime_Tr2&4_S6":
+                            TR24.RunTime = Convert.ToDouble(tag.TagValue);
+                            UltrasonicWeldingTR24Changed(); break;
+                        case "Pk_Pwr_Tr2&4_S6":
+                            TR24.PkPwr = Convert.ToDouble(tag.TagValue);
+                            UltrasonicWeldingTR24Changed(); break;
+                        case "Energy_Tr2&4_S6":
+                            TR24.Energy = Convert.ToDouble(tag.TagValue);
+                            UltrasonicWeldingTR24Changed(); break;
+                        case "Weld_Abs_Tr2&4_S6":
+                            TR24.WeldAbs = Convert.ToDouble(tag.TagValue);
+                            UltrasonicWeldingTR24Changed(); break;
+                        case "Weld_Col_Tr2&4_S6":
+                            TR24.WeldCol = Convert.ToDouble(tag.TagValue);
+                            UltrasonicWeldingTR24Changed(); break;
+                        case "Total_Col_Tr2&4_S6":
+                            TR24.TotalCol = Convert.ToDouble(tag.TagValue);
+                            UltrasonicWeldingTR24Changed(); break;
+
+                        case "Trig_Force_Tr2&4_S6":
+                            TR24.TrigForce = Convert.ToInt64(tag.TagValue);
+                            UltrasonicWeldingTR24Changed(); break;
+                        case "Weld_Force_Tr2&4_S6":
+                            TR24.WeldForce = Convert.ToInt64(tag.TagValue);
+                            UltrasonicWeldingTR24Changed(); break;
+                        case "Freq_Chg_Tr2&4_S6":
+                            TR24.FreqChg = Convert.ToInt64(tag.TagValue);
+                            UltrasonicWeldingTR24Changed(); break;
+                        case "Set_AMP_A_Tr2&4_S6":
+                            TR24.SetAMPA = Convert.ToInt64(tag.TagValue);
+                            UltrasonicWeldingTR24Changed(); break;
+                        case "Velocity_Tr2&4_S6":
+                            TR24.Velocity = Convert.ToInt64(tag.TagValue);
+                            UltrasonicWeldingTR24Changed(); break;
 
                         default: break;
                     }
                 }
-
             }
+        }
 
+        private void OEEChanged()
+        {
             OEEEntries = new ObservableCollection<OEEEntryViewModel>()
             {
                 new OEEEntryViewModel(OEE, A, P, Q)
             };
             OnPropertyChanged(nameof(OEEEntries));
+        }   
 
+        private void RejectionChanged()
+        {
             RejectionEntries = new ObservableCollection<RejectionEntryViewModel>()
             {
                 new RejectionEntryViewModel("Station-1 Bottom Cap Check", TR1.BOTTOMCAP, TR2.BOTTOMCAP, TR3.BOTTOMCAP, TR4.BOTTOMCAP),
@@ -539,13 +559,19 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
                 new RejectionEntryViewModel("Station-10 Leak Check", TR1.LEAKTESTCHKOK, TR2.LEAKTESTCHKOK, TR3.LEAKTESTCHKOK, TR4.LEAKTESTCHKOK)
             };
             OnPropertyChanged(nameof(RejectionEntries));
-
+        }       
+        
+        private void UltrasonicWeldingTR13Changed()
+        {
             UltrasonicWeldingTR13Entries = new ObservableCollection<UltrasonicWeldingViewModel>()
             {
                 new UltrasonicWeldingViewModel(TR13.Cycle, TR13.RunTime, TR13.PkPwr, TR13.Energy, TR13.WeldAbs, TR13.WeldCol, TR13.TotalCol, TR13.TrigForce, TR13.WeldForce, TR13.FreqChg, TR13.SetAMPA, TR13.Velocity)
             };
             OnPropertyChanged(nameof(UltrasonicWeldingTR13Entries));
+        }
 
+        private void UltrasonicWeldingTR24Changed()
+        {
             UltrasonicWeldingTR24Entries = new ObservableCollection<UltrasonicWeldingViewModel>()
             {
                 new UltrasonicWeldingViewModel(TR24.Cycle, TR24.RunTime, TR24.PkPwr, TR24.Energy, TR24.WeldAbs, TR24.WeldCol, TR24.TotalCol, TR24.TrigForce, TR24.WeldForce, TR24.FreqChg, TR24.SetAMPA, TR24.Velocity)

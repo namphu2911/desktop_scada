@@ -14,6 +14,7 @@ namespace WEMBLEY.DemoApp.Core.Domain.Services
         Task<List<TagChangedNotification>> GetBufferList();
         Task<TagChangedNotification> GetBuffer(string tagId);
         Task<object?> GetBufferValue(string tagId);
+        Task<object?> GetBufferValue(string stationId, string tagId);
         bool GetState();
     }
 }

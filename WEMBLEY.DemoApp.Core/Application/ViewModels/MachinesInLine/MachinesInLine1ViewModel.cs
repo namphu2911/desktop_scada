@@ -92,7 +92,7 @@ public class MachinesInLine1ViewModel : BaseViewModel
 
     private async void DelayLoading()
     {
-        await Task.Delay(6000);
+        await Task.Delay(5000);
         IsLoading = false;
     }
 
@@ -107,7 +107,7 @@ public class MachinesInLine1ViewModel : BaseViewModel
         var a = await _signalRClient.GetBufferList();
         if (a.Count != 0)
         {
-            Status = (EMachineStatus)Convert.ToInt32(await _signalRClient.GetBufferValue("machineStatus"));
+            Status = (EMachineStatus)Convert.ToInt32(await _signalRClient.GetBufferValue("IE-F2-HCA01", "machineStatus"));
         }
     }
 

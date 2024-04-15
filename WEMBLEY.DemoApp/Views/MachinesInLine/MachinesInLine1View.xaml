@@ -35,7 +35,7 @@
                 <Grid Grid.Row="0">
                     <Grid.Style>
                         <Style TargetType="Grid">
-                            <Setter Property="Visibility" Value="Visible"/>
+                            <Setter Property="Visibility" Value="Collapsed"/>
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding IsLoading}" Value="False">
                                     <Setter Property="Visibility" Value="Visible"/>
@@ -72,7 +72,7 @@
                     </Button>
                 </Grid>
 
-                <!--<Grid Grid.Row="0" Margin="0,20,0,0">
+                <Grid Grid.Row="0" Margin="0,20,0,0">
                     <Grid.Style>
                         <Style TargetType="Grid">
                             <Setter Property="Visibility" Value="Collapsed"/>
@@ -92,7 +92,7 @@
                     <loadingspinnercontrol:LoadingSpinner Grid.Row="0" IsLoading="{Binding IsLoading}"/>
                     <TextBlock Grid.Row="1" HorizontalAlignment="Center" Foreground="Black" Text="Loading..."/>
 
-                </Grid>-->
+                </Grid>
             </Grid>
 
            

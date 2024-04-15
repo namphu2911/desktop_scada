@@ -92,7 +92,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.MachinesInLine
 
         private async void DelayLoading()
         {
-            await Task.Delay(6000);
+            await Task.Delay(5000);
             IsLoading = false;
         }
 
@@ -107,7 +107,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.MachinesInLine
             var a = await _signalRClient.GetBufferList();
             if (a.Count != 0)
             {
-                Status = (EMachineStatus)Convert.ToInt32(await _signalRClient.GetBufferValue("machineStatus"));
+                Status = (EMachineStatus)Convert.ToInt32(await _signalRClient.GetBufferValue("IE-F3-BLO06", "machineStatus"));
             }
         }
 

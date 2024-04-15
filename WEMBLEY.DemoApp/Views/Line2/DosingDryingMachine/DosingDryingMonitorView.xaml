@@ -8,14 +8,14 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             xmlns:Components="clr-namespace:WEMBLEY.DemoApp.Resources.Components"
+             xmlns:Components="clr-namespace:WEMBLEY.DemoApp.Resources.Components" xmlns:dosingdryingmachine="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine;assembly=WEMBLEY.DemoApp.Core" d:DataContext="{d:DesignInstance Type=dosingdryingmachine:DosingDryingMonitorViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="1260"
              Background="{StaticResource ColorBackground}"
              Padding="10">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
-            <prism:InvokeCommandAction Command="{Binding LoadStopperMachineMonitorViewCommand}"/>
+            <prism:InvokeCommandAction Command="{Binding LoadDosingDryingMonitorViewCommand}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
@@ -25,421 +25,913 @@
         </materialDesign:DialogHost.DialogContent>
 
         <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+            <Grid Visibility="{Binding MonitorVis}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-            <Grid Grid.Row="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                <StackPanel Margin="5,5,10,5"  Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                    <TextBlock 
-                           Background="#394963"
-                           Style="{StaticResource NoteBarLabel}"
-                           Text="ON" />
-                    <TextBlock 
-                           Background="{StaticResource ColorPrimaryGreen}"
-                           Style="{StaticResource NoteBarLabel}"
-                           Text="RUN" />
-                    <TextBlock 
-                           Background="{StaticResource ColorPrimaryRed}"
-                           Style="{StaticResource NoteBarLabel}"
-                           Text="ALARM" />
-                    <TextBlock 
-                           Background="{StaticResource ColorPrimaryYellow}"
-                           Style="{StaticResource NoteBarLabel}"
-                           Text="IDLE" />
-                    <TextBlock 
-                           Background="{StaticResource ColorPrimaryPurple}"
-                           Style="{StaticResource NoteBarLabel}"
-                           Text="SETUP" />
-                    <TextBlock 
-                           Background="{StaticResource ColorPrimaryGray}"
-                           Style="{StaticResource NoteBarLabel}"
-                           Text="OFF" />
+                    <StackPanel Margin="5,5,10,5"  Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <TextBlock 
+                       Background="#394963"
+                       Style="{StaticResource NoteBarLabel}"
+                       Text="ON" />
+                        <TextBlock 
+                       Background="{StaticResource ColorPrimaryGreen}"
+                       Style="{StaticResource NoteBarLabel}"
+                       Text="RUN" />
+                        <TextBlock 
+                       Background="{StaticResource ColorPrimaryRed}"
+                       Style="{StaticResource NoteBarLabel}"
+                       Text="ALARM" />
+                        <TextBlock 
+                       Background="{StaticResource ColorPrimaryYellow}"
+                       Style="{StaticResource NoteBarLabel}"
+                       Text="IDLE" />
+                        <TextBlock 
+                       Background="{StaticResource ColorPrimaryPurple}"
+                       Style="{StaticResource NoteBarLabel}"
+                       Text="SETUP" />
+                        <TextBlock 
+                       Background="{StaticResource ColorPrimaryGray}"
+                       Style="{StaticResource NoteBarLabel}"
+                       Text="OFF" />
 
-                </StackPanel>
-            </Grid>
+                    </StackPanel>
+                </Grid>
 
 
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                <Grid Grid.Column="0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                    </Grid.RowDefinitions>
-
-                    <Grid Grid.Row="0" Margin="5" Background="{Binding ColorBack}">
+                    <Grid Grid.Column="0">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
 
-                        <Grid Grid.Row="0">
-                            <TextBlock 
-                                        Grid.Column="0" 
-                                        Style="{StaticResource LineTitle}"
-                                        Text="Line 2: Ống máu thường - Trạm phun hóa chất" 
-                            />
-                        </Grid>
+                        <Grid Grid.Row="0" Margin="5" Background="{Binding ColorBack}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
 
-                        <materialDesign:Card 
-                                    UniformCornerRadius="15" 
-                                    Margin="10" 
-                                    Grid.Row="1">
-                            <Grid >
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="auto"/>
-                                </Grid.RowDefinitions>
+                            <Grid Grid.Row="0">
+                                <TextBlock 
+                                    Grid.Column="0" 
+                                    Style="{StaticResource LineTitle}"
+                                    Text="Line 1: Nút chặn"/>
+                            </Grid>
 
-                                <Grid Grid.Row="0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
+                            <materialDesign:Card 
+                                UniformCornerRadius="15" 
+                                Margin="10" 
+                                Grid.Row="1">
+                                <Grid >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="auto"/>
+                                    </Grid.RowDefinitions>
 
-                                    <TextBlock Grid.Column="0" 
-                                                Style="{StaticResource LineLabel20}"
-                                                Text="Hiệu năng: " />
-                                    <ProgressBar 
-                                                    Grid.Column="1" 
-                                                    Value="{Binding Efficiency}" Name="pbStatus" 
-                                                    Height="35"
-                                                    Width="300"
-                                                    Style="{StaticResource ProgressBarStyle}">
-                                        <ProgressBar.Clip>
-                                            <RectangleGeometry RadiusX="15" RadiusY="15" Rect="0,0,300,35"/>
-                                        </ProgressBar.Clip>
-                                    </ProgressBar>
-                                    <TextBlock 
-                                                    Grid.Column="1"  
-                                                    Style="{StaticResource ProgressBarText}"
-                                                    Text="{Binding ElementName=pbStatus, Path=Value, StringFormat={}{0:0.##}%}" />
-                                </Grid>
+                                    <Grid Grid.Row="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
 
-                                <Grid Grid.Row="1">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <TextBlock Grid.Column="0" 
-                                               Style="{StaticResource LineLabel20}"
-                                               Text="Tổng SL: " />
-                                    <Border Grid.Column="1" 
-                                                    BorderThickness="2,2,2,2" 
-                                                    BorderBrush="Black" 
-                                                    CornerRadius="15,15,15,15" 
-                                        Width="auto"
-                                        Margin="0,5,0,5">
+                                        <TextBlock Grid.Column="0" 
+                                            Style="{StaticResource LineLabel20}"
+                                            Text="Hiệu năng: " />
+                                        <ProgressBar 
+                                                Grid.Column="1" 
+                                                Value="{Binding Efficiency}" Name="pbStatus" 
+                                                Height="35"
+                                                Width="300"
+                                                Style="{StaticResource ProgressBarStyle}">
+                                            <ProgressBar.Clip>
+                                                <RectangleGeometry RadiusX="15" RadiusY="15" Rect="0,0,300,35"/>
+                                            </ProgressBar.Clip>
+                                        </ProgressBar>
                                         <TextBlock 
-                                                   Style="{StaticResource LineLabel20}"
-                                                   Text="{Binding AllProductCount}" />
-                                    </Border>
+                                                Grid.Column="1"  
+                                                Style="{StaticResource ProgressBarText}"
+                                                Text="{Binding ElementName=pbStatus, Path=Value, StringFormat={}{0:0.##}%}" />
+                                    </Grid>
 
-                                    <TextBlock Grid.Column="2" 
+                                    <Grid Grid.Row="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.Column="0" 
+                                           Style="{StaticResource LineLabel20}"
+                                           Text="Tổng SL: " />
+                                        <Border Grid.Column="1" 
+                                                BorderThickness="2,2,2,2" 
+                                                BorderBrush="Black" 
+                                                CornerRadius="15,15,15,15" 
+                                    Width="auto"
+                                    Margin="0,5,0,5">
+                                            <TextBlock 
                                                Style="{StaticResource LineLabel20}"
-                                               Text="SL đạt: " />
-                                    <Border 
-                                                Grid.Column="3" 
+                                               Text="{Binding AllProductCount}" />
+                                        </Border>
+
+                                        <TextBlock Grid.Column="2" 
+                                           Style="{StaticResource LineLabel20}"
+                                           Text="SL đạt: " />
+                                        <Border 
+                                            Grid.Column="3" 
+                                            BorderThickness="2,2,2,2" 
+                                            BorderBrush="Black" 
+                                            CornerRadius="15,15,15,15" 
+                                    Margin="0,5,0,5"
+                                    Width="auto">
+                                            <TextBlock 
+                                               Style="{StaticResource LineLabel20}"
+                                               Text="{Binding GoodCount}" />
+                                        </Border>
+
+                                        <TextBlock Grid.Column="4" 
+                                           Style="{StaticResource LineLabel20}"
+                                           Text="SL lỗi: " />
+                                        <Border Grid.Column="5"
                                                 BorderThickness="2,2,2,2" 
                                                 BorderBrush="Black" 
                                                 CornerRadius="15,15,15,15" 
                                         Margin="0,5,0,5"
                                         Width="auto">
-                                        <TextBlock 
-                                                   Style="{StaticResource LineLabel20}"
-                                                   Text="{Binding GoodCount}" />
-                                    </Border>
-
-                                    <TextBlock Grid.Column="4" 
+                                            <TextBlock 
                                                Style="{StaticResource LineLabel20}"
-                                               Text="SL lỗi: " />
-                                    <Border Grid.Column="5"
-                                                    BorderThickness="2,2,2,2" 
-                                                    BorderBrush="Black" 
-                                                    CornerRadius="15,15,15,15" 
+                                               Text="{Binding BadCount}" />
+                                        </Border>
+                                    </Grid>
+
+                                    <Grid Grid.Row="2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.Column="0" 
+                                           Style="{StaticResource LineLabel20}"
+                                           Text="Nhiệt độ: " />
+                                        <Border Grid.Column="1" 
+                                            BorderThickness="2,2,2,2" 
+                                            BorderBrush="Black" 
+                                            CornerRadius="15,15,15,15" 
+                                            Width="112"
                                             Margin="0,5,0,5"
-                                            Width="auto">
+                                            HorizontalAlignment="Left">
+                                            <TextBlock 
+                                               Style="{StaticResource LineLabel20}"
+                                               Text="{Binding AllProductCount}" />
+                                        </Border>
+                                    </Grid>
+
+                                    <Grid Grid.Row="3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
                                         <TextBlock 
-                                                   Style="{StaticResource LineLabel20}"
-                                                   Text="{Binding BadCount}" />
-                                    </Border>
+                                            Grid.Column="0" 
+                                            Style="{StaticResource LineLabel20}"
+                                            Text="Thời gian hoạt động: " />
+                                        <Border Grid.Column="1" 
+                                                BorderThickness="2,2,2,2" 
+                                                BorderBrush="Black" 
+                                                CornerRadius="15">
+                                            <TextBlock 
+                                               Style="{StaticResource LineLabel20}"
+                                               Text="{Binding OperationTime, StringFormat=hh\\:mm\\:ss}" />
+                                        </Border>
+                                    </Grid>
+
+                                    <Grid Grid.Row="4">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock 
+                                            Grid.Column="0" 
+                                            Style="{StaticResource LineLabel20}"
+                                            Text="Tên sản phẩm: " />
+                                        <Border Grid.Column="1" 
+                                                BorderThickness="2,2,2,2" 
+                                                BorderBrush="Black" 
+                                                CornerRadius="15"
+                                                Margin="0,5,0,5">
+                                            <TextBlock 
+                                               Style="{StaticResource LineLabel20}"
+                                               Text="{Binding BloodTubeProductName}" />
+                                        </Border>
+                                    </Grid>
+
+                                    <Grid Grid.Row="5">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+
+                                        <TextBlock 
+                                            Grid.Column="0" 
+                                            Style="{StaticResource LineLabel20}"
+                                            Text="Mã Ref: " />
+                                        <Border Grid.Column="1" 
+                                                BorderThickness="2,2,2,2" 
+                                                BorderBrush="Black" 
+                                                CornerRadius="15,15,15,15" 
+                                                
+                                                Width="auto">
+                                            <TextBlock 
+                                               Style="{StaticResource LineValue}"
+                                               Text="{Binding BloodTubeReferenceName}" />
+                                        </Border>
+
+
+                                        <TextBlock 
+                                            Grid.Column="2" 
+                                            Style="{StaticResource LineLabel20}"
+                                            Text="Mã lô: " />
+                                        <Border Grid.Column="3" 
+                                                BorderThickness="2,2,2,2" 
+                                                BorderBrush="Black" 
+                                                CornerRadius="15,15,15,15" 
+                                                Width="auto">
+                                            <TextBlock 
+                                               Style="{StaticResource LineValue}"
+                                               Text="{Binding BloodTubeLotId}" />
+                                        </Border>
+
+                                        <TextBlock 
+                                            Grid.Column="4" 
+                                            Style="{StaticResource LineLabel20}"
+                                            Text="Cỡ lô: " />
+                                        <Border Grid.Column="5" 
+                                                BorderThickness="2,2,2,2" 
+                                                BorderBrush="Black" 
+                                                CornerRadius="15,15,15,15" 
+                                                Width="auto">
+                                            <TextBlock 
+                                               Style="{StaticResource LineValue}"
+                                               Text="{Binding BloodTubeLotSize}" />
+                                        </Border>
+                                    </Grid>
+
+                                    <Grid Grid.Row="6">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.Column="0" 
+                                            Style="{StaticResource LineLabel20}"
+                                            Text="Nhân viên: " />
+
+                                        <ListView 
+                                            Grid.Column="1"
+                                            HorizontalContentAlignment="Stretch"
+                                            ItemsSource="{Binding PersonStrings}" 
+                                            FontSize="18" 
+                                            FontWeight="Medium">
+                                        </ListView>
+                                    </Grid>
                                 </Grid>
+                            </materialDesign:Card>
+                        </Grid>
 
-                                <Grid Grid.Row="2">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
 
-                                    <TextBlock 
-                                                Grid.Column="0" 
-                                                Style="{StaticResource LineLabel20}"
-                                                Text="Thời gian hoạt động: " />
-                                    <Border Grid.Column="1" 
-                                                    BorderThickness="2,2,2,2" 
-                                                    BorderBrush="Black" 
-                                                    CornerRadius="15">
+                            <materialDesign:Card Grid.Column="0" Margin="5">
+                                <Grid >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Grid Grid.Row="0">
                                         <TextBlock 
-                                                   Style="{StaticResource LineLabel20}"
-                                                   Text="{Binding OperationTime, StringFormat=hh\\:mm\\:ss}" />
-                                    </Border>
+                                            Grid.Column="0" 
+                                            Style="{StaticResource LineLabel20}"
+                                            Text="Vision Processing" />
+                                    </Grid>
+
+                                    <Grid Grid.Row="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="0.4*"/>
+                                            <ColumnDefinition Width="0.6*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock 
+                                            Grid.Column="0" 
+                                            Style="{StaticResource LineLabel20}"
+                                            Text="Total tubes: " 
+                                            HorizontalAlignment="Left"/>
+                                        <Border 
+                                            Grid.Column="1" 
+                                            BorderThickness="2,2,2,2" 
+                                            BorderBrush="Black" 
+                                            CornerRadius="15,15,15,15" 
+                                            Width="auto"
+                                            Margin="0,5,5,5">
+                                            <TextBlock 
+                                               Style="{StaticResource LineLabel20}"
+                                               Text="{Binding VisionTotalTube}" />
+                                        </Border>
+                                    </Grid>
+
+                                    <Grid Grid.Row="2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="0.4*"/>
+                                            <ColumnDefinition Width="0.6*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock 
+                                            Grid.Column="0" 
+                                            Style="{StaticResource LineLabel20}"
+                                            Text="Good tubes: " 
+                                            HorizontalAlignment="Left"/>
+                                        <Border 
+                                            Grid.Column="1" 
+                                            BorderThickness="2,2,2,2" 
+                                            BorderBrush="Black" 
+                                            CornerRadius="15,15,15,15" 
+                                            Width="auto"
+                                            Margin="0,5,5,5">
+                                            <TextBlock 
+                                               Style="{StaticResource LineLabel20}"
+                                               Text="{Binding VisionGoodTube}" />
+                                        </Border>
+                                    </Grid>
+
+                                    <Grid Grid.Row="3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="0.4*"/>
+                                            <ColumnDefinition Width="0.6*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock 
+                                            Grid.Column="0" 
+                                            Style="{StaticResource LineLabel20}"
+                                            Text="Bad tubes: " 
+                                            HorizontalAlignment="Left"/>
+                                        <Border 
+                                            Grid.Column="1" 
+                                            BorderThickness="2,2,2,2" 
+                                            BorderBrush="Black" 
+                                            CornerRadius="15,15,15,15" 
+                                            Width="auto"
+                                            Margin="0,5,5,5">
+                                            <TextBlock 
+                                               Style="{StaticResource LineLabel20}"
+                                               Text="{Binding VisionBadTube}" />
+                                        </Border>
+                                    </Grid>
                                 </Grid>
+                            </materialDesign:Card>
 
-                                <Grid Grid.Row="3">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
+                            <materialDesign:Card Grid.Column="1" Margin="5">
+                                <Grid >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
 
-                                    <TextBlock 
-                                                Grid.Column="0" 
-                                                Style="{StaticResource LineLabel20}"
-                                                Text="Tên sản phẩm: " />
-                                    <Border Grid.Column="1" 
-                                                    BorderThickness="2,2,2,2" 
-                                                    BorderBrush="Black" 
-                                                    CornerRadius="15"
-                                                    Margin="0,5,0,5">
+                                    <Grid Grid.Row="0">
                                         <TextBlock 
-                                                   Style="{StaticResource LineLabel20}"
-                                                   Text="{Binding HerapinCapProductName}" />
-                                    </Border>
+                                            Style="{StaticResource LineLabel20}"
+                                            Text="Enable Station" />
+                                    </Grid>
+
+                                    <Grid Grid.Row="1">
+                                        <Border 
+                                            Grid.Column="1" 
+                                            BorderThickness="2,2,2,2" 
+                                            BorderBrush="Black" 
+                                            Background="Red"
+                                            CornerRadius="15,15,15,15" 
+                                            Width="230"
+                                            Margin="0,5,5,5">
+                                            <TextBlock
+                                                Style="{StaticResource VisionStateLabel}">
+                                                <Run Text="Drying 1: "/>
+                                                <Run Text="NoUse"/>
+                                            </TextBlock>
+                                        </Border>
+                                    </Grid>
+
+                                    <Grid Grid.Row="2">
+                                        <Border 
+                                            Grid.Column="1" 
+                                            BorderThickness="2,2,2,2" 
+                                            BorderBrush="Black" 
+                                            Background="Red"
+                                            CornerRadius="15,15,15,15" 
+                                            Width="230"
+                                            Margin="0,5,5,5">
+                                            <TextBlock
+                                                Style="{StaticResource VisionStateLabel}">
+                                                <Run Text="Drying 2: "/>
+                                                <Run Text="NoUse"/>
+                                            </TextBlock>
+                                        </Border>
+                                    </Grid>
+
+                                    <Grid Grid.Row="3">
+                                        <Border 
+                                            Grid.Column="1" 
+                                            BorderThickness="2,2,2,2" 
+                                            BorderBrush="Black" 
+                                            Background="Red"
+                                            CornerRadius="15,15,15,15" 
+                                            Width="230"
+                                            Margin="0,5,5,5">
+                                            <TextBlock
+                                                Style="{StaticResource VisionStateLabel}">
+                                                <Run Text="Robot Arm: "/>
+                                                <Run Text="NoUse"/>
+                                            </TextBlock>
+                                        </Border>
+                                    </Grid>
                                 </Grid>
-
-                                <Grid Grid.Row="4">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
+                            </materialDesign:Card>
+                        </Grid>
 
 
-                                    <TextBlock 
-                                                Grid.Column="0" 
-                                                Style="{StaticResource LineLabel20}"
-                                                Text="Mã Ref: " />
-                                    <Border Grid.Column="1" 
-                                                    BorderThickness="2,2,2,2" 
-                                                    BorderBrush="Black" 
-                                                    CornerRadius="15,15,15,15" 
-                                                    
-                                                    Width="auto">
-                                        <TextBlock 
-                                                   Style="{StaticResource LineValue}"
-                                                   Text="{Binding HerapinCapReferenceName}" />
-                                    </Border>
 
 
-                                    <TextBlock 
-                                                Grid.Column="2" 
-                                                Style="{StaticResource LineLabel20}"
-                                                Text="Mã lô: " />
-                                    <Border Grid.Column="3" 
-                                                    BorderThickness="2,2,2,2" 
-                                                    BorderBrush="Black" 
-                                                    CornerRadius="15,15,15,15" 
-                                                    Width="auto">
-                                        <TextBlock 
-                                                   Style="{StaticResource LineValue}"
-                                                   Text="{Binding HerapinCapLotId}" />
-                                    </Border>
 
-                                    <TextBlock 
-                                                Grid.Column="4" 
-                                                Style="{StaticResource LineLabel20}"
-                                                Text="Cỡ lô: " />
-                                    <Border Grid.Column="5" 
-                                                    BorderThickness="2,2,2,2" 
-                                                    BorderBrush="Black" 
-                                                    CornerRadius="15,15,15,15" 
-                                                    Width="auto">
-                                        <TextBlock 
-                                                   Style="{StaticResource LineValue}"
-                                                   Text="{Binding HerapinCapLotSize}" />
-                                    </Border>
-                                </Grid>
+                        <Grid Grid.Row="2">
+                            <Button
+                                 Margin="10"
+                                 Style="{StaticResource ButtonPrimary}" materialDesign:ButtonAssist.CornerRadius="10"
+                                 Content="Chemical Detection"
+                                 HorizontalAlignment="Left"
+                                 Width="auto">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding LoadDetectionCommand}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+                        </Grid>
+                    </Grid>
 
-                                <Grid Grid.Row="5">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="0.7*"/>
+                        </Grid.RowDefinitions>
 
-                                    <TextBlock Grid.Column="0" 
-                                                Style="{StaticResource LineLabel20}"
-                                                Text="Nhân viên: " />
+                        <materialDesign:Card Grid.Row="0" Margin="5">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
 
-                                    <ListView 
-                                    Grid.Column="1"
-                                    HorizontalContentAlignment="Stretch"
-                                    ItemsSource="{Binding PersonStrings}" 
-                                    FontSize="18" 
-                                    FontWeight="Medium">
-                                    </ListView>
+                                <lvc:CartesianChart
+                            Name="chart"
+                            Zoom="X"
+                            Pan="Xy"
+                            Series="{Binding SeriesCollection}"
+                            Foreground="Black">
+                                    <lvc:CartesianChart.AxisX>
+                                        <lvc:Axis Title="Thời gian" LabelFormatter="{Binding DateTimeFormatter}"
+                                  MinRange="{Binding MinDateValue}"
+                                  MaxRange="{Binding MaxDateValue}">
+                                        </lvc:Axis>
+                                    </lvc:CartesianChart.AxisX>
 
-                                </Grid>
+                                    <lvc:CartesianChart.AxisY>
+                                        <lvc:Axis Title="OEE (%)" LabelFormatter="{Binding ValueFormatter}"
+                                  MinRange="0"
+                                  MaxRange="100">
+                                        </lvc:Axis>
+                                    </lvc:CartesianChart.AxisY>
+                                </lvc:CartesianChart>
+
+                                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <TextBlock
+                                Margin="0"
+                                Style="{StaticResource LineLabel}" 
+                                HorizontalAlignment="Center"
+                                Text="Khoảng cách: "/>
+                                    <ComboBox 
+                                Margin="0"
+                                Width="75"
+                                Style="{StaticResource ComboBox}"
+                                HorizontalContentAlignment="Center"
+                                IsEditable="False"
+                                ItemsSource="{Binding Intervals}"
+                                SelectedItem="{Binding Interval}">
+                                    </ComboBox>
+                                    <Button Grid.Column="0"
+                                Margin="5,5,0,0"
+                                Style="{StaticResource ButtonNavigateBack}" 
+                                materialDesign:ButtonAssist.CornerRadius="10"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Stretch">
+                                        <materialDesign:PackIcon
+                                    Width="30"
+                                    Height="30"
+                                    Kind="Reload" 
+                                    VerticalAlignment="Center"/>
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction Command="{Binding LoadApiOEECommand}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+
+                                    </Button>
+                                </StackPanel>
                             </Grid>
                         </materialDesign:Card>
-                    </Grid>
-                    <materialDesign:Card Grid.Row="1" Margin="5">
-                        <DataGrid 
-                              Style="{StaticResource MaterialDesignDataGrid}"
-                              Background="{StaticResource ColorSurface}"
-                              Margin="10"
-                              IsReadOnly="True"
-                              ItemsSource="{Binding RejectionEntries}"
-                              AutoGenerateColumns="False"
-                              SelectionUnit="FullRow"
-                              SelectionMode="Single">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="Station" Binding="{Binding StationName}" Width="auto"/>
-                                <DataGridTextColumn Header="Track 1" Binding="{Binding Track1Value}" Width="*"/>
-                                <DataGridTextColumn Header="Track 2" Binding="{Binding Track2Value}" Width="*"/>
-                                <DataGridTextColumn Header="Track 3" Binding="{Binding Track3Value}" Width="*"/>
-                                <DataGridTextColumn Header="Track 4" Binding="{Binding Track4Value}" Width="*"/>
-                            </DataGrid.Columns>
-                        </DataGrid>
-                    </materialDesign:Card>
-                </Grid>
 
-                <Grid Grid.Column="1">
+
+
+                        <materialDesign:Card Grid.Row="1" Margin="5">
+                            <DataGrid 
+                          Style="{StaticResource MaterialDesignDataGrid}"
+                          Background="{StaticResource ColorSurface}"
+                          Margin="10"
+                          IsReadOnly="True"
+                          ItemsSource="{Binding OEEEntries, UpdateSourceTrigger=PropertyChanged}"
+                          AutoGenerateColumns="False"
+                          SelectionUnit="FullRow"
+                          SelectionMode="Single">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="OEE" Binding="{Binding OEE, StringFormat={}{0:0.##}}" Width="*"/>
+                                    <DataGridTextColumn Header="A" Binding="{Binding A, StringFormat={}{0:0.##}}" Width="*"/>
+                                    <DataGridTextColumn Header="P" Binding="{Binding P, StringFormat={}{0:0.##}}" Width="*"/>
+                                    <DataGridTextColumn Header="Q" Binding="{Binding Q, StringFormat={}{0:0.##}}" Width="*"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </materialDesign:Card>
+
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <materialDesign:Card Grid.Column="0" Margin="5">
+                                <ListView HorizontalContentAlignment="Stretch"
+                              ItemsSource="{Binding ErrorStrings}">
+                                    <ListView.ItemContainerStyle>
+                                        <Style TargetType="ListViewItem">
+                                            <Setter Property="Foreground" Value="Red"/>
+                                        </Style>
+                                    </ListView.ItemContainerStyle>
+                                </ListView>
+                            </materialDesign:Card>
+
+                            <Image Grid.Column="1"
+                   Source="/Resources/Images/Nutchan.jpg"/>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Grid>
+
+            <Grid Visibility="{Binding DetectionVis}">
+                <Grid>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="auto"/>
-                        <RowDefinition Height="0.7*"/>
                     </Grid.RowDefinitions>
 
-                    <materialDesign:Card Grid.Row="0" Margin="5">
+                    <Button Grid.Row="0"
+                        Margin="5"
+                        Style="{StaticResource ButtonPrimary}" materialDesign:ButtonAssist.CornerRadius="10"
+                        Content="Back"
+                        HorizontalAlignment="Left"
+                        Width="auto">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding LoadMainMonitorCommand}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                    
+                    <materialDesign:Card 
+                        Grid.Row="1" 
+                        Background="{StaticResource ColorSurface}"
+                        Margin="5">
+                        <TextBlock 
+                            Grid.Column="0" 
+                            Style="{StaticResource LineTitle}"
+                            Text="Chemical Detection"/>
+                    </materialDesign:Card>
+
+                    <materialDesign:Card Grid.Row="2" 
+                                         Visibility="{Binding DetectionCurrentVis}"
+                         Background="{StaticResource ColorSurface}"
+                         Margin="5">
                         <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="auto"/>
-                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
 
-                            <lvc:CartesianChart
-                                Name="chart"
-                                Zoom="X"
-                                Pan="Xy"
-                                Series="{Binding SeriesCollection}"
-                                Foreground="Black">
-                                <lvc:CartesianChart.AxisX>
-                                    <lvc:Axis Title="Thời gian" LabelFormatter="{Binding DateTimeFormatter}"
-                                      MinRange="{Binding MinDateValue}"
-                                      MaxRange="{Binding MaxDateValue}">
-                                    </lvc:Axis>
-                                </lvc:CartesianChart.AxisX>
+                            <Grid Grid.Column="0">
+                                <Grid >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                    </Grid.RowDefinitions>
 
-                                <lvc:CartesianChart.AxisY>
-                                    <lvc:Axis Title="OEE (%)" LabelFormatter="{Binding ValueFormatter}"
-                                      MinRange="0"
-                                      MaxRange="100">
-                                    </lvc:Axis>
-                                </lvc:CartesianChart.AxisY>
-                            </lvc:CartesianChart>
+                                    <Grid Grid.Row="0">
+                                        <TextBlock 
+                                            Grid.Column="0" 
+                                            Style="{StaticResource LineLabel20}"
+                                            Text="In-time data" />
+                                    </Grid>
 
-                            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
-                                <TextBlock
-                                    Margin="0"
-                                    Style="{StaticResource LineLabel}" 
-                                    HorizontalAlignment="Center"
-                                    Text="Khoảng cách: "/>
-                                <ComboBox 
-                                    Margin="0"
-                                    Width="75"
-                                    Style="{StaticResource ComboBox}"
-                                    HorizontalContentAlignment="Center"
-                                    IsEditable="False"
-                                    ItemsSource="{Binding Intervals}"
-                                    SelectedItem="{Binding Interval}">
-                                </ComboBox>
-                                <Button Grid.Column="0"
-                                    Margin="5,5,0,0"
-                                    Style="{StaticResource ButtonNavigateBack}" 
-                                    materialDesign:ButtonAssist.CornerRadius="10"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Stretch">
-                                    <materialDesign:PackIcon
-                                        Width="30"
-                                        Height="30"
-                                        Kind="Reload" 
-                                        VerticalAlignment="Center"/>
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding LoadApiOEECommand}" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
+                                    <Grid Grid.Row="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="0.4*"/>
+                                            <ColumnDefinition Width="0.6*"/>
+                                        </Grid.ColumnDefinitions>
 
-                                </Button>
-                            </StackPanel>
+                                        <TextBlock 
+                                            Grid.Column="0" 
+                                            Style="{StaticResource LineLabel20}"
+                                            Text="2:" 
+                                            HorizontalAlignment="Left"/>
+                                        <Border 
+                                            Grid.Column="1" 
+                                            BorderThickness="2,2,2,2" 
+                                            BorderBrush="Black" 
+                                            CornerRadius="15,15,15,15" 
+                                            Width="auto"
+                                            Margin="0,5,5,5">
+                                            <TextBlock 
+                                                Style="{StaticResource LineLabel20}"
+                                                Margin="5"
+                                                Text="{Binding FSNozzle2}" />
+                                        </Border>
+                                    </Grid>
+
+                                    <Grid Grid.Row="2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="0.4*"/>
+                                            <ColumnDefinition Width="0.6*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock 
+                                            Grid.Column="0" 
+                                            Style="{StaticResource LineLabel20}"
+                                            Text="1:" 
+                                            HorizontalAlignment="Left"/>
+                                        <Border 
+                                            Grid.Column="1" 
+                                            BorderThickness="2,2,2,2" 
+                                            BorderBrush="Black" 
+                                            CornerRadius="15,15,15,15" 
+                                            Width="auto"
+                                            Margin="0,5,5,5">
+                                            <TextBlock 
+                                                Style="{StaticResource LineLabel20}"
+                                                Margin="5"
+                                                Text="{Binding FSNozzle1}" />
+                                        </Border>
+                                    </Grid>                                    
+                                </Grid>
+                            </Grid>
+
+                            <materialDesign:Card
+                                 Grid.Column="1" 
+                                 Background="{StaticResource ColorSurface}"
+                                 Margin="5">
+                                <DataGrid Grid.Column="1" 
+                                    Style="{StaticResource MaterialDesignDataGrid}"
+                                    Background="{StaticResource ColorSurface}"
+                                    Margin="10"
+                                    IsReadOnly="True"
+                                    ItemsSource="{Binding DetectionEntries, UpdateSourceTrigger=PropertyChanged}"
+                                    AutoGenerateColumns="False"
+                                    SelectionUnit="FullRow"
+                                    SelectionMode="Single">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="   " Binding="{Binding Number}" Width="*"/>
+                                        <DataGridTextColumn Header="A" Binding="{Binding A}" Width="*"/>
+                                        <DataGridTextColumn Header="B" Binding="{Binding B}" Width="*"/>
+                                        <DataGridTextColumn Header="C" Binding="{Binding C}" Width="*"/>
+                                        <DataGridTextColumn Header="D" Binding="{Binding D}" Width="*"/>
+                                        <DataGridTextColumn Header="E" Binding="{Binding E}" Width="*"/>
+                                        <DataGridTextColumn Header="F" Binding="{Binding F}" Width="*"/>
+                                        <DataGridTextColumn Header="G" Binding="{Binding G}" Width="*"/>
+                                        <DataGridTextColumn Header="H" Binding="{Binding H}" Width="*"/>
+                                        <DataGridTextColumn Header="J" Binding="{Binding J}" Width="*"/>
+                                        <DataGridTextColumn Header="K" Binding="{Binding K}" Width="*"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </materialDesign:Card>
                         </Grid>
                     </materialDesign:Card>
 
+                    <materialDesign:Card Grid.Row="2" 
+                     Visibility="{Binding DetectionHistoryVis}"
+     Background="{StaticResource ColorSurface}"
+     Margin="5">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
 
+                            <Grid Grid.Column="0">
+                                <Grid >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                    </Grid.RowDefinitions>
 
-                    <materialDesign:Card Grid.Row="1" Margin="5">
-                        <DataGrid 
-                              Style="{StaticResource MaterialDesignDataGrid}"
-                              Background="{StaticResource ColorSurface}"
-                              Margin="10"
-                              IsReadOnly="True"
-                              ItemsSource="{Binding OEEEntries}"
-                              AutoGenerateColumns="False"
-                              SelectionUnit="FullRow"
-                              SelectionMode="Single">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="OEE" Binding="{Binding OEE, StringFormat={}{0:0.##}}" Width="*"/>
-                                <DataGridTextColumn Header="A" Binding="{Binding A, StringFormat={}{0:0.##}}" Width="*"/>
-                                <DataGridTextColumn Header="P" Binding="{Binding P, StringFormat={}{0:0.##}}" Width="*"/>
-                                <DataGridTextColumn Header="Q" Binding="{Binding Q, StringFormat={}{0:0.##}}" Width="*"/>
-                            </DataGrid.Columns>
-                        </DataGrid>
+                                    <Grid Grid.Row="0">
+                                        <TextBlock 
+                                            Grid.Column="0" 
+                                            Style="{StaticResource LineLabel20}"
+                                            Text="Page      " />
+                                    </Grid>
+
+                                    <Button Grid.Row="1"
+                                            Margin="5"
+                                            Style="{StaticResource ButtonPrimary}" 
+                                            materialDesign:ButtonAssist.CornerRadius="10"
+                                            Content="1"
+                                            HorizontalAlignment="Right"
+                                            Width="50">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction Command="{Binding LoadHistory1Command}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Button>
+
+                                    <Button Grid.Row="2"
+        Margin="5"
+        Style="{StaticResource ButtonPrimary}" 
+        materialDesign:ButtonAssist.CornerRadius="10"
+        Content="2"
+        HorizontalAlignment="Right"
+        Width="50">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction Command="{Binding LoadHistory2Command}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Button>
+
+                                    <Button Grid.Row="3"
+        Margin="5"
+        Style="{StaticResource ButtonPrimary}" 
+        materialDesign:ButtonAssist.CornerRadius="10"
+        Content="3"
+        HorizontalAlignment="Right"
+        Width="50">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction Command="{Binding LoadHistory3Command}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Button>
+
+                                    <Button Grid.Row="4"
+        Margin="5"
+        Style="{StaticResource ButtonPrimary}" 
+        materialDesign:ButtonAssist.CornerRadius="10"
+        Content="4"
+        HorizontalAlignment="Right"
+        Width="50">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction Command="{Binding LoadHistory4Command}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Button>
+
+                                    <Button Grid.Row="5"
+        Margin="5"
+        Style="{StaticResource ButtonPrimary}" 
+        materialDesign:ButtonAssist.CornerRadius="10"
+        Content="5"
+        HorizontalAlignment="Right"
+        Width="50">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction Command="{Binding LoadHistory5Command}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Button>
+                                </Grid>
+                            </Grid>
+
+                            <materialDesign:Card
+             Grid.Column="1" 
+             Background="{StaticResource ColorSurface}"
+             Margin="5">
+                                <DataGrid Grid.Column="1" 
+                Style="{StaticResource MaterialDesignDataGrid}"
+                Background="{StaticResource ColorSurface}"
+                Margin="10"
+                IsReadOnly="True"
+                ItemsSource="{Binding DetectionHistoryEntries, UpdateSourceTrigger=PropertyChanged}"
+                AutoGenerateColumns="False"
+                SelectionUnit="FullRow"
+                SelectionMode="Single">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="   " Binding="{Binding Number}" Width="*"/>
+                                        <DataGridTextColumn Header="A" Binding="{Binding A}" Width="*"/>
+                                        <DataGridTextColumn Header="B" Binding="{Binding B}" Width="*"/>
+                                        <DataGridTextColumn Header="C" Binding="{Binding C}" Width="*"/>
+                                        <DataGridTextColumn Header="D" Binding="{Binding D}" Width="*"/>
+                                        <DataGridTextColumn Header="E" Binding="{Binding E}" Width="*"/>
+                                        <DataGridTextColumn Header="F" Binding="{Binding F}" Width="*"/>
+                                        <DataGridTextColumn Header="G" Binding="{Binding G}" Width="*"/>
+                                        <DataGridTextColumn Header="H" Binding="{Binding H}" Width="*"/>
+                                        <DataGridTextColumn Header="J" Binding="{Binding J}" Width="*"/>
+                                        <DataGridTextColumn Header="K" Binding="{Binding K}" Width="*"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </materialDesign:Card>
+                        </Grid>
                     </materialDesign:Card>
 
-                    <Grid Grid.Row="2">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="2*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
+                    <Grid Grid.Row="3">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Grid.Row="0" Grid.Column="6"
+                 Margin="10"
+                 Style="{StaticResource ButtonPrimary}" materialDesign:ButtonAssist.CornerRadius="10"
+                 Content="Detection In-time"
+                 HorizontalAlignment="Center"
+                 Width="200">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding LoadDetectionCurrentCommand}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
 
-                        <materialDesign:Card Grid.Column="0" Margin="5">
-                            <ListView HorizontalContentAlignment="Stretch"
-                                  ItemsSource="{Binding ErrorStrings}">
-                                <ListView.ItemContainerStyle>
-                                    <Style TargetType="ListViewItem">
-                                        <Setter Property="Foreground" Value="Red"/>
-                                    </Style>
-                                </ListView.ItemContainerStyle>
-                            </ListView>
-                        </materialDesign:Card>
-
-                        <Image Grid.Column="1"
-                       Source="/Resources/Images/Ongmauthuong.jpg"/>
+                            <Button Grid.Row="0" Grid.Column="6"
+                 Margin="10"
+                 Style="{StaticResource ButtonPrimary}" materialDesign:ButtonAssist.CornerRadius="10"
+                 Content="History Detection"
+                 HorizontalAlignment="Center"
+                 Width="200">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding LoadDetectionHistoryCommand}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+                        </StackPanel>
                     </Grid>
                 </Grid>
             </Grid>

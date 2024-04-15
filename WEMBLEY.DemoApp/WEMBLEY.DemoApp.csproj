@@ -5,19 +5,22 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
-    <ApplicationIcon>Resources\Images\logo.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\Images\EXE file.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Images\EXE file.ico" />
     <None Remove="Resources\Images\logo.ico" />
     <None Remove="Resources\Images\logohcmut.jpg" />
     <None Remove="Resources\Images\logowembly.jpg" />
     <None Remove="Resources\Images\Nutchan.jpg" />
     <None Remove="Resources\Images\Ongmauthuong.jpg" />
+    <None Remove="Resources\Images\wembleynew.jpg" />
+    <None Remove="Resources\Images\wemleynewicon.ico" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Resources\Images\logo.ico">
+    <Content Include="Resources\Images\EXE file.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -33,6 +36,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\Ongmauthuong.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\wembleynew.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

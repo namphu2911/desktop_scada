@@ -67,6 +67,23 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
             else return null;
         }
 
+        public async Task<object?> GetBufferValue(string stationId, string tagId)
+        {
+            string respone = await connection.InvokeAsync<string>("SendAll");
+            var tags = JsonConvert.DeserializeObject<List<TagChangedNotification>>(respone);
+            if (tags is null)
+            {
+                throw new Exception();
+            }
+
+            var tag = tags.LastOrDefault(i => ((i.StationId == stationId) && (i.TagId == tagId)));
+            if (tag is not null)
+            {
+                return tag.TagValue;
+            }
+            else return null;
+        }
+
         public bool GetState()
         {
             if (connection.State == HubConnectionState.Connected)

@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.Net.Http;
+using System.Threading.Channels;
 using System.Windows;
 using System.Windows.Input;
 using WEMBLEY.DemoApp.Core.Application.Store;
@@ -51,6 +52,9 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Shared
         public ICommand UpdateMFCCommand { get; set; }
         public ICommand LoadApiCommand { get; set; }
         public string HomeRefId => _homeDataStore.HomeDatas.First(i => i.Line.LineId == "HerapinCap").ReferenceId;
+        //
+
+        public event Action? UpdateMFCApi;
         public MFCSettingViewModel(IApiService apiService, ReferenceStore referenceStore, StationStore deviceStore, HomeDataStore homeDataStore, DeviceSelectedStore deviceSelectedStore)
         {
             _apiService = apiService;
@@ -107,6 +111,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Shared
                     await _apiService.FixMFCAsync(HomeRefId, DeviceId, fixDto);
                     MessageBox.Show("Đã Cập Nhật", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
                     LoadMFCSettingViewAsync();
+                    UpdateMFCApi?.Invoke();
                 }
                 catch (HttpRequestException)
                 {
