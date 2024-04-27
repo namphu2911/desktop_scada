@@ -75,6 +75,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine
         public long AllProductCount { get; set; } = 0;
         public long GoodCount { get; set; } = 0;
         public long BadCount { get; set; } = 0;
+        public long PlasticTrayQuantity { get; set; } = 0;
         public double HeatingTemperature { get; set; } = 0;
         public TimeSpan? OperationTime { get; set; }
         public string BloodTubeProductName { get; set; } = "";
@@ -90,10 +91,13 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine
         public long VisionTotalTube { get; set; } = 0;
         public long VisionGoodTube { get; set; } = 0;
         public long VisionBadTube { get; set; } = 0;
+        public long StyrofoamTrayQuantity { get; set; } = 0;
         //
         public string ColorDrying1 { get; set; } = "#BBBBBB";
         public string ColorDrying2 { get; set; } = "#BBBBBB";
         public string ColorRobotArm { get; set; } = "#BBBBBB";
+        public string ColorCapRubber { get; set; } = "#BBBBBB";
+        public string ColorCapNonRubber { get; set; } = "#BBBBBB";
 
         private EStationEnable drying1Enable;
         public EStationEnable Drying1Enable
@@ -158,6 +162,62 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine
             set
             {
                 robotArmEnable = value;
+                switch (value)
+                {
+                    case EStationEnable.NonUse:
+                        {
+                            ColorRobotArm = "#ED5152";
+                            break;
+                        }
+                    case EStationEnable.Use:
+                        {
+                            ColorRobotArm = "#3EB17F";
+                            break;
+                        }
+                    default:
+                        {
+                            ColorRobotArm = "#BBBBBB";
+                            break;
+                        }
+                }
+            }
+        }
+
+        private EStationEnable capRubberEnable;
+        public EStationEnable CapRubberEnable
+        {
+            get { return capRubberEnable; }
+            set
+            {
+                capRubberEnable = value;
+                switch (value)
+                {
+                    case EStationEnable.NonUse:
+                        {
+                            ColorRobotArm = "#ED5152";
+                            break;
+                        }
+                    case EStationEnable.Use:
+                        {
+                            ColorRobotArm = "#3EB17F";
+                            break;
+                        }
+                    default:
+                        {
+                            ColorRobotArm = "#BBBBBB";
+                            break;
+                        }
+                }
+            }
+        }
+
+        private EStationEnable capNonRubberEnable;
+        public EStationEnable CapNonRubberEnable
+        {
+            get { return capNonRubberEnable; }
+            set
+            {
+                capNonRubberEnable = value;
                 switch (value)
                 {
                     case EStationEnable.NonUse:
@@ -338,21 +398,25 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine
                 P = Convert.ToDouble(await _signalRClient.GetBufferValue("IE-F3-BLO06", "P")) * 100;
                 Q = Convert.ToDouble(await _signalRClient.GetBufferValue("IE-F3-BLO06", "Q")) * 100;
 
-                Status = (EMachineStatus)Convert.ToInt32(await _signalRClient.GetBufferValue("IE-F3-BLO06", "S1_MACHINE_STATUS"));
-                OperationTime = TimeSpan.TryParse(Convert.ToString((await _signalRClient.GetBufferValue("IE-F3-BLO06", "S1_RUN_TIME"))), out var span) ? span : default;
-                GoodCount = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F3-BLO06", "S1_GOOD_ITEMS"));
-                BadCount = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F3-BLO06", "S1_BAD_ITEMS"));
-                Efficiency = Convert.ToDouble(await _signalRClient.GetBufferValue("IE-F3-BLO06", "S1_EFF"));
-                AllProductCount = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F3-BLO06", "S1_TOTAL_ITEMS"));
+                Status = (EMachineStatus)Convert.ToInt32(await _signalRClient.GetBufferValue("IE-F3-BLO06", "machineStatus"));
+                OperationTime = TimeSpan.TryParse(Convert.ToString((await _signalRClient.GetBufferValue("IE-F3-BLO06", "operationTimeRaw"))), out var span) ? span : default;
+                GoodCount = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F3-BLO06", "goodProductRaw"));
+                BadCount = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F3-BLO06", "errorProductRaw"));
+                Efficiency = Convert.ToDouble(await _signalRClient.GetBufferValue("IE-F3-BLO06", "EFF"));
+                AllProductCount = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F3-BLO06", "productCountRaw"));
                 HeatingTemperature = Convert.ToDouble(await _signalRClient.GetBufferValue("IE-F3-BLO06", "S1_HEATING_TEMP"));
+                PlasticTrayQuantity = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F3-BLO06", "S1_PLASTIC_TRAYS_QTY"));
 
                 VisionGoodTube = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F3-BLO06", "S1_VISION_GOOD_TUBES"));
                 VisionBadTube = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F3-BLO06", "S1_VISION_BAD_TUBES"));
                 VisionTotalTube = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F3-BLO06", "S1_VISION_TOTAL_TUBES"));
+                StyrofoamTrayQuantity = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F3-BLO06", "S1_STYROFOAM_TRAYS_QTY"));    
 
                 Drying1Enable = (EStationEnable)Convert.ToInt32(await _signalRClient.GetBufferValue("IE-F3-BLO06", "S1_DRYING_1_ENABLE"));
                 Drying2Enable = (EStationEnable)Convert.ToInt32(await _signalRClient.GetBufferValue("IE-F3-BLO06", "S1_DRYING_2_ENABLE"));
                 RobotArmEnable = (EStationEnable)Convert.ToInt32(await _signalRClient.GetBufferValue("IE-F3-BLO06", "S1_ROBOT_ARM_ENABLE"));
+                CapRubberEnable = (EStationEnable)Convert.ToInt32(await _signalRClient.GetBufferValue("IE-F3-BLO06", "S1_CAP_RUBBER_ENABLE"));  
+                CapNonRubberEnable = (EStationEnable)Convert.ToInt32(await _signalRClient.GetBufferValue("IE-F3-BLO06", "S1_CAP_NON_RUBBER_ENABLE"));
 
                 FSNozzle1 = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F3-BLO06", "S1_FS_NOZZLE_1"));
                 FSNozzle2 = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F3-BLO06", "S1_FS_NOZZLE_2"));
@@ -504,7 +568,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine
             var tag = JsonConvert.DeserializeObject<TagChangedNotification>(json);
             if (tag != null)
             {
-                if (tag.StationId == "IE-F2-HCA01")
+                if (tag.StationId == "IE-F3-BLO06")
                 {
                     switch (tag.TagId)
                     {
@@ -528,21 +592,25 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine
                         case "P": P = Convert.ToDouble(tag.TagValue) * 100; OEEChanged(); break;
                         case "Q": Q = Convert.ToDouble(tag.TagValue) * 100; OEEChanged(); break;
 
-                        case "S1_MACHINE_STATUS": Status = (EMachineStatus)Convert.ToInt32(tag.TagValue); break;
-                        case "S1_RUN_TIME": OperationTime = TimeSpan.Parse((string)tag.TagValue); break;
-                        case "S1_GOOD_ITEMS": GoodCount = Convert.ToInt64(tag.TagValue); break;
-                        case "S1_BAD_ITEMS": BadCount = Convert.ToInt64(tag.TagValue); break;
-                        case "S1_EFF": Efficiency = Convert.ToDouble(tag.TagValue); break;
-                        case "S1_TOTAL_ITEMS": AllProductCount = Convert.ToInt64(tag.TagValue); break;
+                        case "machineStatus": Status = (EMachineStatus)Convert.ToInt32(tag.TagValue); break;
+                        case "operationTimeRaw": OperationTime = TimeSpan.Parse((string)tag.TagValue); break;
+                        case "goodProductRaw": GoodCount = Convert.ToInt64(tag.TagValue); break;
+                        case "errorProductRaw": BadCount = Convert.ToInt64(tag.TagValue); break;
+                        case "EFF": Efficiency = Convert.ToDouble(tag.TagValue); break;
+                        case "productCountRaw": AllProductCount = Convert.ToInt64(tag.TagValue); break;
                         case "S1_HEATING_TEMP": HeatingTemperature = Convert.ToDouble(tag.TagValue); break;
+                        case "S1_PLASTIC_TRAYS_QTY": PlasticTrayQuantity = Convert.ToInt64(tag.TagValue); break;
 
                         case "S1_VISION_GOOD_TUBES": VisionGoodTube = Convert.ToInt64(tag.TagValue); break;
                         case "S1_VISION_BAD_TUBES": VisionBadTube = Convert.ToInt64(tag.TagValue); break;
                         case "S1_VISION_TOTAL_TUBES": VisionTotalTube = Convert.ToInt64(tag.TagValue); break;
+                        case "S1_STYROFOAM_TRAYS_QTY": StyrofoamTrayQuantity = Convert.ToInt64(tag.TagValue); break;
 
                         case "S1_DRYING_1_ENABLE": Drying1Enable = (EStationEnable)Convert.ToInt32(tag.TagValue); break;
                         case "S1_DRYING_2_ENABLE": Drying2Enable = (EStationEnable)Convert.ToInt32(tag.TagValue); break;
                         case "S1_ROBOT_ARM_ENABLE": RobotArmEnable = (EStationEnable)Convert.ToInt32(tag.TagValue); break;
+                        case "S1_CAP_RUBBER_ENABLE": CapRubberEnable = (EStationEnable)Convert.ToInt32(tag.TagValue); break;
+                        case "S1_CAP_NON_RUBBER_ENABLE": CapNonRubberEnable = (EStationEnable)Convert.ToInt32(tag.TagValue); break;
 
                         case "S1_FS_NOZZLE_1": FSNozzle1 = Convert.ToInt64(tag.TagValue); break;
                         case "S1_FS_NOZZLE_2": FSNozzle2 = Convert.ToInt64(tag.TagValue); break;
@@ -636,7 +704,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine
             for (int i = 0; i < 10; i++)
             {
                 DetectionEntries.Add(new DetectionEntryViewModel
-                    (10 - i,
+                    ($"Row {10 - i}",
                     DetectionCurrent[i, 0],
                     DetectionCurrent[i, 1],
                     DetectionCurrent[i, 2],
@@ -653,23 +721,23 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine
 
         private void LoadHistory1()
         {
-            DetectionHistoryEntries = new ObservableCollection<DetectionEntryViewModel>();
-            for (int i = 0; i < 10; i++)
-            {
-                DetectionHistoryEntries.Add(new DetectionEntryViewModel
-                    (10 - i,
-                    DetectionHistory1[i, 0],
-                    DetectionHistory1[i, 1],
-                    DetectionHistory1[i, 2],
-                    DetectionHistory1[i, 3],
-                    DetectionHistory1[i, 4],
-                    DetectionHistory1[i, 5],
-                    DetectionHistory1[i, 6],
-                    DetectionHistory1[i, 7],
-                    DetectionHistory1[i, 8],
-                    DetectionHistory1[i, 9]));
-            }
-            OnPropertyChanged(nameof(DetectionHistoryEntries));
+            //DetectionHistoryEntries = new ObservableCollection<DetectionEntryViewModel>();
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    DetectionHistoryEntries.Add(new DetectionEntryViewModel
+            //        ($"Row {10 - i}",
+            //        DetectionHistory1[i, 0],
+            //        DetectionHistory1[i, 1],
+            //        DetectionHistory1[i, 2],
+            //        DetectionHistory1[i, 3],
+            //        DetectionHistory1[i, 4],
+            //        DetectionHistory1[i, 5],
+            //        DetectionHistory1[i, 6],
+            //        DetectionHistory1[i, 7],
+            //        DetectionHistory1[i, 8],
+            //        DetectionHistory1[i, 9]));
+            //}
+            //OnPropertyChanged(nameof(DetectionHistoryEntries));
         }
 
         private void LoadHistory2()
@@ -678,7 +746,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine
             for (int i = 0; i < 10; i++)
             {
                 DetectionHistoryEntries.Add(new DetectionEntryViewModel
-                    (10 - i,
+                    ($"Row {10 - i}",
                     DetectionHistory2[i, 0],
                     DetectionHistory2[i, 1],
                     DetectionHistory2[i, 2],
@@ -699,7 +767,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine
             for (int i = 0; i < 10; i++)
             {
                 DetectionHistoryEntries.Add(new DetectionEntryViewModel
-                    (10 - i,
+                    ($"Row {10 - i}",
                     DetectionHistory3[i, 0],
                     DetectionHistory3[i, 1],
                     DetectionHistory3[i, 2],
@@ -720,7 +788,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine
             for (int i = 0; i < 10; i++)
             {
                 DetectionHistoryEntries.Add(new DetectionEntryViewModel
-                    (10 - i,
+                    ($"Row {10 - i}",
                     DetectionHistory4[i, 0],
                     DetectionHistory4[i, 1],
                     DetectionHistory4[i, 2],
@@ -741,7 +809,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine
             for (int i = 0; i < 10; i++)
             {
                 DetectionHistoryEntries.Add(new DetectionEntryViewModel
-                    (10 - i,
+                    ($"Row {10 - i}",
                     DetectionHistory5[i, 0],
                     DetectionHistory5[i, 1],
                     DetectionHistory5[i, 2],

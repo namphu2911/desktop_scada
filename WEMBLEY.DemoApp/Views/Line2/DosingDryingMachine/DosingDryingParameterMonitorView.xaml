@@ -7,7 +7,7 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             xmlns:Components="clr-namespace:WEMBLEY.DemoApp.Resources.Components"
+             xmlns:Components="clr-namespace:WEMBLEY.DemoApp.Resources.Components" xmlns:dosingdryingmachine="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine;assembly=WEMBLEY.DemoApp.Core" d:DataContext="{d:DesignInstance Type=dosingdryingmachine:DosingDryingParameterMonitorViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="1260"
              Background="{StaticResource ColorBackground}"
@@ -29,44 +29,205 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
-                <TextBlock
-                           Background="{StaticResource ColorPrimaryRed}"
-                           Style="{StaticResource NoteBarLabel}"
-                           Text="ALARM" Margin="0,0,0,5" />
-            </StackPanel>
+            <Grid Grid.Row="0">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <TextBlock
+                        Grid.Column="0" 
+                        Style="{StaticResource LineLabel20}">
+                        <Run Text="Mã Ref: "/>
+                        <Run Text="{Binding HomeRefId, Mode=OneWay}"/>
+                    </TextBlock>
+                </StackPanel>
+                <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <TextBlock
+                        Background="{StaticResource ColorPrimaryRed}"
+                        Style="{StaticResource NoteBarLabel}"
+                        Text="ALARM" Margin="0,0,0,5" />
+                </StackPanel>
+            </Grid>
 
-            <materialDesign:Card Grid.Row="1"
-                                     Background="{StaticResource ColorSurface}"
-                                     Margin="5">
-                <DataGrid
+            <TabControl Grid.Row="1"
+                TabStripPlacement="Left">
+                <TabItem Height="60" MaxWidth="800" Style="{StaticResource TabItemButtonStyle}">
+                    <TabItem.Header >
+                        <TextBlock Style="{StaticResource HeaderText}" Text="Dosing Station"/>
+                    </TabItem.Header>
+                    <materialDesign:Card
+                         Background="{StaticResource ColorSurface}"
+                         Margin="10,5,5,5">
+                        <DataGrid
                               Style="{StaticResource MaterialDesignDataGrid}"
                               Background="{StaticResource ColorSurface}"
                               IsReadOnly="True"
-                              ItemsSource="{Binding MFCEntries}"
+                              ItemsSource="{Binding DosingEntries}"
                               AutoGenerateColumns="False"
                               SelectionUnit="FullRow"
                               SelectionMode="Single">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Station" Binding="{Binding Name}" Width="*"/>
+                                <DataGridTextColumn Header="Setting MinValue" Binding="{Binding MinValue}" Width="0.7*"/>
+                                <DataGridTextColumn Header="Setting MaxValue" Binding="{Binding MaxValue}" Width="0.7*"/>
+                                <DataGridTextColumn Header="Current Value" Binding="{Binding RealValue}" Width="0.7*">
+                                    <DataGridTextColumn.CellStyle>
+                                        <Style TargetType="{x:Type DataGridCell}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsAlarmed}" Value="True">
+                                                    <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
+                                                    <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </DataGridTextColumn.CellStyle>
+                                </DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </materialDesign:Card>
+                </TabItem>
 
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Station" Binding="{Binding Name}" Width="*"/>
-                        <DataGridTextColumn Header="Setting MinValue" Binding="{Binding MinValue}" Width="0.7*"/>
-                        <DataGridTextColumn Header="Setting MaxValue" Binding="{Binding MaxValue}" Width="0.7*"/>
-                        <DataGridTextColumn Header="Current Value" Binding="{Binding RealValue}" Width="0.7*">
-                            <DataGridTextColumn.CellStyle>
-                                <Style TargetType="{x:Type DataGridCell}">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsAlarmed}" Value="True">
-                                            <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
-                                            <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </DataGridTextColumn.CellStyle>
-                        </DataGridTextColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </materialDesign:Card>
+                <TabItem Height="60" MaxWidth="800" Style="{StaticResource TabItemButtonStyle}">
+                    <TabItem.Header >
+                        <TextBlock Style="{StaticResource HeaderText}" Text="Drying 1 Station"/>
+                    </TabItem.Header>
+                    <materialDesign:Card
+                         Background="{StaticResource ColorSurface}"
+                         Margin="10,5,5,5">
+                        <DataGrid
+                              Style="{StaticResource MaterialDesignDataGrid}"
+                              Background="{StaticResource ColorSurface}"
+                              IsReadOnly="True"
+                              ItemsSource="{Binding Drying1Entries}"
+                              AutoGenerateColumns="False"
+                              SelectionUnit="FullRow"
+                              SelectionMode="Single">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Station" Binding="{Binding Name}" Width="*"/>
+                                <DataGridTextColumn Header="Setting MinValue" Binding="{Binding MinValue}" Width="0.7*"/>
+                                <DataGridTextColumn Header="Setting MaxValue" Binding="{Binding MaxValue}" Width="0.7*"/>
+                                <DataGridTextColumn Header="Current Value" Binding="{Binding RealValue}" Width="0.7*">
+                                    <DataGridTextColumn.CellStyle>
+                                        <Style TargetType="{x:Type DataGridCell}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsAlarmed}" Value="True">
+                                                    <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
+                                                    <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </DataGridTextColumn.CellStyle>
+                                </DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </materialDesign:Card>
+                </TabItem>
+
+                <TabItem Height="60" MaxWidth="800" Style="{StaticResource TabItemButtonStyle}">
+                    <TabItem.Header >
+                        <TextBlock Style="{StaticResource HeaderText}" Text="Drying 2 Station"/>
+                    </TabItem.Header>
+                    <materialDesign:Card
+                         Background="{StaticResource ColorSurface}"
+                         Margin="10,5,5,5">
+                        <DataGrid
+                              Style="{StaticResource MaterialDesignDataGrid}"
+                              Background="{StaticResource ColorSurface}"
+                              IsReadOnly="True"
+                              ItemsSource="{Binding Drying2Entries}"
+                              AutoGenerateColumns="False"
+                              SelectionUnit="FullRow"
+                              SelectionMode="Single">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Station" Binding="{Binding Name}" Width="*"/>
+                                <DataGridTextColumn Header="Setting MinValue" Binding="{Binding MinValue}" Width="0.7*"/>
+                                <DataGridTextColumn Header="Setting MaxValue" Binding="{Binding MaxValue}" Width="0.7*"/>
+                                <DataGridTextColumn Header="Current Value" Binding="{Binding RealValue}" Width="0.7*">
+                                    <DataGridTextColumn.CellStyle>
+                                        <Style TargetType="{x:Type DataGridCell}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsAlarmed}" Value="True">
+                                                    <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
+                                                    <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </DataGridTextColumn.CellStyle>
+                                </DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </materialDesign:Card>
+                </TabItem>
+
+                <TabItem Height="60" MaxWidth="800" Style="{StaticResource TabItemButtonStyle}">
+                    <TabItem.Header >
+                        <TextBlock Style="{StaticResource HeaderText}" Text="Robot Arm"/>
+                    </TabItem.Header>
+                    <materialDesign:Card
+                         Background="{StaticResource ColorSurface}"
+                         Margin="10,5,5,5">
+                        <DataGrid
+                              Style="{StaticResource MaterialDesignDataGrid}"
+                              Background="{StaticResource ColorSurface}"
+                              IsReadOnly="True"
+                              ItemsSource="{Binding RobotArmEntries}"
+                              AutoGenerateColumns="False"
+                              SelectionUnit="FullRow"
+                              SelectionMode="Single">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Station" Binding="{Binding Name}" Width="*"/>
+                                <DataGridTextColumn Header="Setting MinValue" Binding="{Binding MinValue}" Width="0.7*"/>
+                                <DataGridTextColumn Header="Setting MaxValue" Binding="{Binding MaxValue}" Width="0.7*"/>
+                                <DataGridTextColumn Header="Current Value" Binding="{Binding RealValue}" Width="0.7*">
+                                    <DataGridTextColumn.CellStyle>
+                                        <Style TargetType="{x:Type DataGridCell}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsAlarmed}" Value="True">
+                                                    <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
+                                                    <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </DataGridTextColumn.CellStyle>
+                                </DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </materialDesign:Card>
+                </TabItem>
+
+                <TabItem Height="60" MaxWidth="800" Style="{StaticResource TabItemButtonStyle}">
+                    <TabItem.Header >
+                        <TextBlock Style="{StaticResource HeaderText}" Text="Others"/>
+                    </TabItem.Header>
+                    <materialDesign:Card
+                         Background="{StaticResource ColorSurface}"
+                         Margin="10,5,5,5">
+                        <DataGrid
+                              Style="{StaticResource MaterialDesignDataGrid}"
+                              Background="{StaticResource ColorSurface}"
+                              IsReadOnly="True"
+                              ItemsSource="{Binding OthersEntries}"
+                              AutoGenerateColumns="False"
+                              SelectionUnit="FullRow"
+                              SelectionMode="Single">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Station" Binding="{Binding Name}" Width="*"/>
+                                <DataGridTextColumn Header="Setting MinValue" Binding="{Binding MinValue}" Width="0.7*"/>
+                                <DataGridTextColumn Header="Setting MaxValue" Binding="{Binding MaxValue}" Width="0.7*"/>
+                                <DataGridTextColumn Header="Current Value" Binding="{Binding RealValue}" Width="0.7*">
+                                    <DataGridTextColumn.CellStyle>
+                                        <Style TargetType="{x:Type DataGridCell}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsAlarmed}" Value="True">
+                                                    <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
+                                                    <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </DataGridTextColumn.CellStyle>
+                                </DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </materialDesign:Card>
+                </TabItem>
+            </TabControl>
         </Grid>
     </materialDesign:DialogHost>
 </UserControl>

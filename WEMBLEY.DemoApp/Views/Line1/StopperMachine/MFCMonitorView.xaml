@@ -7,7 +7,7 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             xmlns:Components="clr-namespace:WEMBLEY.DemoApp.Resources.Components"
+             xmlns:Components="clr-namespace:WEMBLEY.DemoApp.Resources.Components" xmlns:stoppermachine="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine;assembly=WEMBLEY.DemoApp.Core" d:DataContext="{d:DesignInstance Type=stoppermachine:MFCMonitorViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="1260"
              Background="{StaticResource ColorBackground}"
@@ -29,12 +29,23 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
-                <TextBlock
-                           Background="{StaticResource ColorPrimaryRed}"
-                           Style="{StaticResource NoteBarLabel}"
-                           Text="ALARM" Margin="0,0,0,5" />
-            </StackPanel>
+            <Grid Grid.Row="0">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <TextBlock
+                        Grid.Column="0" 
+                        Style="{StaticResource LineLabel20}">
+                        <Run Text="Mã Ref: "/>
+                        <Run Text="{Binding HomeRefId, Mode=OneWay}"/>
+                    </TextBlock>
+                </StackPanel>
+                <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <TextBlock
+                        Background="{StaticResource ColorPrimaryRed}"
+                        Style="{StaticResource NoteBarLabel}"
+                        Text="ALARM" Margin="0,0,0,5" />
+                </StackPanel>
+            </Grid>
+           
 
             <materialDesign:Card Grid.Row="1"
                                      Background="{StaticResource ColorSurface}"

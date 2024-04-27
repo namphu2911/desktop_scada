@@ -33,8 +33,10 @@ namespace WEMBLEY.DemoApp.HostBuiders
                 services.AddSingleton<HomeDataStore>();
                 services.AddSingleton<IdTransferStore>();
                 services.AddSingleton<DeviceSelectedStore>();
+                services.AddSingleton<RoleEnableStore>();
 
                 services.AddSingleton<IApiService, ApiService>();
+                services.AddSingleton<IAuthenticationService, AuthenticationService>();
                 services.AddSingleton<IDatabaseSynchronizationService, DatabaseSynchronizationService>();
             });
             return host;

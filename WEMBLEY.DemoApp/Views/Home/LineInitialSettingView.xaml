@@ -106,7 +106,8 @@
                                 Margin="10"
                                 Style="{StaticResource ButtonPrimary}"
                                 materialDesign:ButtonAssist.CornerRadius="10"
-                                Content="Thêm">
+                                Content="Thêm"
+                                Visibility="{Binding RoleEnabled}">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Click">
                                             <prism:InvokeCommandAction Command="{Binding CreatePersonCommand}"/>
@@ -130,7 +131,8 @@
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Button Content="Xóa"
-                                                materialDesign:ButtonAssist.CornerRadius="10">
+                                                materialDesign:ButtonAssist.CornerRadius="10"
+                                                Visibility="{Binding LotVis}">
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="Click">
                                                             <prism:InvokeCommandAction Command="{Binding DeleteCommand}"/>
@@ -268,7 +270,8 @@
                     Style="{StaticResource ButtonPrimary}" materialDesign:ButtonAssist.CornerRadius="10"
                     Content="Thêm lô"
                     HorizontalAlignment="Center"
-                    Width="115">
+                    Width="115"
+                    Visibility="{Binding RoleEnabled}">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Click">
                                             <i:InvokeCommandAction Command="{Binding CreateInitialSettingCommand}" />
@@ -286,8 +289,8 @@
                                      Margin="10">
                         <DataGrid Style="{StaticResource MaterialDesignDataGrid}"
                           Background="{StaticResource ColorSurface}"
-                          IsReadOnly="False"
-                          ItemsSource="{Binding LotSettingEntries}"
+                          IsReadOnly="{Binding ReadOnly}"
+                          ItemsSource="{Binding LotSettingEntries, UpdateSourceTrigger=PropertyChanged}"
                           AutoGenerateColumns="False"
                           SelectionUnit="FullRow"
                           SelectionMode="Single" 
@@ -301,14 +304,15 @@
                                 <DataGridTemplateColumn Width="auto">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Button Margin="5" Style="{StaticResource ButtonSecondary}" materialDesign:ButtonAssist.CornerRadius="5">
+                                            <Button Margin="5" Style="{StaticResource ButtonSecondary}" materialDesign:ButtonAssist.CornerRadius="5"
+                                                    Content="Sửa lô"
+                                                    Visibility="{Binding LotVis}">
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="Click">
                                                         <prism:InvokeCommandAction 
                                                         Command="{Binding UpdateLotCommand}" />
                                                     </i:EventTrigger>
                                                 </i:Interaction.Triggers>
-                                                <TextBlock Text="Sửa lô"/>
                                             </Button>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
@@ -317,14 +321,15 @@
                                 <DataGridTemplateColumn Width="auto">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Button Margin="5" Style="{StaticResource ButtonSecondary}" materialDesign:ButtonAssist.CornerRadius="5">
+                                            <Button Margin="5" Style="{StaticResource ButtonSecondary}" materialDesign:ButtonAssist.CornerRadius="5"
+                                                    Content="Kết thúc"
+                                                    Visibility="{Binding LotVis}">
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="Click">
                                                         <prism:InvokeCommandAction 
                                                         Command="{Binding CompleteRefCommand}" />
                                                     </i:EventTrigger>
                                                 </i:Interaction.Triggers>
-                                                <TextBlock Text="Kết thúc"/>
                                             </Button>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
@@ -410,7 +415,8 @@
                                                     Margin="5"
                                                     Style="{StaticResource ButtonPrimary}" 
                                                     materialDesign:ButtonAssist.CornerRadius="10"
-                                                    Height="32" Width="70">
+                                                    Height="32" Width="70"
+                                                    Visibility="{Binding LotVis}">
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="Click">
                                                             <prism:InvokeCommandAction Command="{Binding CreateSublotCommand}" />
@@ -435,7 +441,7 @@
                                                             <DataTemplate>
                                                                 <Button Margin="5" Style="{StaticResource ButtonSecondary}" 
                                                                     materialDesign:ButtonAssist.CornerRadius="5"
-                                                                    IsEnabled="{Binding IsButtonEnable, UpdateSourceTrigger=PropertyChanged}">
+                                                                    Visibility="{Binding SmallLotVis}">
                                                                     <i:Interaction.Triggers>
                                                                         <i:EventTrigger EventName="Click">
                                                                             <prism:InvokeCommandAction 

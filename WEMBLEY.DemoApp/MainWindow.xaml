@@ -9,11 +9,12 @@
         xmlns:views="clr-namespace:WEMBLEY.DemoApp.Views.Home"
         xmlns:homes="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Home;assembly=WEMBLEY.DemoApp.Core"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
-        xmlns:viewmodels="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels;assembly=WEMBLEY.DemoApp.Core" xmlns:Components="clr-namespace:WEMBLEY.DemoApp.Resources.Components" xmlns:dosingdryingmachine="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine;assembly=WEMBLEY.DemoApp.Core" xmlns:dosingdryingmachine1="clr-namespace:WEMBLEY.DemoApp.Views.Line2.DosingDryingMachine" xmlns:stoppermachine="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine;assembly=WEMBLEY.DemoApp.Core" xmlns:stoppermachine1="clr-namespace:WEMBLEY.DemoApp.Views.Line1.StopperMachine"
+        xmlns:viewmodels="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels;assembly=WEMBLEY.DemoApp.Core" xmlns:Components="clr-namespace:WEMBLEY.DemoApp.Resources.Components" xmlns:dosingdryingmachine="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine;assembly=WEMBLEY.DemoApp.Core" xmlns:dosingdryingmachine1="clr-namespace:WEMBLEY.DemoApp.Views.Line2.DosingDryingMachine" xmlns:stoppermachine="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine;assembly=WEMBLEY.DemoApp.Core" xmlns:stoppermachine1="clr-namespace:WEMBLEY.DemoApp.Views.Line1.StopperMachine" xmlns:initiation="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Initiation;assembly=WEMBLEY.DemoApp.Core" xmlns:initiation1="clr-namespace:WEMBLEY.DemoApp.Views.Initiation"
         d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
         Background="{StaticResource ColorBackground}"
         WindowStartupLocation="CenterScreen"
-        Title="WEMBLY Demo App" Height="800" Width="1300">
+        Title="Demo App" Height="800" Width="1300"
+        WindowState="Maximized">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -29,6 +30,9 @@
 
         <ContentControl Content="{Binding NavigationService.CurrentViewModel}">
             <ContentControl.Resources>
+                <DataTemplate DataType="{x:Type initiation:LoginViewModel}">
+                    <initiation1:LoginView />
+                </DataTemplate>
                 <DataTemplate DataType="{x:Type homes:HomeNavigationViewModel}">
                     <views:HomeNavigationView />
                 </DataTemplate>

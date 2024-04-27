@@ -12,21 +12,17 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
         private IApiService _apiService;
         public string EmployeeId { get; set; }
         public string EmployeeName { get; set; }
+        public Visibility LotVis { get; set; }
         public ICommand DeleteCommand { get; set; }
         public event Action? OnRemoved;
         public event Action? OnException;
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public PersonViewModel()
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        {
-            DeleteCommand = new RelayCommand(DeleteAsync);
-        }
 
-        public PersonViewModel(IApiService apiService, string employeeId, string employeeName)
+        public PersonViewModel(IApiService apiService, string employeeId, string employeeName, Visibility lotVis)
         {
             _apiService = apiService;
             EmployeeId = employeeId;
             EmployeeName = employeeName;
+            LotVis = lotVis;
             
             DeleteCommand = new RelayCommand(DeleteAsync);
         }

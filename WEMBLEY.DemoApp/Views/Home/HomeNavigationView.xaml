@@ -14,9 +14,26 @@
              Background="{StaticResource ColorBackground}"
              Padding="10">
     <Grid>
-        <TabControl TabStripPlacement="Top" 
-                    Style="{StaticResource MaterialDesignFilledTabControl}"
-                    materialDesign:ColorZoneAssist.Background="LightGray">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Button Grid.Row="0"
+             Margin="0,0,0,10"
+             Style="{StaticResource ButtonPrimary}" materialDesign:ButtonAssist.CornerRadius="10"
+             Content="Đăng xuất"
+             HorizontalAlignment="Right"
+             Width="auto">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <i:InvokeCommandAction Command="{Binding LogoutCommand}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
+        <TabControl Grid.Row="1" TabStripPlacement="Top" 
+            Style="{StaticResource MaterialDesignFilledTabControl}"
+            materialDesign:ColorZoneAssist.Background="LightGray">
             <TabItem Height="55" Style="{StaticResource TabItem2layerRowStyle}">
                 <TabItem.Header >
                     <TextBlock Style="{StaticResource HeaderText}" Text="Theo dõi Line máy"/>
@@ -31,5 +48,6 @@
                 <local:LineInitialSettingView DataContext="{Binding LineInitialSetting}"/>
             </TabItem>
         </TabControl>
+
     </Grid>
 </UserControl>

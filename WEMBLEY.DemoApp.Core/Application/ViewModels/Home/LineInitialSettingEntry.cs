@@ -16,6 +16,8 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
         private EmployeeStore? _personStore;
         public ObservableCollection<string>? PersonIds => _personStore?.EmployeeIds;
         public ObservableCollection<string>? PersonNames => _personStore?.EmployeeNames;
+        //
+        //
         private IApiService? _apiService;
         private IMapper? _mapper;
         public string DeviceType { get; set; }
@@ -23,6 +25,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
         public string RefName { get; set; }
         public string LotId { get; set; }
         public int LotSize { get; set; }
+        public Visibility LotVis { get; set; }
         public List<DeviceInfoViewModel> Devices { get; set; }
 
         public ObservableCollection<string>? DeviceIds => new(Devices.Select(i => i.DeviceId).Distinct());
@@ -72,13 +75,14 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
 
         public event Action? Updated;
         public event Action? OnException;
-        public LineInitialSettingEntry(string deviceType, string productName, string refName, string lotId, int lotSize, List<DeviceInfoViewModel> devices)
+        public LineInitialSettingEntry(string deviceType, string productName, string refName, string lotId, int lotSize, Visibility lotVis, List<DeviceInfoViewModel> devices)
         {
             DeviceType = deviceType;
             ProductName = productName;
             RefName = refName;
             LotId = lotId;
             LotSize = lotSize;
+            LotVis = lotVis;
             Devices = devices;
 
             CreateSublotCommand = new RelayCommand(CreateSublot);

@@ -102,7 +102,7 @@
                 <DataGrid
                               Style="{StaticResource MaterialDesignDataGrid}"
                               Background="{StaticResource ColorSurface}"
-                              IsReadOnly="False"
+                              IsReadOnly="{Binding ReadOnly, UpdateSourceTrigger=PropertyChanged}"
                               ItemsSource="{Binding MFCEntries}"
                               AutoGenerateColumns="False"
                               SelectionUnit="FullRow"
@@ -121,7 +121,8 @@
                     materialDesign:ButtonAssist.CornerRadius="10"
                     Content="Xác nhận"
                     HorizontalAlignment="Center"
-                    Width="115" VerticalAlignment="Stretch">
+                    Width="115" VerticalAlignment="Stretch"
+                    IsEnabled="{Binding RoleEnabled, UpdateSourceTrigger=PropertyChanged}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding UpdateMFCCommand}" />

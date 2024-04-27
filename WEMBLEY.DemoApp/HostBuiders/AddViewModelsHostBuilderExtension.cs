@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WEMBLEY.DemoApp.Core.Application.ViewModels;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Home;
+using WEMBLEY.DemoApp.Core.Application.ViewModels.Initiation;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.MachinesInLine;
@@ -21,9 +22,9 @@ namespace WEMBLEY.DemoApp.HostBuiders
         {
             host.ConfigureServices(services =>
             {
-                services.AddTransient<HomeNavigationViewModel>();
                 services.AddTransient<HomeViewModel>();
                 services.AddTransient<LineInitialSettingViewModel>();
+                services.AddTransient<HomeNavigationViewModel>();
 
                 //LINES
                 services.AddTransient<MachinesInLine1ViewModel>();
@@ -51,6 +52,7 @@ namespace WEMBLEY.DemoApp.HostBuiders
                 //
 
                 services.AddTransient<MainViewModel>();
+                services.AddTransient<LoginViewModel>();
                 services.AddSingleton<MainWindow>((IServiceProvider serviceProvider) => new MainWindow
                 {
                     DataContext = serviceProvider.GetRequiredService<MainViewModel>()

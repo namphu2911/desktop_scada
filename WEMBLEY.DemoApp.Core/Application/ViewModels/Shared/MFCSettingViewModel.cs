@@ -1,9 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http;
 using System.Threading.Channels;
 using System.Windows;
 using System.Windows.Input;
+using WEMBLEY.DemoApp.Core.Application.Services;
 using WEMBLEY.DemoApp.Core.Application.Store;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.SeedWork;
 using WEMBLEY.DemoApp.Core.Domain.Dtos.DeviceReferences;
@@ -18,6 +20,8 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Shared
         private readonly HomeDataStore _homeDataStore;
         //Doi lai la Device
         private readonly StationStore _deviceStore;
+
+        private readonly RoleEnableStore _roleEnableStore;
         public ObservableCollection<string> DeviceIds => _deviceStore.StationIds;
         public ObservableCollection<string> ReferenceIds => _referenceStore.ReferenceIds;
 
@@ -47,21 +51,23 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Shared
 
         //
         public ObservableCollection<MFCDto> MFCEntries { get; set; } = new();
-
+        public bool RoleEnabled => _roleEnableStore.IsMFCEnabled;
+        public bool ReadOnly => (!RoleEnabled);
         public ICommand LoadMFCSettingViewCommand { get; set; }
         public ICommand UpdateMFCCommand { get; set; }
         public ICommand LoadApiCommand { get; set; }
-        public string HomeRefId => _homeDataStore.HomeDatas.First(i => i.Line.LineId == "HerapinCap").ReferenceId;
+        public string HomeRefId => _homeDataStore.HomeDatas.First(i => i.Line.LineId == _deviceSelectedStore.LineId).ReferenceId;
         //
 
         public event Action? UpdateMFCApi;
-        public MFCSettingViewModel(IApiService apiService, ReferenceStore referenceStore, StationStore deviceStore, HomeDataStore homeDataStore, DeviceSelectedStore deviceSelectedStore)
+        public MFCSettingViewModel(IApiService apiService, ReferenceStore referenceStore, StationStore deviceStore, HomeDataStore homeDataStore, DeviceSelectedStore deviceSelectedStore, RoleEnableStore roleEnableStore)
         {
             _apiService = apiService;
             _referenceStore = referenceStore;
             _deviceStore = deviceStore;
             _homeDataStore = homeDataStore;
             _deviceSelectedStore = deviceSelectedStore;
+            _roleEnableStore = roleEnableStore;
 
             LoadMFCSettingViewCommand = new RelayCommand(LoadMFCSettingViewAsync);
             UpdateMFCCommand = new RelayCommand(UpdateMFCAsync);

@@ -3,9 +3,11 @@
     public class DeviceSelectedStore
     {
         public string SeletedDeviceId { get; private set; } = "";
-        public void SetSeletedDevice(string seletedDeviceId)
+        public string LineId { get; private set; } = "";
+        public void SetSeletedDevice(string seletedDeviceId, string lineId)
         {
             SeletedDeviceId = seletedDeviceId;
+            LineId = lineId;
         }
     }
 }

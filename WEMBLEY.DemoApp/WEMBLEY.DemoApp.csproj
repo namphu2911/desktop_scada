@@ -15,6 +15,7 @@
     <None Remove="Resources\Images\logowembly.jpg" />
     <None Remove="Resources\Images\Nutchan.jpg" />
     <None Remove="Resources\Images\Ongmauthuong.jpg" />
+    <None Remove="Resources\Images\TramphunHC.jpg" />
     <None Remove="Resources\Images\wembleynew.jpg" />
     <None Remove="Resources\Images\wemleynewicon.ico" />
   </ItemGroup>
@@ -38,6 +39,9 @@
     <Resource Include="Resources\Images\Ongmauthuong.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Images\TramphunHC.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\Images\wembleynew.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -47,12 +51,14 @@
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+    <PackageReference Include="IdentityModel.OidcClient" Version="6.0.0" />
     <PackageReference Include="LoadingSpinner.WPF" Version="1.0.0" />
     <PackageReference Include="MaterialDesignColors" Version="2.1.4" />
     <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2420.47" />
     <PackageReference Include="Prism.Wpf" Version="8.1.97" />
     <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" />
     <PackageReference Include="ViceCode.LiveCharts.Wpf" Version="1.2.1.1" />
@@ -66,5 +72,9 @@
     <Folder Include="Views\Line2\NoStopperCappingMachine\" />
     <Folder Include="Views\Line2\StopperCappingMachine\" />
   </ItemGroup>
+
+	<PropertyGroup>
+		<_FunctionsSkipCleanOutput>true</_FunctionsSkipCleanOutput>
+	</PropertyGroup>
 
 </Project>

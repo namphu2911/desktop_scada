@@ -110,6 +110,45 @@
         </Setter>
     </Style>
 
+    <Style x:Key="TabItemButtonStyle" TargetType="TabItem" >
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TabItem">
+                    <Grid SnapsToDevicePixels="True">
+                        <Border Margin="5"
+                                Padding="5"
+                            CornerRadius="10"
+                            Background="{TemplateBinding Background}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            BorderBrush="{TemplateBinding BorderBrush}">
+                            <ContentPresenter HorizontalAlignment="Left"
+                                          VerticalAlignment="Center"
+                                          SnapsToDevicePixels="True"
+                                          RecognizesAccessKey="True"
+                                          Margin="{TemplateBinding Margin}"
+                                          ContentSource="Header"
+                                          Focusable="False"></ContentPresenter>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="#4169e1"></Setter>
+                            <Setter Property="Foreground" Value="White"></Setter>
+                            <Setter Property="BorderThickness" Value="0"></Setter>
+                            <Setter Property="BorderBrush" Value="White"></Setter>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="False">
+                            <Setter Property="BorderThickness" Value="3"></Setter>
+                            <Setter Property="BorderBrush" Value="#4169e1"></Setter>
+                            <Setter Property="Background" Value="White"></Setter>
+                            <Setter Property="Foreground" Value="#4169e1"></Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style 
         BasedOn="{StaticResource MaterialDesignTabItem}"
         x:Key="TabItemSmallStyle" TargetType="TabItem" >

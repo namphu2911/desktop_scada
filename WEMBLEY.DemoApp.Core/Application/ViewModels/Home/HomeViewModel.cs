@@ -161,17 +161,17 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
             {
                 HerapinCapStatus = (EMachineStatus)Convert.ToInt32(await _signalRClient.GetBufferValue("IE-F2-HCA01","machineStatus"));
                 HerapinCapDurationTime = TimeSpan.TryParse(Convert.ToString((await _signalRClient.GetBufferValue("IE-F2-HCA01","operationTime"))), out var span) ? span : default;
-                HerapinCapGoodCount = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F2-HCA01","goodProduct"));
+                HerapinCapGoodCount = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F2-HCA01", "goodProductRaw"));
                 HerapinCapBadCount = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F2-HCA01","errorProduct"));
                 HerapinCapEfficiency = Convert.ToDouble(await _signalRClient.GetBufferValue("IE-F2-HCA01","EFF"));
                 HerapinCapAllCount = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F2-HCA01","productCount"));
 
                 BloodTubeStatus = (EMachineStatus)Convert.ToInt32(await _signalRClient.GetBufferValue("IE-F3-BLO06", "machineStatus"));
                 BloodTubeDurationTime = TimeSpan.TryParse(Convert.ToString((await _signalRClient.GetBufferValue("IE-F3-BLO06", "operationTime"))), out var span2) ? span2 : default;
-                BloodTubeGoodCount = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F3-BLO06", "goodProduct"));
-                BloodTubeBadCount = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F3-BLO06", "errorProduct"));
+                BloodTubeGoodCount = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F3-BLO06", "goodProductRaw"));
+                BloodTubeBadCount = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F3-BLO06", "errorProductRaw"));
                 BloodTubeEfficiency = Convert.ToDouble(await _signalRClient.GetBufferValue("IE-F3-BLO06", "EFF"));
-                BloodTubeAllCount = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F3-BLO06", "productCount"));
+                BloodTubeAllCount = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F3-BLO06", "productCountRaw"));
             }
             LoadLotSettingAsync();
         }
@@ -214,7 +214,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
                         case "goodProductRaw": BloodTubeGoodCount = Convert.ToInt64(tag.TagValue); break;
                         case "errorProduct": BloodTubeBadCount = Convert.ToInt64(tag.TagValue); break;
                         case "EFF": BloodTubeEfficiency = Convert.ToDouble(tag.TagValue); break;
-                        case "productCount": BloodTubeAllCount = Convert.ToInt64(tag.TagValue); break;
+                        case "productCountRaw": BloodTubeAllCount = Convert.ToInt64(tag.TagValue); break;
                         default: break;
                     }
                 }   

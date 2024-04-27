@@ -1,16 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using WEMBLEY.DemoApp.Core.Application.ViewModels.Home;
-using WEMBLEY.DemoApp.Core.Application.ViewModels.Line1;
-using WEMBLEY.DemoApp.Core.Application.ViewModels.MachinesInLine;
 using WEMBLEY.DemoApp.HostBuiders;
 
 namespace WEMBLEY.DemoApp
@@ -33,9 +24,9 @@ namespace WEMBLEY.DemoApp
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
         {
             return Host.CreateDefaultBuilder(args)
-                .AddServices()
+                .AddNavigation()
                 .AddViewModels()
-                .AddNavigation();
+                .AddServices();
         }
 
         protected override void OnStartup(StartupEventArgs e)

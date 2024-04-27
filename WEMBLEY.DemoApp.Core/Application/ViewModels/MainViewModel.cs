@@ -1,14 +1,8 @@
-﻿
-using CommunityToolkit.Mvvm.Input;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using CommunityToolkit.Mvvm.Input;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using WEMBLEY.DemoApp.Core.Application.Services;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Home;
+using WEMBLEY.DemoApp.Core.Application.ViewModels.Initiation;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.SeedWork;
 using WEMBLEY.DemoApp.Core.Domain.Services;
@@ -40,6 +34,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels
             NavigationService = navigationService;
             _signalRClient = signalRClient;
             LoadMainWindowCommand = new RelayCommand(NavigationService.NavigateTo<HomeNavigationViewModel>);
+            //LoadMainWindowCommand = new RelayCommand(NavigationService.NavigateTo<LoginViewModel>);
             RunSignalRCommand = new RelayCommand(InitialRunning);
             StopperMachine = stopperMachine;
         }

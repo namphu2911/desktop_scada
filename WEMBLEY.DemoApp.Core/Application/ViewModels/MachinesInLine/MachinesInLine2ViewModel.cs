@@ -99,7 +99,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.MachinesInLine
         private void ClickCommand()
         {
             _navigationService.NavigateTo<DosingDryingMachineViewModel>();
-            _deviceSelectedStore.SetSeletedDevice("IE-F3-BLO06");
+            _deviceSelectedStore.SetSeletedDevice("IE-F3-BLO06", "NonVacuumBloodTube");
         }
 
         private async void LoadMachinesInLine2View()

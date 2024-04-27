@@ -5,11 +5,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
+             xmlns:prism="http://prismlibrary.com/"
              xmlns:dosingdryingmachine="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine;assembly=WEMBLEY.DemoApp.Core" xmlns:dosingdryingmachine1="clr-namespace:WEMBLEY.DemoApp.Views.Line2.DosingDryingMachine" xmlns:shared="clr-namespace:WEMBLEY.DemoApp.Views.Shared" xmlns:report="clr-namespace:WEMBLEY.DemoApp.Views.Shared.Report"
              d:DataContext="{d:DesignInstance Type=dosingdryingmachine:DosingDryingMachineViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1300"
              Background="{StaticResource ColorBackground}">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <prism:InvokeCommandAction Command="{Binding LoadMFCMonitorViewCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>

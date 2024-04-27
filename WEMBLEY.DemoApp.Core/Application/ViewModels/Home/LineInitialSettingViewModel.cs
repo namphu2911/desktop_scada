@@ -21,6 +21,9 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
         private readonly IDatabaseSynchronizationService _databaseSynchronizationService;
         private readonly ReferenceStore _referenceStore;
         private readonly EmployeeStore _personStore;
+        private readonly RoleEnableStore _roleEnableStore;
+        public Visibility RoleEnabled => _roleEnableStore.LotVis;
+        public bool ReadOnly => (!(_roleEnableStore.IsLotEnabled));
         public ObservableCollection<string> DeviceTypes => _referenceStore.LineIds;
         public ObservableCollection<string> ProductNames => _referenceStore.ProductNames;
         public ObservableCollection<string> ReferenceNames => _referenceStore.ReferenceNames;
@@ -124,13 +127,14 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
         public ICommand CreateInitialSettingCommand { get; set; }
         public ICommand LoadLineInitialSettingViewCommand { get; set; }
         public ICommand CreatePersonCommand { get; set; }
-        public LineInitialSettingViewModel(IApiService apiService, IMapper mapper, IDatabaseSynchronizationService databaseSynchronizationService, ReferenceStore referenceStore, EmployeeStore personStore)
+        public LineInitialSettingViewModel(IApiService apiService, IMapper mapper, IDatabaseSynchronizationService databaseSynchronizationService, ReferenceStore referenceStore, EmployeeStore personStore, RoleEnableStore roleEnableStore)
         {
             _apiService = apiService;
             _mapper = mapper;
             _databaseSynchronizationService = databaseSynchronizationService;
             _referenceStore = referenceStore;
             _personStore = personStore;
+            _roleEnableStore = roleEnableStore;
 
             CreateInitialSettingCommand = new RelayCommand(CreateInitialSetting);
             LoadLineInitialSettingViewCommand = new RelayCommand(LoadLineInitialSettingView);
@@ -211,7 +215,11 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
             try
             {
                 var dtos = await _apiService.GetAllPersonAsync();
-                var viewModels = _mapper.Map<IEnumerable<EmployeeDto>, IEnumerable<PersonViewModel>>(dtos);
+                var viewModels = dtos.Select(c => new PersonViewModel(
+                    _apiService,
+                    c.EmployeeId,
+                    c.EmployeeName,
+                    RoleEnabled));
                 PersonsEntries = new(viewModels);
                 foreach (var viewModel in PersonsEntries)
                 {
@@ -252,10 +260,12 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Home
                     c.ReferenceName,
                     c.LotCode,
                     c.LotSize,
+                    RoleEnabled,
                     c.Stations.SelectMany(i => i.Employees.Select(x => new DeviceInfoViewModel(
                         i.StationId,
                         x.EmployeeId,
-                        x.EmployeeName))).ToList()));
+                        x.EmployeeName,
+                        RoleEnabled))).ToList()));
 
                 LotSettingEntries = new(viewModels);
 

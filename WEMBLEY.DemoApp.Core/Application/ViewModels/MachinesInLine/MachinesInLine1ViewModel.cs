@@ -99,7 +99,7 @@ public class MachinesInLine1ViewModel : BaseViewModel
     private void ClickCommand()
     {
         _navigationService.NavigateTo<StopperMachineViewModel>();
-        _deviceSelectedStore.SetSeletedDevice("IE-F2-HCA01");
+        _deviceSelectedStore.SetSeletedDevice("IE-F2-HCA01", "HerapinCap");
     }
 
     private async void LoadMachinesInLine1View()
