@@ -1,0 +1,583 @@
+﻿<UserControl x:Class="WEMBLEY.DemoApp.Views.Line2.StopperCappingMachine.StopperCappingMonitorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WEMBLEY.DemoApp.Views.Line2.StopperCappingMachine"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:Components="clr-namespace:WEMBLEY.DemoApp.Resources.Components" 
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="1260"
+             Background="{StaticResource ColorBackground}"
+             Padding="10">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <prism:InvokeCommandAction Command="{Binding LoadDosingDryingMonitorViewCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <materialDesign:DialogHost CloseOnClickAway="True" IsOpen="{Binding IsErrorMessageShowed}">
+        <materialDesign:DialogHost.DialogContent>
+            <Components:ErrorMessage Message="{Binding ErrorMessage}"/>
+        </materialDesign:DialogHost.DialogContent>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Margin="5,5,10,5"  Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <TextBlock 
+                   Background="#394963"
+                   Style="{StaticResource NoteBarLabel}"
+                   Text="ON" />
+                    <TextBlock 
+                   Background="{StaticResource ColorPrimaryGreen}"
+                   Style="{StaticResource NoteBarLabel}"
+                   Text="RUN" />
+                    <TextBlock 
+                   Background="{StaticResource ColorPrimaryRed}"
+                   Style="{StaticResource NoteBarLabel}"
+                   Text="ALARM" />
+                    <TextBlock 
+                   Background="{StaticResource ColorPrimaryYellow}"
+                   Style="{StaticResource NoteBarLabel}"
+                   Text="IDLE" />
+                    <TextBlock 
+                   Background="{StaticResource ColorPrimaryPurple}"
+                   Style="{StaticResource NoteBarLabel}"
+                   Text="SETUP" />
+                    <TextBlock 
+                   Background="{StaticResource ColorPrimaryGray}"
+                   Style="{StaticResource NoteBarLabel}"
+                   Text="OFF" />
+
+                </StackPanel>
+            </Grid>
+
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0" Margin="5" Background="{Binding ColorBack}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0">
+                            <TextBlock 
+                                Grid.Column="0" 
+                                Style="{StaticResource LineTitle}"
+                                Text="Line 1: Nút chặn" 
+                    />
+                        </Grid>
+
+                        <materialDesign:Card 
+                            UniformCornerRadius="15" 
+                            Margin="10" 
+                            Grid.Row="1">
+                            <Grid >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Column="0" 
+                                        Style="{StaticResource LineLabel20}"
+                                        Text="Hiệu năng: " />
+                                    <ProgressBar 
+                                            Grid.Column="1" 
+                                            Value="{Binding Efficiency}" Name="pbStatus" 
+                                            Height="35"
+                                            Width="300"
+                                            Style="{StaticResource ProgressBarStyle}">
+                                        <ProgressBar.Clip>
+                                            <RectangleGeometry RadiusX="15" RadiusY="15" Rect="0,0,300,35"/>
+                                        </ProgressBar.Clip>
+                                    </ProgressBar>
+                                    <TextBlock 
+                                            Grid.Column="1"  
+                                            Style="{StaticResource ProgressBarText}"
+                                            Text="{Binding ElementName=pbStatus, Path=Value, StringFormat={}{0:0.##}%}" />
+                                </Grid>
+
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Column="0" 
+                                       Style="{StaticResource LineLabel20}"
+                                       Text="Tổng SL: " />
+                                    <Border Grid.Column="1" 
+                                            BorderThickness="2,2,2,2" 
+                                            BorderBrush="Black" 
+                                            CornerRadius="15,15,15,15" 
+                                Width="auto"
+                                Margin="0,5,0,5">
+                                        <TextBlock 
+                                           Style="{StaticResource LineLabel20}"
+                                           Text="{Binding AllProductCount}" />
+                                    </Border>
+
+                                    <TextBlock Grid.Column="2" 
+                                       Style="{StaticResource LineLabel20}"
+                                       Text="SL đạt: " />
+                                    <Border 
+                                        Grid.Column="3" 
+                                        BorderThickness="2,2,2,2" 
+                                        BorderBrush="Black" 
+                                        CornerRadius="15,15,15,15" 
+                                Margin="0,5,0,5"
+                                Width="auto">
+                                        <TextBlock 
+                                           Style="{StaticResource LineLabel20}"
+                                           Text="{Binding GoodCount}" />
+                                    </Border>
+
+                                    <TextBlock Grid.Column="4" 
+                                       Style="{StaticResource LineLabel20}"
+                                       Text="SL lỗi: " />
+                                    <Border Grid.Column="5"
+                                            BorderThickness="2,2,2,2" 
+                                            BorderBrush="Black" 
+                                            CornerRadius="15,15,15,15" 
+                                    Margin="0,5,0,5"
+                                    Width="auto">
+                                        <TextBlock 
+                                           Style="{StaticResource LineLabel20}"
+                                           Text="{Binding BadCount}" />
+                                    </Border>
+                                </Grid>
+
+                                <Grid Grid.Row="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock 
+                                        Grid.Column="0" 
+                                        Style="{StaticResource LineLabel20}"
+                                        Text="Thời gian hoạt động: " />
+                                    <Border Grid.Column="1" 
+                                            BorderThickness="2,2,2,2" 
+                                            BorderBrush="Black" 
+                                            CornerRadius="15">
+                                        <TextBlock 
+                                           Style="{StaticResource LineLabel20}"
+                                           Text="{Binding OperationTime, StringFormat=hh\\:mm\\:ss}" />
+                                    </Border>
+                                </Grid>
+
+                                <Grid Grid.Row="3">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock 
+                                        Grid.Column="0" 
+                                        Style="{StaticResource LineLabel20}"
+                                        Text="Tên sản phẩm: " />
+                                    <Border Grid.Column="1" 
+                                            BorderThickness="2,2,2,2" 
+                                            BorderBrush="Black" 
+                                            CornerRadius="15"
+                                            Margin="0,5,0,5">
+                                        <TextBlock 
+                                           Style="{StaticResource LineLabel20}"
+                                           Text="{Binding HerapinCapProductName}" />
+                                    </Border>
+                                </Grid>
+
+                                <Grid Grid.Row="4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+
+                                    <TextBlock 
+                                        Grid.Column="0" 
+                                        Style="{StaticResource LineLabel20}"
+                                        Text="Mã Ref: " />
+                                    <Border Grid.Column="1" 
+                                            BorderThickness="2,2,2,2" 
+                                            BorderBrush="Black" 
+                                            CornerRadius="15,15,15,15" 
+                                            
+                                            Width="auto">
+                                        <TextBlock 
+                                           Style="{StaticResource LineValue}"
+                                           Text="{Binding HerapinCapReferenceName}" />
+                                    </Border>
+
+
+                                    <TextBlock 
+                                        Grid.Column="2" 
+                                        Style="{StaticResource LineLabel20}"
+                                        Text="Mã lô: " />
+                                    <Border Grid.Column="3" 
+                                            BorderThickness="2,2,2,2" 
+                                            BorderBrush="Black" 
+                                            CornerRadius="15,15,15,15" 
+                                            Width="auto">
+                                        <TextBlock 
+                                           Style="{StaticResource LineValue}"
+                                           Text="{Binding HerapinCapLotId}" />
+                                    </Border>
+
+                                    <TextBlock 
+                                        Grid.Column="4" 
+                                        Style="{StaticResource LineLabel20}"
+                                        Text="Cỡ lô: " />
+                                    <Border Grid.Column="5" 
+                                            BorderThickness="2,2,2,2" 
+                                            BorderBrush="Black" 
+                                            CornerRadius="15,15,15,15" 
+                                            Width="auto">
+                                        <TextBlock 
+                                           Style="{StaticResource LineValue}"
+                                           Text="{Binding HerapinCapLotSize}" />
+                                    </Border>
+                                </Grid>
+
+                                <Grid Grid.Row="5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Column="0" 
+                                        Style="{StaticResource LineLabel20}"
+                                        Text="Nhân viên: " />
+
+                                    <ListView 
+                            Grid.Column="1"
+                            HorizontalContentAlignment="Stretch"
+                            ItemsSource="{Binding PersonStrings}" 
+                            FontSize="18" 
+                            FontWeight="Medium">
+                                    </ListView>
+
+                                </Grid>
+                            </Grid>
+                        </materialDesign:Card>
+                    </Grid>
+
+                    <materialDesign:Card Grid.Row="1" Margin="5" Visibility="{Binding RejectionVis}">
+                        <DataGrid 
+                      Style="{StaticResource MaterialDesignDataGrid}"
+                      Background="{StaticResource ColorSurface}"
+                      Margin="10"
+                      IsReadOnly="True"
+                      ItemsSource="{Binding RejectionEntries, UpdateSourceTrigger=PropertyChanged}"
+                      AutoGenerateColumns="False"
+                      SelectionUnit="FullRow"
+                      SelectionMode="Single">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Station" Binding="{Binding StationName}" Width="auto"/>
+                                <DataGridTextColumn Header="Track 1" Binding="{Binding Track1Value}" Width="*"/>
+                                <DataGridTextColumn Header="Track 2" Binding="{Binding Track2Value}" Width="*"/>
+                                <DataGridTextColumn Header="Track 3" Binding="{Binding Track3Value}" Width="*"/>
+                                <DataGridTextColumn Header="Track 4" Binding="{Binding Track4Value}" Width="*"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </materialDesign:Card>
+
+                    <materialDesign:Card Grid.Row="1" Margin="5" Visibility="{Binding UltrasonicWelding13Vis}">
+                        <StackPanel>
+                            <TextBlock 
+                        Style="{StaticResource LineLabel20}"
+                        Text="Ultrasonic Tr1-3"/>
+                            <DataGrid 
+                          Style="{StaticResource MaterialDesignDataGrid}"
+                          Background="{StaticResource ColorSurface}"
+                          Margin="10"
+                          IsReadOnly="True"
+                          ItemsSource="{Binding UltrasonicWeldingTR13Entries, UpdateSourceTrigger=PropertyChanged}"
+                          AutoGenerateColumns="False"
+                          SelectionUnit="FullRow"
+                          SelectionMode="Single">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Cycle" Binding="{Binding Cycle}" Width="*"/>
+                                    <DataGridTextColumn Header="RunTime" Binding="{Binding RunTime}" Width="*"/>
+                                    <DataGridTextColumn Header="Pk Pwr" Binding="{Binding PkPwr}" Width="*"/>
+                                    <DataGridTextColumn Header="Energy" Binding="{Binding Energy}" Width="*"/>
+                                    <DataGridTextColumn Header="Weld Abs" Binding="{Binding WeldAbs}" Width="*"/>
+                                    <DataGridTextColumn Header="Weld Col" Binding="{Binding WeldCol}" Width="*"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <DataGrid 
+                          Style="{StaticResource MaterialDesignDataGrid}"
+                          Background="{StaticResource ColorSurface}"
+                          Margin="10"
+                          IsReadOnly="True"
+                          ItemsSource="{Binding UltrasonicWeldingTR13Entries, UpdateSourceTrigger=PropertyChanged}"
+                          AutoGenerateColumns="False"
+                          SelectionUnit="FullRow"
+                          SelectionMode="Single">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Total Col" Binding="{Binding TotalCol}" Width="*"/>
+                                    <DataGridTextColumn Header="Trig Force" Binding="{Binding TrigForce}" Width="*"/>
+                                    <DataGridTextColumn Header="Weld Force" Binding="{Binding WeldForce}" Width="*"/>
+                                    <DataGridTextColumn Header="Freq Chg" Binding="{Binding FreqChg}" Width="*"/>
+                                    <DataGridTextColumn Header="Set AMP A" Binding="{Binding SetAMPA}" Width="*"/>
+                                    <DataGridTextColumn Header="Velocity" Binding="{Binding Velocity}" Width="*"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
+                    </materialDesign:Card>
+
+                    <materialDesign:Card Grid.Row="1" Margin="5" Visibility="{Binding UltrasonicWelding24Vis}">
+                        <StackPanel>
+                            <TextBlock 
+                        Style="{StaticResource LineLabel20}"
+                        Text="Ultrasonic Tr2-4"/>
+                            <DataGrid 
+                          Style="{StaticResource MaterialDesignDataGrid}"
+                          Background="{StaticResource ColorSurface}"
+                          Margin="10"
+                          IsReadOnly="True"
+                          ItemsSource="{Binding UltrasonicWeldingTR24Entries, UpdateSourceTrigger=PropertyChanged}"
+                          AutoGenerateColumns="False"
+                          SelectionUnit="FullRow"
+                          SelectionMode="Single">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Cycle" Binding="{Binding Cycle}" Width="*"/>
+                                    <DataGridTextColumn Header="RunTime" Binding="{Binding RunTime}" Width="*"/>
+                                    <DataGridTextColumn Header="Pk Pwr" Binding="{Binding PkPwr}" Width="*"/>
+                                    <DataGridTextColumn Header="Energy" Binding="{Binding Energy}" Width="*"/>
+                                    <DataGridTextColumn Header="Weld Abs" Binding="{Binding WeldAbs}" Width="*"/>
+                                    <DataGridTextColumn Header="Weld Col" Binding="{Binding WeldCol}" Width="*"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <DataGrid 
+                          Style="{StaticResource MaterialDesignDataGrid}"
+                          Background="{StaticResource ColorSurface}"
+                          Margin="10"
+                          IsReadOnly="True"
+                          ItemsSource="{Binding UltrasonicWeldingTR24Entries, UpdateSourceTrigger=PropertyChanged}"
+                          AutoGenerateColumns="False"
+                          SelectionUnit="FullRow"
+                          SelectionMode="Single">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Total Col" Binding="{Binding TotalCol}" Width="*"/>
+                                    <DataGridTextColumn Header="Trig Force" Binding="{Binding TrigForce}" Width="*"/>
+                                    <DataGridTextColumn Header="Weld Force" Binding="{Binding WeldForce}" Width="*"/>
+                                    <DataGridTextColumn Header="Freq Chg" Binding="{Binding FreqChg}" Width="*"/>
+                                    <DataGridTextColumn Header="Set AMP A" Binding="{Binding SetAMPA}" Width="*"/>
+                                    <DataGridTextColumn Header="Velocity" Binding="{Binding Velocity}" Width="*"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
+                    </materialDesign:Card>
+
+                    <Grid Grid.Row="2">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Grid.Row="0" Grid.Column="6"
+                             Margin="10"
+                             Style="{StaticResource ButtonChanged}" materialDesign:ButtonAssist.CornerRadius="10"
+                             Content="Rejection"
+                             HorizontalAlignment="Center"
+                             Width="150">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding ShowRejectionCommand}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+
+                            <Button Grid.Row="0" Grid.Column="6"
+                             Margin="10"
+                             Style="{StaticResource ButtonChanged}" materialDesign:ButtonAssist.CornerRadius="10"
+                             Content="Ultrasonic TR1-3"
+                             HorizontalAlignment="Center"
+                             Width="160">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding ShowUltrasonicWelding13Command}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+
+                            <Button Grid.Row="0" Grid.Column="6"
+                             Margin="10"
+                             Style="{StaticResource ButtonChanged}" materialDesign:ButtonAssist.CornerRadius="10"
+                             Content="Ultrasonic TR2-4"
+                             HorizontalAlignment="Center"
+                             Width="160">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding ShowUltrasonicWelding24Command}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="0.7*"/>
+                    </Grid.RowDefinitions>
+
+                    <materialDesign:Card Grid.Row="0" Margin="5">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+
+                            <lvc:CartesianChart
+                        Name="chart"
+                        Zoom="X"
+                        Pan="Xy"
+                        Series="{Binding SeriesCollection}"
+                        Foreground="Black">
+                                <lvc:CartesianChart.AxisX>
+                                    <lvc:Axis Title="Thời gian" LabelFormatter="{Binding DateTimeFormatter}"
+                              MinRange="{Binding MinDateValue}"
+                              MaxRange="{Binding MaxDateValue}">
+                                    </lvc:Axis>
+                                </lvc:CartesianChart.AxisX>
+
+                                <lvc:CartesianChart.AxisY>
+                                    <lvc:Axis Title="OEE (%)" LabelFormatter="{Binding ValueFormatter}"
+                              MinRange="0"
+                              MaxRange="100">
+                                    </lvc:Axis>
+                                </lvc:CartesianChart.AxisY>
+                            </lvc:CartesianChart>
+
+                            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                                <TextBlock
+                            Margin="0"
+                            Style="{StaticResource LineLabel}" 
+                            HorizontalAlignment="Center"
+                            Text="Khoảng cách: "/>
+                                <ComboBox 
+                            Margin="0"
+                            Width="75"
+                            Style="{StaticResource ComboBox}"
+                            HorizontalContentAlignment="Center"
+                            IsEditable="False"
+                            ItemsSource="{Binding Intervals}"
+                            SelectedItem="{Binding Interval}">
+                                </ComboBox>
+                                <Button Grid.Column="0"
+                            Margin="5,5,0,0"
+                            Style="{StaticResource ButtonNavigateBack}" 
+                            materialDesign:ButtonAssist.CornerRadius="10"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Stretch">
+                                    <materialDesign:PackIcon
+                                Width="30"
+                                Height="30"
+                                Kind="Reload" 
+                                VerticalAlignment="Center"/>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding LoadApiOEECommand}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                    </materialDesign:Card>
+
+
+
+                    <materialDesign:Card Grid.Row="1" Margin="5">
+                        <DataGrid 
+                      Style="{StaticResource MaterialDesignDataGrid}"
+                      Background="{StaticResource ColorSurface}"
+                      Margin="10"
+                      IsReadOnly="True"
+                      ItemsSource="{Binding OEEEntries, UpdateSourceTrigger=PropertyChanged}"
+                      AutoGenerateColumns="False"
+                      SelectionUnit="FullRow"
+                      SelectionMode="Single">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="OEE" Binding="{Binding OEE, StringFormat={}{0:0.##}}" Width="*"/>
+                                <DataGridTextColumn Header="A" Binding="{Binding A, StringFormat={}{0:0.##}}" Width="*"/>
+                                <DataGridTextColumn Header="P" Binding="{Binding P, StringFormat={}{0:0.##}}" Width="*"/>
+                                <DataGridTextColumn Header="Q" Binding="{Binding Q, StringFormat={}{0:0.##}}" Width="*"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </materialDesign:Card>
+
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <materialDesign:Card Grid.Column="0" Margin="5">
+                            <ListView HorizontalContentAlignment="Stretch"
+                          ItemsSource="{Binding ErrorStrings}">
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="Foreground" Value="Red"/>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                            </ListView>
+                        </materialDesign:Card>
+
+                        <Image Grid.Column="1"
+                               Source="/Resources/Images/Nutchan.jpg"/>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
+    </materialDesign:DialogHost>
+</UserControl>

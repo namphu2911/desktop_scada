@@ -193,48 +193,48 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
             AllTags = await _signalRClient.GetBufferList();
             if (AllTags.Count != 0)
             {
-                OEE = Convert.ToDouble(await _signalRClient.GetBufferValue("OEE")) * 100;
-                A = Convert.ToDouble(await _signalRClient.GetBufferValue("A")) * 100;
-                P = Convert.ToDouble(await _signalRClient.GetBufferValue("P")) * 100;
-                Q = Convert.ToDouble(await _signalRClient.GetBufferValue("Q")) * 100;
+                OEE = Convert.ToDouble(await _signalRClient.GetBufferValue("IE-F2-HCA01", "OEE")) * 100;
+                A = Convert.ToDouble(await _signalRClient.GetBufferValue("IE-F2-HCA01", "A")) * 100;
+                P = Convert.ToDouble(await _signalRClient.GetBufferValue("IE-F2-HCA01", "P")) * 100;
+                Q = Convert.ToDouble(await _signalRClient.GetBufferValue("IE-F2-HCA01", "Q")) * 100;
 
-                Status = (EMachineStatus)Convert.ToInt32(await _signalRClient.GetBufferValue("machineStatus"));
-                OperationTime = TimeSpan.TryParse(Convert.ToString((await _signalRClient.GetBufferValue("operationTimeRaw"))), out var span) ? span : default;
-                GoodCount = Convert.ToInt64(await _signalRClient.GetBufferValue("goodProductRaw"));
-                BadCount = Convert.ToInt64(await _signalRClient.GetBufferValue("errorProduct"));
-                Efficiency = Convert.ToDouble(await _signalRClient.GetBufferValue("EFF"));
-                AllProductCount = Convert.ToInt64(await _signalRClient.GetBufferValue("productCount"));
+                Status = (EMachineStatus)Convert.ToInt32(await _signalRClient.GetBufferValue("IE-F2-HCA01", "machineStatus"));
+                OperationTime = TimeSpan.TryParse(Convert.ToString((await _signalRClient.GetBufferValue("IE-F2-HCA01", "operationTimeRaw"))), out var span) ? span : default;
+                GoodCount = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F2-HCA01", "goodProductRaw"));
+                BadCount = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F2-HCA01", "errorProduct"));
+                Efficiency = Convert.ToDouble(await _signalRClient.GetBufferValue("IE-F2-HCA01", "EFF"));
+                AllProductCount = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F2-HCA01", "productCount"));
 
-                TR13.Cycle = Convert.ToInt64(await _signalRClient.GetBufferValue("Weld_Cycle_Tr1&3_S7"));
+                TR13.Cycle = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F2-HCA01", "Weld_Cycle_Tr1&3_S7"));
 
-                TR13.RunTime = Convert.ToDouble(await _signalRClient.GetBufferValue("RunTime_Tr1&3_S7"));
-                TR13.PkPwr = Convert.ToDouble(await _signalRClient.GetBufferValue("Pk_Pwr_Tr1&3_S7")); 
-                TR13.Energy = Convert.ToDouble(await _signalRClient.GetBufferValue("Energy_Tr1&3_S7"));
-                TR13.WeldAbs = Convert.ToDouble(await _signalRClient.GetBufferValue("Weld_Abs_Tr1&3_S7"));
-                TR13.WeldCol = Convert.ToDouble(await _signalRClient.GetBufferValue("Weld_Col_Tr1&3_S7"));
-                TR13.TotalCol = Convert.ToDouble(await _signalRClient.GetBufferValue("Total_Col_Tr1&3_S7"));
+                TR13.RunTime = Convert.ToDouble(await _signalRClient.GetBufferValue("IE-F2-HCA01", "RunTime_Tr1&3_S7"));
+                TR13.PkPwr = Convert.ToDouble(await _signalRClient.GetBufferValue("IE-F2-HCA01", "Pk_Pwr_Tr1&3_S7")); 
+                TR13.Energy = Convert.ToDouble(await _signalRClient.GetBufferValue("IE-F2-HCA01", "Energy_Tr1&3_S7"));
+                TR13.WeldAbs = Convert.ToDouble(await _signalRClient.GetBufferValue("IE-F2-HCA01","Weld_Abs_Tr1&3_S7"));
+                TR13.WeldCol = Convert.ToDouble(await _signalRClient.GetBufferValue("IE-F2-HCA01","Weld_Col_Tr1&3_S7"));
+                TR13.TotalCol = Convert.ToDouble(await _signalRClient.GetBufferValue("IE-F2-HCA01","Total_Col_Tr1&3_S7"));
                 
-                TR13.TrigForce = Convert.ToInt64(await _signalRClient.GetBufferValue("Trig_Force_Tr1&3_S7"));
-                TR13.WeldForce = Convert.ToInt64(await _signalRClient.GetBufferValue("Weld_Force_Tr1&3_S7"));
-                TR13.FreqChg = Convert.ToInt64(await _signalRClient.GetBufferValue("Freq_Chg_Tr1&3_S7"));
-                TR13.SetAMPA = Convert.ToInt64(await _signalRClient.GetBufferValue("Set_AMP_A_Tr1&3_S7"));
-                TR13.Velocity = Convert.ToInt64(await _signalRClient.GetBufferValue("Velocity_Tr1&3_S7"));
+                TR13.TrigForce = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F2-HCA01","Trig_Force_Tr1&3_S7"));
+                TR13.WeldForce = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F2-HCA01","Weld_Force_Tr1&3_S7"));
+                TR13.FreqChg = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F2-HCA01","Freq_Chg_Tr1&3_S7"));
+                TR13.SetAMPA = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F2-HCA01","Set_AMP_A_Tr1&3_S7"));
+                TR13.Velocity = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F2-HCA01","Velocity_Tr1&3_S7"));
                 
                 //
-                TR24.Cycle = Convert.ToInt64(await _signalRClient.GetBufferValue("Weld_Cycle_Tr2&4_S6"));
+                TR24.Cycle = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F2-HCA01","Weld_Cycle_Tr2&4_S6"));
                 
-                TR24.RunTime = Convert.ToDouble(await _signalRClient.GetBufferValue("RunTime_Tr2&4_S6"));
-                TR24.PkPwr = Convert.ToDouble(await _signalRClient.GetBufferValue("Pk_Pwr_Tr2&4_S6"));
-                TR24.Energy = Convert.ToDouble(await _signalRClient.GetBufferValue("Energy_Tr2&4_S6"));
-                TR24.WeldAbs = Convert.ToDouble(await _signalRClient.GetBufferValue("Weld_Abs_Tr2&4_S6"));
-                TR24.WeldCol = Convert.ToDouble(await _signalRClient.GetBufferValue("Weld_Col_Tr2&4_S6"));
-                TR24.TotalCol = Convert.ToDouble(await _signalRClient.GetBufferValue("Total_Col_Tr2&4_S6"));
+                TR24.RunTime = Convert.ToDouble(await _signalRClient.GetBufferValue("IE-F2-HCA01","RunTime_Tr2&4_S6"));
+                TR24.PkPwr = Convert.ToDouble(await _signalRClient.GetBufferValue("IE-F2-HCA01","Pk_Pwr_Tr2&4_S6"));
+                TR24.Energy = Convert.ToDouble(await _signalRClient.GetBufferValue("IE-F2-HCA01","Energy_Tr2&4_S6"));
+                TR24.WeldAbs = Convert.ToDouble(await _signalRClient.GetBufferValue("IE-F2-HCA01","Weld_Abs_Tr2&4_S6"));
+                TR24.WeldCol = Convert.ToDouble(await _signalRClient.GetBufferValue("IE-F2-HCA01","Weld_Col_Tr2&4_S6"));
+                TR24.TotalCol = Convert.ToDouble(await _signalRClient.GetBufferValue("IE-F2-HCA01","Total_Col_Tr2&4_S6"));
                 
-                TR24.TrigForce = Convert.ToInt64(await _signalRClient.GetBufferValue("Trig_Force_Tr2&4_S6"));
-                TR24.WeldForce = Convert.ToInt64(await _signalRClient.GetBufferValue("Weld_Force_Tr2&4_S6"));
-                TR24.FreqChg = Convert.ToInt64(await _signalRClient.GetBufferValue("Freq_Chg_Tr2&4_S6"));
-                TR24.SetAMPA = Convert.ToInt64(await _signalRClient.GetBufferValue("Set_AMP_A_Tr2&4_S6"));
-                TR24.Velocity = Convert.ToInt64(await _signalRClient.GetBufferValue("Velocity_Tr2&4_S6"));
+                TR24.TrigForce = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F2-HCA01","Trig_Force_Tr2&4_S6"));
+                TR24.WeldForce = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F2-HCA01","Weld_Force_Tr2&4_S6"));
+                TR24.FreqChg = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F2-HCA01","Freq_Chg_Tr2&4_S6"));
+                TR24.SetAMPA = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F2-HCA01","Set_AMP_A_Tr2&4_S6"));
+                TR24.Velocity = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F2-HCA01","Velocity_Tr2&4_S6"));
 
                 if (AllProductCount > 0 && AllProductCount < 300)
                 {
@@ -313,18 +313,18 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
                     }
                 }
 
-                TR1 = new(Convert.ToInt64(await _signalRClient.GetBufferValue("BOTTOM_CAP_REJ_TR1")), Convert.ToInt64(await _signalRClient.GetBufferValue("SILICON_PRESENCE_REJ_TR1")),
-                         Convert.ToInt64(await _signalRClient.GetBufferValue("COVER_PRESENCE_REJ_TR1")), Convert.ToInt64(await _signalRClient.GetBufferValue("HEIGHT_CHK_REJ_TR1")),
-                         Convert.ToInt64(await _signalRClient.GetBufferValue("LEAK_TEST_CHK_OK_TR1")));
-                TR2 = new(Convert.ToInt64(await _signalRClient.GetBufferValue("BOTTOM_CAP_REJ_TR2")), Convert.ToInt64(await _signalRClient.GetBufferValue("SILICON_PRESENCE_REJ_TR2")),
-                          Convert.ToInt64(await _signalRClient.GetBufferValue("COVER_PRESENCE_REJ_TR2")), Convert.ToInt64(await _signalRClient.GetBufferValue("HEIGHT_CHK_REJ_TR2")),
-                          Convert.ToInt64(await _signalRClient.GetBufferValue("LEAK_TEST_CHK_TR2")));
-                TR3 = new(Convert.ToInt64(await _signalRClient.GetBufferValue("BOTTOM_CAP_REJ_TR3")), Convert.ToInt64(await _signalRClient.GetBufferValue("SILICON_PRESENCE_REJ_TR3")),
-                          Convert.ToInt64(await _signalRClient.GetBufferValue("COVER_PRESENCE_REJ_TR3")), Convert.ToInt64(await _signalRClient.GetBufferValue("HEIGHT_CHK_REJ_TR3")),
-                          Convert.ToInt64(await _signalRClient.GetBufferValue("LEAK_TEST_CHK_TR3")));
-                TR4 = new(Convert.ToInt64(await _signalRClient.GetBufferValue("BOTTOM_CAL_REJ_TR4")), Convert.ToInt64(await _signalRClient.GetBufferValue("SILICON_PRESENCE_REJ_TR4")),
-                          Convert.ToInt64(await _signalRClient.GetBufferValue("COVER_PRESENCE_REJ_TR4")), Convert.ToInt64(await _signalRClient.GetBufferValue("HEIGHT_CHK_REJ_TR4")),
-                          Convert.ToInt64(await _signalRClient.GetBufferValue("LEAK_TEST_CHK_TR4")));
+                TR1 = new(Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F2-HCA01","BOTTOM_CAP_REJ_TR1")), Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F2-HCA01","SILICON_PRESENCE_REJ_TR1")),
+                         Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F2-HCA01","COVER_PRESENCE_REJ_TR1")), Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F2-HCA01","HEIGHT_CHK_REJ_TR1")),
+                         Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F2-HCA01","LEAK_TEST_CHK_OK_TR1")));
+                TR2 = new(Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F2-HCA01","BOTTOM_CAP_REJ_TR2")), Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F2-HCA01","SILICON_PRESENCE_REJ_TR2")),
+                          Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F2-HCA01","COVER_PRESENCE_REJ_TR2")), Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F2-HCA01","HEIGHT_CHK_REJ_TR2")),
+                          Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F2-HCA01","LEAK_TEST_CHK_TR2")));
+                TR3 = new(Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F2-HCA01","BOTTOM_CAP_REJ_TR3")), Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F2-HCA01","SILICON_PRESENCE_REJ_TR3")),
+                          Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F2-HCA01","COVER_PRESENCE_REJ_TR3")), Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F2-HCA01","HEIGHT_CHK_REJ_TR3")),
+                          Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F2-HCA01","LEAK_TEST_CHK_TR3")));
+                TR4 = new(Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F2-HCA01","BOTTOM_CAL_REJ_TR4")), Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F2-HCA01","SILICON_PRESENCE_REJ_TR4")),
+                          Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F2-HCA01","COVER_PRESENCE_REJ_TR4")), Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F2-HCA01","HEIGHT_CHK_REJ_TR4")),
+                          Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F2-HCA01","LEAK_TEST_CHK_TR4")));
 
                 OEEChanged();
                 RejectionChanged();
@@ -457,7 +457,9 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
                         case "LEAK_TEST_CHK_TR4": TR4.LEAKTESTCHKOK = Convert.ToInt64(tag.TagValue); RejectionChanged(); break;
 
                         //
-
+                        case "Weld_Cycle_Tr1&3_S7":
+                            TR13.Cycle = Convert.ToInt64(tag.TagValue);
+                            UltrasonicWeldingTR13Changed(); break;
                         case "RunTime_Tr1&3_S7":
                             TR13.RunTime = Convert.ToDouble(tag.TagValue);
                             UltrasonicWeldingTR13Changed(); break;

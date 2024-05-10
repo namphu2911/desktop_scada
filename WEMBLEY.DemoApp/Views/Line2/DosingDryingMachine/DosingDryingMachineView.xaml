@@ -6,8 +6,12 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
              xmlns:prism="http://prismlibrary.com/"
-             xmlns:dosingdryingmachine="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine;assembly=WEMBLEY.DemoApp.Core" xmlns:dosingdryingmachine1="clr-namespace:WEMBLEY.DemoApp.Views.Line2.DosingDryingMachine" xmlns:shared="clr-namespace:WEMBLEY.DemoApp.Views.Shared" xmlns:report="clr-namespace:WEMBLEY.DemoApp.Views.Shared.Report"
+             xmlns:dosingdryingmachine="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine;assembly=WEMBLEY.DemoApp.Core" 
+             xmlns:dosingdryingmachine1="clr-namespace:WEMBLEY.DemoApp.Views.Line2.DosingDryingMachine" 
+             xmlns:shared="clr-namespace:WEMBLEY.DemoApp.Views.Shared" 
+             xmlns:report="clr-namespace:WEMBLEY.DemoApp.Views.Shared.Report"
              d:DataContext="{d:DesignInstance Type=dosingdryingmachine:DosingDryingMachineViewModel}"
+             xmlns:notifications="clr-namespace:Notifications.Wpf.Core.Controls;assembly=Notifications.Wpf.Core"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1300"
              Background="{StaticResource ColorBackground}">
@@ -42,206 +46,178 @@
             </Button>
         </Grid>
 
-        <materialDesign:Card Grid.Row="1">
-            <TabControl
-            SelectedIndex="1"
-            TabStripPlacement="Left"
-            Style="{StaticResource TabControlLogoStyle}">
+        <Grid Grid.Row="1">
+            <materialDesign:Card>
+                <TabControl
+    SelectedIndex="1"
+    TabStripPlacement="Left"
+    Style="{StaticResource TabControlLogoStyle}">
 
-                <TabItem  
-                Style="{StaticResource TabItemLogoStyle}"
-                Background="White"
-                Height="64" Width="248" 
-                Padding="0">
-                    <TabItem.Header>
-                        <StackPanel Orientation="Horizontal">
+                    <TabItem  
+        Style="{StaticResource TabItemLogoStyle}"
+        Background="White"
+        Height="64" Width="248" 
+        Padding="0">
+                        <TabItem.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <Image 
+                    Source="/Resources/Images/wembleynew.jpg" 
+                    Width="200" Height="49"/>
+                                <Image 
+                    Source="/Resources/Images/logohcmut.jpg" 
+                    Width="49" Height="49" HorizontalAlignment="Left" />
+
+                            </StackPanel>
+                        </TabItem.Header>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                             <Image 
-                            Source="/Resources/Images/wembleynew.jpg" 
-                            Width="200" Height="49"/>
+                    Source="/Resources/Images/wembleynew.jpg" 
+                    Width="400" Height="100"/>
                             <Image 
-                            Source="/Resources/Images/logohcmut.jpg" 
-                            Width="49" Height="49" HorizontalAlignment="Left" />
+                    Source="/Resources/Images/logohcmut.jpg" 
+                    Width="100" Height="100" HorizontalAlignment="Left" />
 
                         </StackPanel>
-                    </TabItem.Header>
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <Image 
-                            Source="/Resources/Images/wembleynew.jpg" 
-                            Width="400" Height="100"/>
-                        <Image 
-                            Source="/Resources/Images/logohcmut.jpg" 
-                            Width="100" Height="100" HorizontalAlignment="Left" />
+                    </TabItem>
 
-                    </StackPanel>
-                </TabItem>
+                    <TabItem 
+        Style="{StaticResource TabItemStyle}" 
+        Height="70">
+                        <TabItem.Header>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                <materialDesign:PackIcon Kind="Devices" 
+                                             Width="30" Height="30" 
+                                             HorizontalAlignment="Center" 
+                                             VerticalAlignment="Center" 
+                                             Margin="0,0,5,0"/>
+                                <HeaderedContentControl  Content="Chi tiết máy "
+                                                         HorizontalAlignment="Center"
+                                                         FontSize="20"
+                                                         FontWeight="Bold" Margin="0,0,50,0" />
+                            </StackPanel>
+                        </TabItem.Header>
 
-                <TabItem 
-                Style="{StaticResource TabItemStyle}" 
-                Height="70">
-                    <TabItem.Header>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                            <materialDesign:PackIcon Kind="Devices" 
-                                                     Width="30" Height="30" 
-                                                     HorizontalAlignment="Center" 
-                                                     VerticalAlignment="Center" 
-                                                     Margin="0,0,5,0"/>
-                            <HeaderedContentControl  Content="Chi tiết máy "
-                                                                 HorizontalAlignment="Center"
-                                                                 FontSize="20"
-                                                                 FontWeight="Bold" Margin="0,0,50,0" />
-                        </StackPanel>
-                    </TabItem.Header>
+                        <TabControl TabStripPlacement="Top" 
+            Style="{StaticResource MaterialDesignFilledTabControl}"
+            materialDesign:ColorZoneAssist.Background="LightGray">
+                            <TabItem Height="55" MaxWidth="800" Style="{StaticResource TabItem2layerRowStyle}">
+                                <TabItem.Header >
+                                    <TextBlock Style="{StaticResource HeaderText}" Text="GIÁM SÁT"/>
+                                </TabItem.Header>
+                                <dosingdryingmachine1:DosingDryingMonitorView DataContext="{Binding DosingDryingMonitor}"/>
+                            </TabItem>
 
-                    <TabControl TabStripPlacement="Top" 
-                    Style="{StaticResource MaterialDesignFilledTabControl}"
-                    materialDesign:ColorZoneAssist.Background="LightGray">
-                        <TabItem Height="55" MaxWidth="800" Style="{StaticResource TabItem2layerRowStyle}">
-                            <TabItem.Header >
-                                <TextBlock Style="{StaticResource HeaderText}" Text="GIÁM SÁT"/>
-                            </TabItem.Header>
-                            <dosingdryingmachine1:DosingDryingMonitorView DataContext="{Binding DosingDryingMonitor}"/>
-                        </TabItem>
-
-                        <TabItem Height="55" MaxWidth="800" Style="{StaticResource TabItem2layerRowStyle}">
-                            <TabItem.Header >
-                                <TextBlock Style="{StaticResource HeaderText}" Text="LỊCH SỬ LỖI"/>
-                            </TabItem.Header>
-                            <shared:FaultHistoryView DataContext="{Binding FaultHistory}"/>
-                        </TabItem>
-                    </TabControl>
-                </TabItem>
+                            <TabItem Height="55" MaxWidth="800" Style="{StaticResource TabItem2layerRowStyle}">
+                                <TabItem.Header >
+                                    <TextBlock Style="{StaticResource HeaderText}" Text="LỊCH SỬ LỖI"/>
+                                </TabItem.Header>
+                                <shared:FaultHistoryView DataContext="{Binding FaultHistory}"/>
+                            </TabItem>
+                        </TabControl>
+                    </TabItem>
 
 
 
-                <TabItem 
-                IsSelected="{Binding IsMFCTabSeleted}"
-                Height="70">
-                    <TabItem.Style>
-                        <Style TargetType="TabItem" >
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="TabItem">
-                                        <Grid SnapsToDevicePixels="True">
-                                            <Border Margin="5"
-                                CornerRadius="5"
-                                Background="{TemplateBinding Background}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                BorderBrush="{TemplateBinding BorderBrush}">
-                                                <ContentPresenter HorizontalAlignment="Left"
-                                              VerticalAlignment="Center"
-                                              SnapsToDevicePixels="True"
-                                              RecognizesAccessKey="True"
-                                              Margin="{TemplateBinding Margin}"
-                                              ContentSource="Header"
-                                              Focusable="False"></ContentPresenter>
-                                            </Border>
-                                        </Grid>
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="IsSelected" Value="True">
-                                                <Setter Property="Background" Value="{Binding IsMFCError, UpdateSourceTrigger=PropertyChanged}"></Setter>
-                                                <Setter Property="Foreground" Value="White"></Setter>
-                                                <Setter Property="BorderThickness" Value="0,0,5,0"></Setter>
-                                                <Setter Property="BorderBrush" Value="White"></Setter>
-                                            </Trigger>
-                                            <Trigger Property="IsSelected" Value="False">
-                                                <Setter Property="Background" Value="{Binding IsMFCError, UpdateSourceTrigger=PropertyChanged}"></Setter>
-                                                <Setter Property="Foreground" Value="Black"></Setter>
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </TabItem.Style>
-                    <TabItem.Header>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                            <materialDesign:PackIcon Kind="WrenchCogOutline" 
-                                                     Width="30" Height="30" 
-                                                     HorizontalAlignment="Center" 
-                                                     VerticalAlignment="Center" 
-                                                     Margin="0,0,6,0"/>
-                            <HeaderedContentControl  Content="MFC"
-                                                                 HorizontalAlignment="Center"
-                                                                 FontSize="20"
-                                                                 FontWeight="Bold" Margin="0,0,20,0" />
-                        </StackPanel>
-                    </TabItem.Header>
+                    <TabItem
+           Style="{StaticResource TabItemStyle}" 
+           Height="70">
+                        <TabItem.Header>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                <materialDesign:PackIcon Kind="WrenchCogOutline" 
+                    Width="30" Height="30" 
+                    HorizontalAlignment="Center" 
+                    VerticalAlignment="Center" 
+                    Margin="0,0,6,0"/>
+                                <HeaderedContentControl  Content="MFC"
+                                HorizontalAlignment="Center"
+                                FontSize="20"
+                                FontWeight="Bold" Margin="0,0,20,0" />
+                            </StackPanel>
+                        </TabItem.Header>
 
-                    <TabControl TabStripPlacement="Top" 
-                    Style="{StaticResource MaterialDesignFilledTabControl}"
-                    materialDesign:ColorZoneAssist.Background="LightGray">
-                        <TabItem Height="55" MaxWidth="800" Style="{StaticResource TabItem2layerRowStyle}">
-                            <TabItem.Header >
-                                <TextBlock Style="{StaticResource HeaderText}" Text="THEO DÕI MFC"/>
-                            </TabItem.Header>
-                            <dosingdryingmachine1:DosingDryingParameterMonitorView DataContext="{Binding DosingDryingParameterMonitor}"/>
-                        </TabItem>
+                        <TabControl TabStripPlacement="Top" 
+            Style="{StaticResource MaterialDesignFilledTabControl}"
+            materialDesign:ColorZoneAssist.Background="LightGray">
+                            <TabItem Height="55" MaxWidth="800" Style="{StaticResource TabItem2layerRowStyle}">
+                                <TabItem.Header >
+                                    <TextBlock Style="{StaticResource HeaderText}" Text="THEO DÕI MFC"/>
+                                </TabItem.Header>
+                                <dosingdryingmachine1:DosingDryingParameterMonitorView DataContext="{Binding DosingDryingParameterMonitor}"/>
+                            </TabItem>
 
-                        <TabItem Height="55" MaxWidth="800" Style="{StaticResource TabItem2layerRowStyle}">
-                            <TabItem.Header >
-                                <TextBlock Style="{StaticResource HeaderText}" Text="CÀI ĐẶT MFC"/>
-                            </TabItem.Header>
-                            <shared:MFCSettingView DataContext="{Binding MFCSetting}"/>
-                        </TabItem>
-                    </TabControl>
-                </TabItem>
+                            <TabItem Height="55" MaxWidth="800" Style="{StaticResource TabItem2layerRowStyle}">
+                                <TabItem.Header >
+                                    <TextBlock Style="{StaticResource HeaderText}" Text="CÀI ĐẶT MFC"/>
+                                </TabItem.Header>
+                                <shared:MFCSettingView DataContext="{Binding MFCSetting}"/>
+                            </TabItem>
+                        </TabControl>
+                    </TabItem>
 
-                <TabItem
-                Style="{StaticResource TabItemStyle}" 
-                Height="70" VerticalAlignment="Top">
-                    <TabItem.Header>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                            <materialDesign:PackIcon Kind="FileDocumentOutline" 
-                                                     Width="30" Height="30" 
-                                                     HorizontalAlignment="Center" 
-                                                     VerticalAlignment="Center" 
-                                                     Margin="0,0,6,0"/>
-                            <HeaderedContentControl  Content="Báo cáo"
-                                                                 HorizontalAlignment="Center"
-                                                                 FontSize="20"
-                                                                 FontWeight="Bold" />
-                        </StackPanel>
-                    </TabItem.Header>
+                    <TabItem
+        Style="{StaticResource TabItemStyle}" 
+        Height="70" VerticalAlignment="Top">
+                        <TabItem.Header>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                <materialDesign:PackIcon Kind="FileDocumentOutline" 
+                                             Width="30" Height="30" 
+                                             HorizontalAlignment="Center" 
+                                             VerticalAlignment="Center" 
+                                             Margin="0,0,6,0"/>
+                                <HeaderedContentControl  Content="Báo cáo"
+                                                         HorizontalAlignment="Center"
+                                                         FontSize="20"
+                                                         FontWeight="Bold" />
+                            </StackPanel>
+                        </TabItem.Header>
 
-                    <TabControl SelectedIndex="{Binding SeletedTabIndex}"
-                    TabStripPlacement="Top" 
-                    Style="{StaticResource MaterialDesignFilledTabControl}"
-                    materialDesign:ColorZoneAssist.Background="LightGray">
-                        <TabItem Height="55" MaxWidth="800" Style="{StaticResource TabItem2layerRowStyle}">
-                            <TabItem.Header >
-                                <TextBlock Style="{StaticResource HeaderText}" Text="BÁO CÁO TỔNG"/>
-                            </TabItem.Header>
-                            <report:ReportLongTimeView DataContext="{Binding ReportLongTime}"/>
-                        </TabItem>
+                        <TabControl SelectedIndex="{Binding SeletedTabIndex}"
+            TabStripPlacement="Top" 
+            Style="{StaticResource MaterialDesignFilledTabControl}"
+            materialDesign:ColorZoneAssist.Background="LightGray">
+                            <TabItem Height="55" MaxWidth="800" Style="{StaticResource TabItem2layerRowStyle}">
+                                <TabItem.Header >
+                                    <TextBlock Style="{StaticResource HeaderText}" Text="BÁO CÁO TỔNG"/>
+                                </TabItem.Header>
+                                <report:ReportLongTimeView DataContext="{Binding ReportLongTime}"/>
+                            </TabItem>
 
-                        <TabItem Height="55" MaxWidth="800" Style="{StaticResource TabItem2layerRowStyle}">
-                            <TabItem.Header >
-                                <TextBlock Style="{StaticResource HeaderText}" Text="BÁO CÁO THEO CA"/>
-                            </TabItem.Header>
-                            <report:ReportForShiftView DataContext="{Binding ReportForShift}"/>
-                        </TabItem>
-                    </TabControl>
-                </TabItem>
+                            <TabItem Height="55" MaxWidth="800" Style="{StaticResource TabItem2layerRowStyle}">
+                                <TabItem.Header >
+                                    <TextBlock Style="{StaticResource HeaderText}" Text="BÁO CÁO THEO CA"/>
+                                </TabItem.Header>
+                                <report:ReportForShiftView DataContext="{Binding ReportForShift}"/>
+                            </TabItem>
+                        </TabControl>
+                    </TabItem>
 
-                <TabItem 
-                Style="{StaticResource TabItemStyle}" 
-                Height="70">
-                    <TabItem.Header>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                            <materialDesign:PackIcon Kind="Power" 
-                                                     Width="30" Height="30" 
-                                                     HorizontalAlignment="Center" 
-                                                     VerticalAlignment="Center" 
-                                                     Margin="0,0,6,0"/>
-                            <HeaderedContentControl  Content="Trạng thái máy "
-                                                                 HorizontalAlignment="Center"
-                                                                 FontSize="20"
-                                                                 FontWeight="Bold" />
-                        </StackPanel>
-                    </TabItem.Header>
-                    <shared:MachineStatusView DataContext="{Binding MachineStatus}"/>
-                </TabItem>
-            </TabControl>
-        </materialDesign:Card>
+                    <TabItem 
+        Style="{StaticResource TabItemStyle}" 
+        Height="70">
+                        <TabItem.Header>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                <materialDesign:PackIcon Kind="Power" 
+                                             Width="30" Height="30" 
+                                             HorizontalAlignment="Center" 
+                                             VerticalAlignment="Center" 
+                                             Margin="0,0,6,0"/>
+                                <HeaderedContentControl  Content="Trạng thái máy "
+                                                         HorizontalAlignment="Center"
+                                                         FontSize="20"
+                                                         FontWeight="Bold" />
+                            </StackPanel>
+                        </TabItem.Header>
+                        <shared:MachineStatusView DataContext="{Binding MachineStatus}"/>
+                    </TabItem>
+                </TabControl>
+            </materialDesign:Card>
+
+            <notifications:NotificationArea  
+                MaxItems="1" Margin="-10 0 0 0" Width="258" 
+                VerticalAlignment="Bottom" 
+                HorizontalAlignment="Left"
+                x:Name="WindowArea" IsEnabled="False"
+                Position="BottomLeft" />
+        </Grid>
     </Grid>
 </UserControl>

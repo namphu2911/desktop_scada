@@ -21,6 +21,9 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine
         private readonly IApiService _apiService;
         private readonly ISignalRClient _signalRClient;
 
+        public long Min { get; set; } = 20;
+        public long Max { get; set; } = 70;
+
         //General
         private EMachineStatus status;
         public EMachineStatus Status
@@ -194,17 +197,17 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine
                 {
                     case EStationEnable.NonUse:
                         {
-                            ColorRobotArm = "#ED5152";
+                            ColorCapRubber = "#ED5152";
                             break;
                         }
                     case EStationEnable.Use:
                         {
-                            ColorRobotArm = "#3EB17F";
+                            ColorCapRubber = "#3EB17F";
                             break;
                         }
                     default:
                         {
-                            ColorRobotArm = "#BBBBBB";
+                            ColorCapRubber = "#BBBBBB";
                             break;
                         }
                 }
@@ -222,17 +225,17 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine
                 {
                     case EStationEnable.NonUse:
                         {
-                            ColorRobotArm = "#ED5152";
+                            ColorCapNonRubber = "#ED5152";
                             break;
                         }
                     case EStationEnable.Use:
                         {
-                            ColorRobotArm = "#3EB17F";
+                            ColorCapNonRubber = "#3EB17F";
                             break;
                         }
                     default:
                         {
-                            ColorRobotArm = "#BBBBBB";
+                            ColorCapNonRubber = "#BBBBBB";
                             break;
                         }
                 }
@@ -414,12 +417,12 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine
 
                 Drying1Enable = (EStationEnable)Convert.ToInt32(await _signalRClient.GetBufferValue("IE-F3-BLO06", "S1_DRYING_1_ENABLE"));
                 Drying2Enable = (EStationEnable)Convert.ToInt32(await _signalRClient.GetBufferValue("IE-F3-BLO06", "S1_DRYING_2_ENABLE"));
-                RobotArmEnable = (EStationEnable)Convert.ToInt32(await _signalRClient.GetBufferValue("IE-F3-BLO06", "S1_ROBOT_ARM_ENABLE"));
+                RobotArmEnable = (EStationEnable)Convert.ToInt32(await _signalRClient.GetBufferValue("IE-F3-BLO06", "S1_ROBOT_ARM_DISABLE"));
                 CapRubberEnable = (EStationEnable)Convert.ToInt32(await _signalRClient.GetBufferValue("IE-F3-BLO06", "S1_CAP_RUBBER_ENABLE"));  
                 CapNonRubberEnable = (EStationEnable)Convert.ToInt32(await _signalRClient.GetBufferValue("IE-F3-BLO06", "S1_CAP_NON_RUBBER_ENABLE"));
 
-                FSNozzle1 = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F3-BLO06", "S1_FS_NOZZLE_1"));
-                FSNozzle2 = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F3-BLO06", "S1_FS_NOZZLE_2"));
+                FSNozzle1 = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F3-BLO06", "S1_FS_NOZZLE_1_CURRENT"));
+                FSNozzle2 = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F3-BLO06", "S1_FS_NOZZLE_2_CURRENT"));
 
                 for (int i = 0; i < 10; i++)
                 {
@@ -608,12 +611,12 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine
 
                         case "S1_DRYING_1_ENABLE": Drying1Enable = (EStationEnable)Convert.ToInt32(tag.TagValue); break;
                         case "S1_DRYING_2_ENABLE": Drying2Enable = (EStationEnable)Convert.ToInt32(tag.TagValue); break;
-                        case "S1_ROBOT_ARM_ENABLE": RobotArmEnable = (EStationEnable)Convert.ToInt32(tag.TagValue); break;
+                        case "S1_ROBOT_ARM_DISABLE": RobotArmEnable = (EStationEnable)Convert.ToInt32(tag.TagValue); break;
                         case "S1_CAP_RUBBER_ENABLE": CapRubberEnable = (EStationEnable)Convert.ToInt32(tag.TagValue); break;
                         case "S1_CAP_NON_RUBBER_ENABLE": CapNonRubberEnable = (EStationEnable)Convert.ToInt32(tag.TagValue); break;
 
-                        case "S1_FS_NOZZLE_1": FSNozzle1 = Convert.ToInt64(tag.TagValue); break;
-                        case "S1_FS_NOZZLE_2": FSNozzle2 = Convert.ToInt64(tag.TagValue); break;
+                        case "S1_FS_NOZZLE_1_CURRENT": FSNozzle1 = Convert.ToInt64(tag.TagValue); break;
+                        case "S1_FS_NOZZLE_2_CURRENT": FSNozzle2 = Convert.ToInt64(tag.TagValue); break;
 
                         case "errorStatus":
                             {
@@ -714,30 +717,34 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine
                     DetectionCurrent[i, 6],
                     DetectionCurrent[i, 7],
                     DetectionCurrent[i, 8],
-                    DetectionCurrent[i, 9]));
+                    DetectionCurrent[i, 9],
+                    Min, 
+                    Max));
             }
             OnPropertyChanged(nameof(DetectionEntries));
         }
 
         private void LoadHistory1()
         {
-            //DetectionHistoryEntries = new ObservableCollection<DetectionEntryViewModel>();
-            //for (int i = 0; i < 10; i++)
-            //{
-            //    DetectionHistoryEntries.Add(new DetectionEntryViewModel
-            //        ($"Row {10 - i}",
-            //        DetectionHistory1[i, 0],
-            //        DetectionHistory1[i, 1],
-            //        DetectionHistory1[i, 2],
-            //        DetectionHistory1[i, 3],
-            //        DetectionHistory1[i, 4],
-            //        DetectionHistory1[i, 5],
-            //        DetectionHistory1[i, 6],
-            //        DetectionHistory1[i, 7],
-            //        DetectionHistory1[i, 8],
-            //        DetectionHistory1[i, 9]));
-            //}
-            //OnPropertyChanged(nameof(DetectionHistoryEntries));
+            DetectionHistoryEntries = new ObservableCollection<DetectionEntryViewModel>();
+            for (int i = 0; i < 10; i++)
+            {
+                DetectionHistoryEntries.Add(new DetectionEntryViewModel
+                    ($"Row {10 - i}",
+                    DetectionHistory1[i, 0],
+                    DetectionHistory1[i, 1],
+                    DetectionHistory1[i, 2],
+                    DetectionHistory1[i, 3],
+                    DetectionHistory1[i, 4],
+                    DetectionHistory1[i, 5],
+                    DetectionHistory1[i, 6],
+                    DetectionHistory1[i, 7],
+                    DetectionHistory1[i, 8],
+                    DetectionHistory1[i, 9],
+                    Min,
+                    Max));
+            }
+            OnPropertyChanged(nameof(DetectionHistoryEntries));
         }
 
         private void LoadHistory2()
@@ -756,7 +763,9 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine
                     DetectionHistory2[i, 6],
                     DetectionHistory2[i, 7],
                     DetectionHistory2[i, 8],
-                    DetectionHistory2[i, 9]));
+                    DetectionHistory2[i, 9],
+                    Min,
+                    Max));
                 OnPropertyChanged(nameof(DetectionHistoryEntries));
             }
         }
@@ -777,7 +786,9 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine
                     DetectionHistory3[i, 6],
                     DetectionHistory3[i, 7],
                     DetectionHistory3[i, 8],
-                    DetectionHistory3[i, 9]));
+                    DetectionHistory3[i, 9],
+                    Min,
+                    Max));
                 OnPropertyChanged(nameof(DetectionHistoryEntries));
             }
         }
@@ -798,7 +809,9 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine
                     DetectionHistory4[i, 6],
                     DetectionHistory4[i, 7],
                     DetectionHistory4[i, 8],
-                    DetectionHistory4[i, 9]));
+                    DetectionHistory4[i, 9],
+                    Min,
+                    Max));
                 OnPropertyChanged(nameof(DetectionHistoryEntries));
             }
         }
@@ -819,7 +832,9 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine
                     DetectionHistory5[i, 6],
                     DetectionHistory5[i, 7],
                     DetectionHistory5[i, 8],
-                    DetectionHistory5[i, 9]));
+                    DetectionHistory5[i, 9],
+                    Min,
+                    Max));
                 OnPropertyChanged(nameof(DetectionHistoryEntries));
             }
         }

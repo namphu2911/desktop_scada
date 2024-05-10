@@ -9,7 +9,16 @@
         xmlns:views="clr-namespace:WEMBLEY.DemoApp.Views.Home"
         xmlns:homes="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Home;assembly=WEMBLEY.DemoApp.Core"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
-        xmlns:viewmodels="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels;assembly=WEMBLEY.DemoApp.Core" xmlns:Components="clr-namespace:WEMBLEY.DemoApp.Resources.Components" xmlns:dosingdryingmachine="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine;assembly=WEMBLEY.DemoApp.Core" xmlns:dosingdryingmachine1="clr-namespace:WEMBLEY.DemoApp.Views.Line2.DosingDryingMachine" xmlns:stoppermachine="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine;assembly=WEMBLEY.DemoApp.Core" xmlns:stoppermachine1="clr-namespace:WEMBLEY.DemoApp.Views.Line1.StopperMachine" xmlns:initiation="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Initiation;assembly=WEMBLEY.DemoApp.Core" xmlns:initiation1="clr-namespace:WEMBLEY.DemoApp.Views.Initiation"
+        xmlns:viewmodels="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels;assembly=WEMBLEY.DemoApp.Core" 
+        xmlns:Components="clr-namespace:WEMBLEY.DemoApp.Resources.Components" 
+        xmlns:dosingdryingmachine="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine;assembly=WEMBLEY.DemoApp.Core" 
+        xmlns:dosingdryingmachine1="clr-namespace:WEMBLEY.DemoApp.Views.Line2.DosingDryingMachine" 
+        xmlns:stoppermachine="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine;assembly=WEMBLEY.DemoApp.Core" 
+        xmlns:stoppermachine1="clr-namespace:WEMBLEY.DemoApp.Views.Line1.StopperMachine" 
+        xmlns:initiation="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Initiation;assembly=WEMBLEY.DemoApp.Core" 
+        xmlns:initiation1="clr-namespace:WEMBLEY.DemoApp.Views.Initiation" 
+        xmlns:stoppercappingmachine="clr-namespace:WEMBLEY.DemoApp.Views.Line2.StopperCappingMachine" 
+        xmlns:stoppercappingmachine1="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.StopperCappingMachine;assembly=WEMBLEY.DemoApp.Core"
         d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
         Background="{StaticResource ColorBackground}"
         WindowStartupLocation="CenterScreen"
@@ -41,6 +50,9 @@
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type dosingdryingmachine:DosingDryingMachineViewModel}">
                     <dosingdryingmachine1:DosingDryingMachineView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type stoppercappingmachine1:StopperCappingMachineViewModel}">
+                    <stoppercappingmachine:StopperCappingMachineView/>
                 </DataTemplate>
             </ContentControl.Resources>
         </ContentControl>

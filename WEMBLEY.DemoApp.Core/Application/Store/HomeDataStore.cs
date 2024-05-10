@@ -11,6 +11,8 @@ namespace WEMBLEY.DemoApp.Core.Application.Store
     public class HomeDataStore : BaseViewModel
     {
         public List<ParameterDto> HomeDatas { get; private set; }
+        public long FSMin { get; private set; } = 0;
+        public long FSMax { get; private set; } = 0;
         public HomeDataStore()
         {
             HomeDatas = new();
@@ -19,6 +21,12 @@ namespace WEMBLEY.DemoApp.Core.Application.Store
         public void SetHomeRef(IEnumerable<ParameterDto> dtos)
         {
             HomeDatas = dtos.ToList();
+            var station = dtos.SelectMany(dto => dto.Stations).FirstOrDefault(station => station.StationId == "IE-F3-BLO06");
+            if (station != null)
+            {
+                FSMin = (long)((station.MFCs.First(mfc => mfc.MFCName == "FS Min").Value));
+                FSMax = (long)((station.MFCs.First(mfc => mfc.MFCName == "FS Max").Value));
+            }
         }
 
     }

@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System.Windows.Input;
 using WEMBLEY.DemoApp.Core.Application.Store;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine;
+using WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.StopperCappingMachine;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.SeedWork;
 using WEMBLEY.DemoApp.Core.Domain.Models;
 using WEMBLEY.DemoApp.Core.Domain.Services;
@@ -75,6 +76,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.MachinesInLine
         public string ColorBack { get; set; } = "#BBBBBB";
         public bool IsLoading { get; set; } = true;
         public ICommand NavigateToDosingDryingMachineViewCommand { get; set; }
+        public ICommand NavigateToStopperCappingViewCommand { get; set; }
         public ICommand LoadMachinesInLine2ViewCommand { get; set; }
         public MachinesInLine2ViewModel(INavigationService navigationService, ISignalRClient signalRClient, DeviceSelectedStore deviceSelectedStore)
         {
@@ -82,7 +84,8 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.MachinesInLine
             _signalRClient = signalRClient;
             _deviceSelectedStore = deviceSelectedStore;
 
-            NavigateToDosingDryingMachineViewCommand = new RelayCommand(ClickCommand);
+            NavigateToDosingDryingMachineViewCommand = new RelayCommand(NavigateToDosingDrying);
+            NavigateToStopperCappingViewCommand = new RelayCommand(NavigateToStopperCapping);
             LoadMachinesInLine2ViewCommand = new RelayCommand(LoadMachinesInLine2View);
 
             signalRClient.OnTagChanged += OnTagChanged;
@@ -96,10 +99,15 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.MachinesInLine
             IsLoading = false;
         }
 
-        private void ClickCommand()
+        private void NavigateToDosingDrying()
         {
             _navigationService.NavigateTo<DosingDryingMachineViewModel>();
             _deviceSelectedStore.SetSeletedDevice("IE-F3-BLO06", "NonVacuumBloodTube");
+        }
+        private void NavigateToStopperCapping()
+        {
+            _navigationService.NavigateTo<StopperCappingMachineViewModel>();
+            _deviceSelectedStore.SetSeletedDevice("IE-F3-BLO01", "NonVacuumBloodTube");
         }
 
         private async void LoadMachinesInLine2View()

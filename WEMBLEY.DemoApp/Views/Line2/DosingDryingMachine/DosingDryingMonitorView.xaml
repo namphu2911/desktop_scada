@@ -7,7 +7,10 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             xmlns:Components="clr-namespace:WEMBLEY.DemoApp.Resources.Components" xmlns:dosingdryingmachine="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine;assembly=WEMBLEY.DemoApp.Core" xmlns:vc="clr-namespace:WEMBLEY.DemoApp.ValueConverters" d:DataContext="{d:DesignInstance Type=dosingdryingmachine:DosingDryingMonitorViewModel}"
+             xmlns:Components="clr-namespace:WEMBLEY.DemoApp.Resources.Components" 
+             xmlns:dosingdryingmachine="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine;assembly=WEMBLEY.DemoApp.Core" 
+             xmlns:vc="clr-namespace:WEMBLEY.DemoApp.ValueConverters" 
+             d:DataContext="{d:DesignInstance Type=dosingdryingmachine:DosingDryingMonitorViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="1260"
              Background="{StaticResource ColorBackground}"
@@ -838,16 +841,166 @@
                                         SelectionMode="Single">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Header="   " Binding="{Binding Number}" Width="*"/>
-                                            <DataGridTextColumn Header="A" Binding="{Binding A}" Width="*"/>
-                                            <DataGridTextColumn Header="B" Binding="{Binding B}" Width="*"/>
-                                            <DataGridTextColumn Header="C" Binding="{Binding C}" Width="*"/>
-                                            <DataGridTextColumn Header="D" Binding="{Binding D}" Width="*"/>
-                                            <DataGridTextColumn Header="E" Binding="{Binding E}" Width="*"/>
-                                            <DataGridTextColumn Header="F" Binding="{Binding F}" Width="*"/>
-                                            <DataGridTextColumn Header="G" Binding="{Binding G}" Width="*"/>
-                                            <DataGridTextColumn Header="H" Binding="{Binding H}" Width="*"/>
-                                            <DataGridTextColumn Header="J" Binding="{Binding J}" Width="*"/>
-                                            <DataGridTextColumn Header="K" Binding="{Binding K}" Width="*"/>
+                                            <DataGridTextColumn Header="A" Binding="{Binding A}" Width="*">
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="{x:Type DataGridCell}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsAlarmedA}" Value="False">
+                                                                <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
+                                                                <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding IsAlarmedA}" Value="True">
+                                                                <Setter Property="Background" Value="{StaticResource ColorPrimaryGreen}"></Setter>
+                                                                <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="B" Binding="{Binding B}" Width="*">
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="{x:Type DataGridCell}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsAlarmedB}" Value="False">
+                                                                <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
+                                                                <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding IsAlarmedB}" Value="True">
+                                                                <Setter Property="Background" Value="{StaticResource ColorPrimaryGreen}"></Setter>
+                                                                <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="C" Binding="{Binding C}" Width="*">
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="{x:Type DataGridCell}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsAlarmedC}" Value="False">
+                                                                <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
+                                                                <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding IsAlarmedC}" Value="True">
+                                                                <Setter Property="Background" Value="{StaticResource ColorPrimaryGreen}"></Setter>
+                                                                <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="D" Binding="{Binding D}" Width="*">
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="{x:Type DataGridCell}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsAlarmedD}" Value="False">
+                                                                <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
+                                                                <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding IsAlarmedD}" Value="True">
+                                                                <Setter Property="Background" Value="{StaticResource ColorPrimaryGreen}"></Setter>
+                                                                <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="E" Binding="{Binding E}" Width="*">
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="{x:Type DataGridCell}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsAlarmedE}" Value="False">
+                                                                <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
+                                                                <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding IsAlarmedE}" Value="True">
+                                                                <Setter Property="Background" Value="{StaticResource ColorPrimaryGreen}"></Setter>
+                                                                <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="F" Binding="{Binding F}" Width="*">
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="{x:Type DataGridCell}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsAlarmedF}" Value="False">
+                                                                <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
+                                                                <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding IsAlarmedF}" Value="True">
+                                                                <Setter Property="Background" Value="{StaticResource ColorPrimaryGreen}"></Setter>
+                                                                <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="G" Binding="{Binding G}" Width="*">
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="{x:Type DataGridCell}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsAlarmedG}" Value="False">
+                                                                <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
+                                                                <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding IsAlarmedG}" Value="True">
+                                                                <Setter Property="Background" Value="{StaticResource ColorPrimaryGreen}"></Setter>
+                                                                <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="H" Binding="{Binding H}" Width="*">
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="{x:Type DataGridCell}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsAlarmedH}" Value="False">
+                                                                <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
+                                                                <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding IsAlarmedH}" Value="True">
+                                                                <Setter Property="Background" Value="{StaticResource ColorPrimaryGreen}"></Setter>
+                                                                <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="J" Binding="{Binding J}" Width="*">
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="{x:Type DataGridCell}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsAlarmedJ}" Value="False">
+                                                                <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
+                                                                <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding IsAlarmedJ}" Value="True">
+                                                                <Setter Property="Background" Value="{StaticResource ColorPrimaryGreen}"></Setter>
+                                                                <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="K" Binding="{Binding K}" Width="*">
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="{x:Type DataGridCell}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsAlarmedK}" Value="False">
+                                                                <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
+                                                                <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding IsAlarmedK}" Value="True">
+                                                                <Setter Property="Background" Value="{StaticResource ColorPrimaryGreen}"></Setter>
+                                                                <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
                                         </DataGrid.Columns>
                                     </DataGrid>
                                 </materialDesign:Card>
@@ -866,7 +1019,7 @@
                             </Grid.RowDefinitions>
 
                             <Grid Grid.Row="0">
-                                <TextBlock 
+                                <TextBlock
                                     Grid.Column="0" 
                                     Style="{StaticResource LineLabel20}"
                                     Text="History Detection" />
@@ -983,16 +1136,166 @@
                                         SelectionMode="Single">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Header="   " Binding="{Binding Number}" Width="*"/>
-                                            <DataGridTextColumn Header="A" Binding="{Binding A}" Width="*"/>
-                                            <DataGridTextColumn Header="B" Binding="{Binding B}" Width="*"/>
-                                            <DataGridTextColumn Header="C" Binding="{Binding C}" Width="*"/>
-                                            <DataGridTextColumn Header="D" Binding="{Binding D}" Width="*"/>
-                                            <DataGridTextColumn Header="E" Binding="{Binding E}" Width="*"/>
-                                            <DataGridTextColumn Header="F" Binding="{Binding F}" Width="*"/>
-                                            <DataGridTextColumn Header="G" Binding="{Binding G}" Width="*"/>
-                                            <DataGridTextColumn Header="H" Binding="{Binding H}" Width="*"/>
-                                            <DataGridTextColumn Header="J" Binding="{Binding J}" Width="*"/>
-                                            <DataGridTextColumn Header="K" Binding="{Binding K}" Width="*"/>
+                                            <DataGridTextColumn Header="A" Binding="{Binding A}" Width="*">
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="{x:Type DataGridCell}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsAlarmedA}" Value="False">
+                                                                <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
+                                                                <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding IsAlarmedA}" Value="True">
+                                                                <Setter Property="Background" Value="{StaticResource ColorPrimaryGreen}"></Setter>
+                                                                <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="B" Binding="{Binding B}" Width="*">
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="{x:Type DataGridCell}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsAlarmedB}" Value="False">
+                                                                <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
+                                                                <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding IsAlarmedB}" Value="True">
+                                                                <Setter Property="Background" Value="{StaticResource ColorPrimaryGreen}"></Setter>
+                                                                <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="C" Binding="{Binding C}" Width="*">
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="{x:Type DataGridCell}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsAlarmedC}" Value="False">
+                                                                <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
+                                                                <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding IsAlarmedC}" Value="True">
+                                                                <Setter Property="Background" Value="{StaticResource ColorPrimaryGreen}"></Setter>
+                                                                <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="D" Binding="{Binding D}" Width="*">
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="{x:Type DataGridCell}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsAlarmedD}" Value="False">
+                                                                <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
+                                                                <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding IsAlarmedD}" Value="True">
+                                                                <Setter Property="Background" Value="{StaticResource ColorPrimaryGreen}"></Setter>
+                                                                <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="E" Binding="{Binding E}" Width="*">
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="{x:Type DataGridCell}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsAlarmedE}" Value="False">
+                                                                <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
+                                                                <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding IsAlarmedE}" Value="True">
+                                                                <Setter Property="Background" Value="{StaticResource ColorPrimaryGreen}"></Setter>
+                                                                <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="F" Binding="{Binding F}" Width="*">
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="{x:Type DataGridCell}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsAlarmedF}" Value="False">
+                                                                <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
+                                                                <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding IsAlarmedF}" Value="True">
+                                                                <Setter Property="Background" Value="{StaticResource ColorPrimaryGreen}"></Setter>
+                                                                <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="G" Binding="{Binding G}" Width="*">
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="{x:Type DataGridCell}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsAlarmedG}" Value="False">
+                                                                <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
+                                                                <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding IsAlarmedG}" Value="True">
+                                                                <Setter Property="Background" Value="{StaticResource ColorPrimaryGreen}"></Setter>
+                                                                <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="H" Binding="{Binding H}" Width="*">
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="{x:Type DataGridCell}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsAlarmedH}" Value="False">
+                                                                <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
+                                                                <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding IsAlarmedH}" Value="True">
+                                                                <Setter Property="Background" Value="{StaticResource ColorPrimaryGreen}"></Setter>
+                                                                <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="J" Binding="{Binding J}" Width="*">
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="{x:Type DataGridCell}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsAlarmedJ}" Value="False">
+                                                                <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
+                                                                <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding IsAlarmedJ}" Value="True">
+                                                                <Setter Property="Background" Value="{StaticResource ColorPrimaryGreen}"></Setter>
+                                                                <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="K" Binding="{Binding K}" Width="*">
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="{x:Type DataGridCell}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsAlarmedK}" Value="False">
+                                                                <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
+                                                                <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding IsAlarmedK}" Value="True">
+                                                                <Setter Property="Background" Value="{StaticResource ColorPrimaryGreen}"></Setter>
+                                                                <Setter Property="Foreground" Value="{StaticResource ColorErrorOn}"></Setter>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
                                         </DataGrid.Columns>
                                     </DataGrid>
                                 </materialDesign:Card>

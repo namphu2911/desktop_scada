@@ -23,9 +23,11 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
         }
         public async Task ConnectAsync()
         {
-            connection.On<string>("TagChanged", (json) => OnTagChanged?.Invoke(json));
+            connection.On<string>("OnTagChanged", (json) => OnTagChanged?.Invoke(json));
             await connection.StartAsync();
             var a = connection.State;
+            await connection.InvokeAsync("UpdateTopics", new List<string>() { "WembleyMedical/BTM/IE-F3-BLO06/Desktop",
+                                                                              "WembleyMedical/HCM/IE-F2-HCA01/Desktop"});
         }
 
         public async Task<List<TagChangedNotification>> GetBufferList()

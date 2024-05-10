@@ -10,9 +10,11 @@ using WEMBLEY.DemoApp.Core.Application.ViewModels.Home;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Initiation;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine;
+using WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.StopperCappingMachine;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.MachinesInLine;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Shared;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Shared.Report;
+using WEMBLEY.DemoApp.ValueConverters;
 
 namespace WEMBLEY.DemoApp.HostBuiders
 {
@@ -49,6 +51,10 @@ namespace WEMBLEY.DemoApp.HostBuiders
                 services.AddTransient<DosingDryingMachineViewModel>();
                 services.AddTransient<DosingDryingMonitorViewModel>();
                 services.AddTransient<DosingDryingParameterMonitorViewModel>();
+
+                services.AddTransient<StopperCappingMachineViewModel>();
+                services.AddTransient<StopperCappingMonitorViewModel>();
+                services.AddTransient<StopperCappingParameterViewModel>();
                 //
 
                 services.AddTransient<MainViewModel>();

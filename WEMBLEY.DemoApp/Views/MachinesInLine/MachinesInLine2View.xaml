@@ -43,21 +43,19 @@
                     </Grid.Style>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
 
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
                     <Button    
                     Grid.Row="0" Grid.Column="0"
                     Margin="10"
+                    Height="190"
                     Style="{StaticResource ButtonMachine}" 
                     Background="{Binding ColorBack}"
                     materialDesign:ButtonAssist.CornerRadius="10">
@@ -67,6 +65,40 @@
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                         <TextBlock TextAlignment="Center" Text="Máy phun sấy hóa chất" FontSize="26" TextWrapping="Wrap"/>
+                    </Button>
+
+                    <Button    
+                         Grid.Row="0" Grid.Column="1"
+                         Margin="10"
+                         Height="190"
+                         Style="{StaticResource ButtonMachine}" 
+                         Background="{Binding ColorBack}"
+                         materialDesign:ButtonAssist.CornerRadius="10">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <prism:InvokeCommandAction Command="{Binding NavigateToStopperCappingViewCommand}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <TextBlock TextAlignment="Center" Text="Máy Đóng Nắp Có Nút Cao Su Tự Động" FontSize="26" TextWrapping="Wrap"/>
+                    </Button>
+
+                    <Button    
+                         Grid.Row="0" Grid.Column="2"
+                         Margin="10"
+                         Height="190"
+                         Style="{StaticResource ButtonMachine}" 
+                         Background="{Binding ColorBack}"
+                         materialDesign:ButtonAssist.CornerRadius="10">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <prism:InvokeCommandAction Command="{Binding NavigateToDosingDryingMachineViewCommand}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <TextBlock TextAlignment="Center" 
+                                   Height="200"
+                                   Text="Máy Đóng Nắp Không Có Nút Cao Su Tự Động" 
+                                   FontSize="26" 
+                                   TextWrapping="Wrap"/>
                     </Button>
                 </Grid>
 
@@ -91,9 +123,6 @@
                     <TextBlock Grid.Row="1" HorizontalAlignment="Center" Foreground="Black" Text="Loading..."/>
                 </Grid>
             </Grid>
-
-
         </Border>
-
     </materialDesign:Card>
 </UserControl>
