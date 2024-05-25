@@ -324,7 +324,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine
             LoadApiOEECommand = new RelayCommand(LoadApiOEE);
 
             LoadMainMonitorCommand = new RelayCommand(LoadMainMonitor);
-            LoadDetectionCommand = new RelayCommand(LoadLoadDetection);
+            LoadDetectionCommand = new RelayCommand(LoadDetection);
             LoadDetectionCurrentCommand = new RelayCommand(LoadDetectionCurrent);
             LoadDetectionHistoryCommand = new RelayCommand(LoadDetectionHistory);
 
@@ -364,7 +364,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine
             DetectionHistoryVis = Visibility.Collapsed;
         }
 
-        private void LoadLoadDetection()
+        private void LoadDetection()
         {
             MonitorVis = Visibility.Collapsed;
             DetectionVis = Visibility.Visible;
@@ -706,20 +706,23 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine
             DetectionEntries = new ObservableCollection<DetectionEntryViewModel>();
             for (int i = 0; i < 10; i++)
             {
-                DetectionEntries.Add(new DetectionEntryViewModel
-                    ($"Row {10 - i}",
-                    DetectionCurrent[i, 0],
-                    DetectionCurrent[i, 1],
-                    DetectionCurrent[i, 2],
-                    DetectionCurrent[i, 3],
-                    DetectionCurrent[i, 4],
-                    DetectionCurrent[i, 5],
-                    DetectionCurrent[i, 6],
-                    DetectionCurrent[i, 7],
-                    DetectionCurrent[i, 8],
-                    DetectionCurrent[i, 9],
-                    Min, 
-                    Max));
+                System.Windows.Application.Current.Dispatcher.Invoke((Action)delegate
+                {
+                    DetectionEntries.Add(new DetectionEntryViewModel
+                        ($"Row {10 - i}",
+                        DetectionCurrent[i, 0],
+                        DetectionCurrent[i, 1],
+                        DetectionCurrent[i, 2],
+                        DetectionCurrent[i, 3],
+                        DetectionCurrent[i, 4],
+                        DetectionCurrent[i, 5],
+                        DetectionCurrent[i, 6],
+                        DetectionCurrent[i, 7],
+                        DetectionCurrent[i, 8],
+                        DetectionCurrent[i, 9],
+                        Min,
+                        Max));
+                });
             }
             OnPropertyChanged(nameof(DetectionEntries));
         }
@@ -729,20 +732,23 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine
             DetectionHistoryEntries = new ObservableCollection<DetectionEntryViewModel>();
             for (int i = 0; i < 10; i++)
             {
-                DetectionHistoryEntries.Add(new DetectionEntryViewModel
-                    ($"Row {10 - i}",
-                    DetectionHistory1[i, 0],
-                    DetectionHistory1[i, 1],
-                    DetectionHistory1[i, 2],
-                    DetectionHistory1[i, 3],
-                    DetectionHistory1[i, 4],
-                    DetectionHistory1[i, 5],
-                    DetectionHistory1[i, 6],
-                    DetectionHistory1[i, 7],
-                    DetectionHistory1[i, 8],
-                    DetectionHistory1[i, 9],
-                    Min,
-                    Max));
+                System.Windows.Application.Current.Dispatcher.Invoke((Action)delegate
+                {
+                    DetectionEntries.Add(new DetectionEntryViewModel
+                        ($"Row {10 - i}",
+                        DetectionCurrent[i, 0],
+                        DetectionCurrent[i, 1],
+                        DetectionCurrent[i, 2],
+                        DetectionCurrent[i, 3],
+                        DetectionCurrent[i, 4],
+                        DetectionCurrent[i, 5],
+                        DetectionCurrent[i, 6],
+                        DetectionCurrent[i, 7],
+                        DetectionCurrent[i, 8],
+                        DetectionCurrent[i, 9],
+                        Min,
+                        Max));
+                });
             }
             OnPropertyChanged(nameof(DetectionHistoryEntries));
         }
@@ -752,20 +758,23 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine
             DetectionHistoryEntries = new ObservableCollection<DetectionEntryViewModel>();
             for (int i = 0; i < 10; i++)
             {
-                DetectionHistoryEntries.Add(new DetectionEntryViewModel
-                    ($"Row {10 - i}",
-                    DetectionHistory2[i, 0],
-                    DetectionHistory2[i, 1],
-                    DetectionHistory2[i, 2],
-                    DetectionHistory2[i, 3],
-                    DetectionHistory2[i, 4],
-                    DetectionHistory2[i, 5],
-                    DetectionHistory2[i, 6],
-                    DetectionHistory2[i, 7],
-                    DetectionHistory2[i, 8],
-                    DetectionHistory2[i, 9],
-                    Min,
-                    Max));
+                System.Windows.Application.Current.Dispatcher.Invoke((Action)delegate
+                {
+                    DetectionEntries.Add(new DetectionEntryViewModel
+                        ($"Row {10 - i}",
+                        DetectionCurrent[i, 0],
+                        DetectionCurrent[i, 1],
+                        DetectionCurrent[i, 2],
+                        DetectionCurrent[i, 3],
+                        DetectionCurrent[i, 4],
+                        DetectionCurrent[i, 5],
+                        DetectionCurrent[i, 6],
+                        DetectionCurrent[i, 7],
+                        DetectionCurrent[i, 8],
+                        DetectionCurrent[i, 9],
+                        Min,
+                        Max));
+                });
                 OnPropertyChanged(nameof(DetectionHistoryEntries));
             }
         }
@@ -775,20 +784,23 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine
             DetectionHistoryEntries = new ObservableCollection<DetectionEntryViewModel>();
             for (int i = 0; i < 10; i++)
             {
-                DetectionHistoryEntries.Add(new DetectionEntryViewModel
-                    ($"Row {10 - i}",
-                    DetectionHistory3[i, 0],
-                    DetectionHistory3[i, 1],
-                    DetectionHistory3[i, 2],
-                    DetectionHistory3[i, 3],
-                    DetectionHistory3[i, 4],
-                    DetectionHistory3[i, 5],
-                    DetectionHistory3[i, 6],
-                    DetectionHistory3[i, 7],
-                    DetectionHistory3[i, 8],
-                    DetectionHistory3[i, 9],
-                    Min,
-                    Max));
+                System.Windows.Application.Current.Dispatcher.Invoke((Action)delegate
+                {
+                    DetectionEntries.Add(new DetectionEntryViewModel
+                        ($"Row {10 - i}",
+                        DetectionCurrent[i, 0],
+                        DetectionCurrent[i, 1],
+                        DetectionCurrent[i, 2],
+                        DetectionCurrent[i, 3],
+                        DetectionCurrent[i, 4],
+                        DetectionCurrent[i, 5],
+                        DetectionCurrent[i, 6],
+                        DetectionCurrent[i, 7],
+                        DetectionCurrent[i, 8],
+                        DetectionCurrent[i, 9],
+                        Min,
+                        Max));
+                });
                 OnPropertyChanged(nameof(DetectionHistoryEntries));
             }
         }
@@ -798,20 +810,23 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine
             DetectionHistoryEntries = new ObservableCollection<DetectionEntryViewModel>();
             for (int i = 0; i < 10; i++)
             {
-                DetectionHistoryEntries.Add(new DetectionEntryViewModel
-                    ($"Row {10 - i}",
-                    DetectionHistory4[i, 0],
-                    DetectionHistory4[i, 1],
-                    DetectionHistory4[i, 2],
-                    DetectionHistory4[i, 3],
-                    DetectionHistory4[i, 4],
-                    DetectionHistory4[i, 5],
-                    DetectionHistory4[i, 6],
-                    DetectionHistory4[i, 7],
-                    DetectionHistory4[i, 8],
-                    DetectionHistory4[i, 9],
-                    Min,
-                    Max));
+                System.Windows.Application.Current.Dispatcher.Invoke((Action)delegate
+                {
+                    DetectionEntries.Add(new DetectionEntryViewModel
+                        ($"Row {10 - i}",
+                        DetectionCurrent[i, 0],
+                        DetectionCurrent[i, 1],
+                        DetectionCurrent[i, 2],
+                        DetectionCurrent[i, 3],
+                        DetectionCurrent[i, 4],
+                        DetectionCurrent[i, 5],
+                        DetectionCurrent[i, 6],
+                        DetectionCurrent[i, 7],
+                        DetectionCurrent[i, 8],
+                        DetectionCurrent[i, 9],
+                        Min,
+                        Max));
+                });
                 OnPropertyChanged(nameof(DetectionHistoryEntries));
             }
         }
@@ -821,20 +836,23 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine
             DetectionHistoryEntries = new ObservableCollection<DetectionEntryViewModel>();
             for (int i = 0; i < 10; i++)
             {
-                DetectionHistoryEntries.Add(new DetectionEntryViewModel
-                    ($"Row {10 - i}",
-                    DetectionHistory5[i, 0],
-                    DetectionHistory5[i, 1],
-                    DetectionHistory5[i, 2],
-                    DetectionHistory5[i, 3],
-                    DetectionHistory5[i, 4],
-                    DetectionHistory5[i, 5],
-                    DetectionHistory5[i, 6],
-                    DetectionHistory5[i, 7],
-                    DetectionHistory5[i, 8],
-                    DetectionHistory5[i, 9],
-                    Min,
-                    Max));
+                System.Windows.Application.Current.Dispatcher.Invoke((Action)delegate
+                {
+                    DetectionEntries.Add(new DetectionEntryViewModel
+                        ($"Row {10 - i}",
+                        DetectionCurrent[i, 0],
+                        DetectionCurrent[i, 1],
+                        DetectionCurrent[i, 2],
+                        DetectionCurrent[i, 3],
+                        DetectionCurrent[i, 4],
+                        DetectionCurrent[i, 5],
+                        DetectionCurrent[i, 6],
+                        DetectionCurrent[i, 7],
+                        DetectionCurrent[i, 8],
+                        DetectionCurrent[i, 9],
+                        Min,
+                        Max));
+                });
                 OnPropertyChanged(nameof(DetectionHistoryEntries));
             }
         }

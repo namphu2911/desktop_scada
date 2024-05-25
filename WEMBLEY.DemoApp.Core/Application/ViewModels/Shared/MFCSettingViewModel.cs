@@ -56,7 +56,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Shared
         public ICommand LoadMFCSettingViewCommand { get; set; }
         public ICommand UpdateMFCCommand { get; set; }
         public ICommand LoadApiCommand { get; set; }
-        public string HomeRefId => _homeDataStore.HomeDatas.First(i => i.Line.LineId == _deviceSelectedStore.LineId).ReferenceId;
+        public string HomeRefId => _homeDataStore.LineReferences.First(i => i.LineId == _deviceSelectedStore.LineId).ReferenceId;
         //
 
         public event Action? UpdateMFCApi;
@@ -129,8 +129,6 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Shared
                 }
             }
             else { }
-
-
         }
     }
 }

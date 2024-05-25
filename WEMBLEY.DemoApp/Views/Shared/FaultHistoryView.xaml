@@ -112,10 +112,10 @@
                           SelectionUnit="FullRow"
                           SelectionMode="Single">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Thời gian" Binding="{Binding Timestamp, StringFormat=dd/MM/yyyy HH:mm:ss}" Width="auto"/>
-                        <DataGridTextColumn Header="Ca" Binding="{Binding ShiftNumber}" Width="auto"/>
-                        <DataGridTextColumn Header="Mã lỗi" Binding="{Binding ErrorId}" Width="auto"/>
-                        <DataGridTextColumn Header="Tên lỗi" Binding="{Binding ErrorName}" Width="auto"/>
+                        <DataGridTextColumn Header="Thời gian" Binding="{Binding Timestamp, StringFormat=dd/MM/yyyy HH:mm:ss}" Width="*"/>
+                        <DataGridTextColumn Header="Ca" Binding="{Binding ShiftNumber}" Width="*"/>
+                        <DataGridTextColumn Header="Mã lỗi" Binding="{Binding ErrorId}" Width="*"/>
+                        <DataGridTextColumn Header="Tên lỗi" Binding="{Binding ErrorName}" Width="*"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </materialDesign:Card>

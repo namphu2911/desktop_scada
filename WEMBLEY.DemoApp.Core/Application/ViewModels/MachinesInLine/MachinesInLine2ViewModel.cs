@@ -125,17 +125,19 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.MachinesInLine
 
             if (tag != null)
             {
-                switch (tag.TagId)
+                if (tag.StationId == "IE-F3-BLO06")
                 {
-                    case "machineStatus":
-                        {
-                            Status = (EMachineStatus)Convert.ToInt32(tag.TagValue);
-                            break;
-                        }
-                    default: break;
+                    switch (tag.TagId)
+                    {
+                        case "machineStatus":
+                            {
+                                Status = (EMachineStatus)Convert.ToInt32(tag.TagValue);
+                                break;
+                            }
+                        default: break;
+                    }
                 }
             }
-
         }
     }
 }

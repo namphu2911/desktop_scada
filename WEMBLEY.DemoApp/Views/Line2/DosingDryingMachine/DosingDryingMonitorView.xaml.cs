@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
+using WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine;
+using WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine;
 
 namespace WEMBLEY.DemoApp.Views.Line2.DosingDryingMachine
 {
@@ -23,6 +26,16 @@ namespace WEMBLEY.DemoApp.Views.Line2.DosingDryingMachine
         public DosingDryingMonitorView()
         {
             InitializeComponent();
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            var viewModel = (DosingDryingMonitorViewModel)DataContext;
+            viewModel.ChartUpdated += ViewModel_ChartUpdated;
+        }
+        private void ViewModel_ChartUpdated()
+        {
+            Dispatcher.BeginInvoke(() => chart.Update(false, true), DispatcherPriority.Render);
         }
     }
 }

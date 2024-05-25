@@ -25,7 +25,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
         public List<TagChangedNotification> AllTags { get; set; } = new();
         public List<bool> IsMFCAlarm { get; set; } = new();
         public ICommand LoadMFCMonitorViewCommand { get; set; }
-        public string HomeRefId => _homeDataStore.HomeDatas.First(i => i.Line.LineId == "HerapinCap").ReferenceId;
+        public string HomeRefId => _homeDataStore.LineReferences.First(i => i.LineId == "HerapinCap").ReferenceId;
 
         public MFCMonitorViewModel(ISignalRClient signalRClient, IApiService apiService, HomeDataStore homeDataStore)
         {

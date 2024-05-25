@@ -434,7 +434,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
                         case "BOTTOM_CAP_REJ_TR1": TR1.BOTTOMCAP = Convert.ToInt64(tag.TagValue); RejectionChanged(); break;
                         case "BOTTOM_CAP_REJ_TR2": TR2.BOTTOMCAP = Convert.ToInt64(tag.TagValue); RejectionChanged(); break;
                         case "BOTTOM_CAP_REJ_TR3": TR3.BOTTOMCAP = Convert.ToInt64(tag.TagValue); RejectionChanged(); break;
-                        case "BOTTOM_CAP_REJ_TR4": TR4.BOTTOMCAP = Convert.ToInt64(tag.TagValue); RejectionChanged(); break;
+                        case "BOTTOM_CAL_REJ_TR4": TR4.BOTTOMCAP = Convert.ToInt64(tag.TagValue); RejectionChanged(); break;
 
                         case "SILICON_PRESENCE_REJ_TR1": TR1.SILICONPRESENCE = Convert.ToInt64(tag.TagValue); RejectionChanged(); break;
                         case "SILICON_PRESENCE_REJ_TR2": TR2.SILICONPRESENCE = Convert.ToInt64(tag.TagValue); RejectionChanged(); break;

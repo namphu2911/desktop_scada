@@ -33,8 +33,8 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels
             _databaseSynchronizationService = databaseSynchronizationService;
             NavigationService = navigationService;
             _signalRClient = signalRClient;
-            //LoadMainWindowCommand = new RelayCommand(NavigationService.NavigateTo<HomeNavigationViewModel>);
-            LoadMainWindowCommand = new RelayCommand(NavigationService.NavigateTo<LoginViewModel>);
+            LoadMainWindowCommand = new RelayCommand(NavigationService.NavigateTo<HomeNavigationViewModel>);
+            //LoadMainWindowCommand = new RelayCommand(NavigationService.NavigateTo<LoginViewModel>);
             RunSignalRCommand = new RelayCommand(InitialRunning);
             StopperMachine = stopperMachine;
         }

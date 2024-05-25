@@ -25,11 +25,11 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine
         public ObservableCollection<ComparedMFC> OthersEntries { get; set; } = new();
 
         public List<MFCDto> MFCDtos { get; set; } = new();
-        public List<RealMFC> RealMFCValues { get; set; } = new();
+        public List<RealMFC> RealMFCValues { get; set; } = new(54);
         public List<TagChangedNotification> AllTags { get; set; } = new();
         public List<bool> IsMFCAlarm { get; set; } = new();
         public ICommand LoadMFCMonitorViewCommand { get; set; }
-        public string HomeRefId => _homeDataStore.HomeDatas.First(i => i.Line.LineId == "NonVacuumBloodTube").ReferenceId;
+        public string HomeRefId => _homeDataStore.LineReferences.First(i => i.LineId == "NonVacuumBloodTube").ReferenceId;
 
         public DosingDryingParameterMonitorViewModel(ISignalRClient signalRClient, IApiService apiService, HomeDataStore homeDataStore)
         {

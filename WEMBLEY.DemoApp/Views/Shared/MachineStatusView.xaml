@@ -113,6 +113,15 @@
                         <DataGridTextColumn Header="Trạng thái" Binding="{Binding Status}" Width="*">
                             <DataGridTextColumn.CellStyle>
                                 <Style TargetType="{x:Type DataGridCell}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                                <Grid Background="{TemplateBinding Background}">
+                                                    <ContentPresenter VerticalAlignment="Center" />
+                                                </Grid>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding Status}" Value="Run">
                                             <Setter Property="Background" Value="{StaticResource ColorPrimaryGreen}"></Setter>

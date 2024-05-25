@@ -22,7 +22,7 @@
         d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
         Background="{StaticResource ColorBackground}"
         WindowStartupLocation="CenterScreen"
-        Title="Demo App" Height="800" Width="1300"
+        Title="WEMBLEY.DemoApp" Height="800" Width="1300"
         WindowState="Maximized">
 
     <i:Interaction.Triggers>

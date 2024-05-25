@@ -117,16 +117,18 @@ public class MachinesInLine1ViewModel : BaseViewModel
 
         if(tag != null)
         {
-            switch (tag.TagId)
+            if (tag.StationId == "IE-F2-HCA01")
             {
-                case "machineStatus":
-                    {
-                        Status = (EMachineStatus)Convert.ToInt32(tag.TagValue);
-                        break;
-                    }
-                default: break;
+                switch (tag.TagId)
+                {
+                    case "machineStatus":
+                        {
+                            Status = (EMachineStatus)Convert.ToInt32(tag.TagValue);
+                            break;
+                        }
+                    default: break;
+                }
             }
         }
-        
     }
 }

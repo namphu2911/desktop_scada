@@ -14,7 +14,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="1260"
              Background="{StaticResource ColorBackground}"
-             Padding="10">
+             Padding="10" Loaded="UserControl_Loaded">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <prism:InvokeCommandAction Command="{Binding LoadDosingDryingMonitorViewCommand}"/>
@@ -844,6 +844,15 @@
                                             <DataGridTextColumn Header="A" Binding="{Binding A}" Width="*">
                                                 <DataGridTextColumn.CellStyle>
                                                     <Style TargetType="{x:Type DataGridCell}">
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                                                    <Grid Background="{TemplateBinding Background}">
+                                                                        <ContentPresenter VerticalAlignment="Center" />
+                                                                    </Grid>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding IsAlarmedA}" Value="False">
                                                                 <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
@@ -860,6 +869,15 @@
                                             <DataGridTextColumn Header="B" Binding="{Binding B}" Width="*">
                                                 <DataGridTextColumn.CellStyle>
                                                     <Style TargetType="{x:Type DataGridCell}">
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                                                    <Grid Background="{TemplateBinding Background}">
+                                                                        <ContentPresenter VerticalAlignment="Center" />
+                                                                    </Grid>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding IsAlarmedB}" Value="False">
                                                                 <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
@@ -876,6 +894,15 @@
                                             <DataGridTextColumn Header="C" Binding="{Binding C}" Width="*">
                                                 <DataGridTextColumn.CellStyle>
                                                     <Style TargetType="{x:Type DataGridCell}">
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                                                    <Grid Background="{TemplateBinding Background}">
+                                                                        <ContentPresenter VerticalAlignment="Center" />
+                                                                    </Grid>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding IsAlarmedC}" Value="False">
                                                                 <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
@@ -892,6 +919,15 @@
                                             <DataGridTextColumn Header="D" Binding="{Binding D}" Width="*">
                                                 <DataGridTextColumn.CellStyle>
                                                     <Style TargetType="{x:Type DataGridCell}">
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                                                    <Grid Background="{TemplateBinding Background}">
+                                                                        <ContentPresenter VerticalAlignment="Center" />
+                                                                    </Grid>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding IsAlarmedD}" Value="False">
                                                                 <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
@@ -908,6 +944,15 @@
                                             <DataGridTextColumn Header="E" Binding="{Binding E}" Width="*">
                                                 <DataGridTextColumn.CellStyle>
                                                     <Style TargetType="{x:Type DataGridCell}">
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                                                    <Grid Background="{TemplateBinding Background}">
+                                                                        <ContentPresenter VerticalAlignment="Center" />
+                                                                    </Grid>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding IsAlarmedE}" Value="False">
                                                                 <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
@@ -924,6 +969,15 @@
                                             <DataGridTextColumn Header="F" Binding="{Binding F}" Width="*">
                                                 <DataGridTextColumn.CellStyle>
                                                     <Style TargetType="{x:Type DataGridCell}">
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                                                    <Grid Background="{TemplateBinding Background}">
+                                                                        <ContentPresenter VerticalAlignment="Center" />
+                                                                    </Grid>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding IsAlarmedF}" Value="False">
                                                                 <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
@@ -940,6 +994,15 @@
                                             <DataGridTextColumn Header="G" Binding="{Binding G}" Width="*">
                                                 <DataGridTextColumn.CellStyle>
                                                     <Style TargetType="{x:Type DataGridCell}">
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                                                    <Grid Background="{TemplateBinding Background}">
+                                                                        <ContentPresenter VerticalAlignment="Center" />
+                                                                    </Grid>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding IsAlarmedG}" Value="False">
                                                                 <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
@@ -956,6 +1019,15 @@
                                             <DataGridTextColumn Header="H" Binding="{Binding H}" Width="*">
                                                 <DataGridTextColumn.CellStyle>
                                                     <Style TargetType="{x:Type DataGridCell}">
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                                                    <Grid Background="{TemplateBinding Background}">
+                                                                        <ContentPresenter VerticalAlignment="Center" />
+                                                                    </Grid>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding IsAlarmedH}" Value="False">
                                                                 <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
@@ -972,6 +1044,15 @@
                                             <DataGridTextColumn Header="J" Binding="{Binding J}" Width="*">
                                                 <DataGridTextColumn.CellStyle>
                                                     <Style TargetType="{x:Type DataGridCell}">
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                                                    <Grid Background="{TemplateBinding Background}">
+                                                                        <ContentPresenter VerticalAlignment="Center" />
+                                                                    </Grid>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding IsAlarmedJ}" Value="False">
                                                                 <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
@@ -988,6 +1069,15 @@
                                             <DataGridTextColumn Header="K" Binding="{Binding K}" Width="*">
                                                 <DataGridTextColumn.CellStyle>
                                                     <Style TargetType="{x:Type DataGridCell}">
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                                                    <Grid Background="{TemplateBinding Background}">
+                                                                        <ContentPresenter VerticalAlignment="Center" />
+                                                                    </Grid>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding IsAlarmedK}" Value="False">
                                                                 <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
@@ -1139,6 +1229,15 @@
                                             <DataGridTextColumn Header="A" Binding="{Binding A}" Width="*">
                                                 <DataGridTextColumn.CellStyle>
                                                     <Style TargetType="{x:Type DataGridCell}">
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                                                    <Grid Background="{TemplateBinding Background}">
+                                                                        <ContentPresenter VerticalAlignment="Center" />
+                                                                    </Grid>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding IsAlarmedA}" Value="False">
                                                                 <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
@@ -1155,6 +1254,15 @@
                                             <DataGridTextColumn Header="B" Binding="{Binding B}" Width="*">
                                                 <DataGridTextColumn.CellStyle>
                                                     <Style TargetType="{x:Type DataGridCell}">
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                                                    <Grid Background="{TemplateBinding Background}">
+                                                                        <ContentPresenter VerticalAlignment="Center" />
+                                                                    </Grid>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding IsAlarmedB}" Value="False">
                                                                 <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
@@ -1171,6 +1279,15 @@
                                             <DataGridTextColumn Header="C" Binding="{Binding C}" Width="*">
                                                 <DataGridTextColumn.CellStyle>
                                                     <Style TargetType="{x:Type DataGridCell}">
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                                                    <Grid Background="{TemplateBinding Background}">
+                                                                        <ContentPresenter VerticalAlignment="Center" />
+                                                                    </Grid>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding IsAlarmedC}" Value="False">
                                                                 <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
@@ -1187,6 +1304,15 @@
                                             <DataGridTextColumn Header="D" Binding="{Binding D}" Width="*">
                                                 <DataGridTextColumn.CellStyle>
                                                     <Style TargetType="{x:Type DataGridCell}">
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                                                    <Grid Background="{TemplateBinding Background}">
+                                                                        <ContentPresenter VerticalAlignment="Center" />
+                                                                    </Grid>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding IsAlarmedD}" Value="False">
                                                                 <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
@@ -1203,6 +1329,15 @@
                                             <DataGridTextColumn Header="E" Binding="{Binding E}" Width="*">
                                                 <DataGridTextColumn.CellStyle>
                                                     <Style TargetType="{x:Type DataGridCell}">
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                                                    <Grid Background="{TemplateBinding Background}">
+                                                                        <ContentPresenter VerticalAlignment="Center" />
+                                                                    </Grid>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding IsAlarmedE}" Value="False">
                                                                 <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
@@ -1219,6 +1354,15 @@
                                             <DataGridTextColumn Header="F" Binding="{Binding F}" Width="*">
                                                 <DataGridTextColumn.CellStyle>
                                                     <Style TargetType="{x:Type DataGridCell}">
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                                                    <Grid Background="{TemplateBinding Background}">
+                                                                        <ContentPresenter VerticalAlignment="Center" />
+                                                                    </Grid>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding IsAlarmedF}" Value="False">
                                                                 <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
@@ -1235,6 +1379,15 @@
                                             <DataGridTextColumn Header="G" Binding="{Binding G}" Width="*">
                                                 <DataGridTextColumn.CellStyle>
                                                     <Style TargetType="{x:Type DataGridCell}">
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                                                    <Grid Background="{TemplateBinding Background}">
+                                                                        <ContentPresenter VerticalAlignment="Center" />
+                                                                    </Grid>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding IsAlarmedG}" Value="False">
                                                                 <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
@@ -1251,6 +1404,15 @@
                                             <DataGridTextColumn Header="H" Binding="{Binding H}" Width="*">
                                                 <DataGridTextColumn.CellStyle>
                                                     <Style TargetType="{x:Type DataGridCell}">
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                                                    <Grid Background="{TemplateBinding Background}">
+                                                                        <ContentPresenter VerticalAlignment="Center" />
+                                                                    </Grid>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding IsAlarmedH}" Value="False">
                                                                 <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
@@ -1267,6 +1429,15 @@
                                             <DataGridTextColumn Header="J" Binding="{Binding J}" Width="*">
                                                 <DataGridTextColumn.CellStyle>
                                                     <Style TargetType="{x:Type DataGridCell}">
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                                                    <Grid Background="{TemplateBinding Background}">
+                                                                        <ContentPresenter VerticalAlignment="Center" />
+                                                                    </Grid>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding IsAlarmedJ}" Value="False">
                                                                 <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>
@@ -1283,6 +1454,15 @@
                                             <DataGridTextColumn Header="K" Binding="{Binding K}" Width="*">
                                                 <DataGridTextColumn.CellStyle>
                                                     <Style TargetType="{x:Type DataGridCell}">
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                                                    <Grid Background="{TemplateBinding Background}">
+                                                                        <ContentPresenter VerticalAlignment="Center" />
+                                                                    </Grid>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding IsAlarmedK}" Value="False">
                                                                 <Setter Property="Background" Value="{StaticResource ColorPrimaryRed}"></Setter>

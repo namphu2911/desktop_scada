@@ -20,6 +20,7 @@
                 <ResourceDictionary Source="Resources/Styles/Texts.xaml"/>
                 <ResourceDictionary Source="Resources/Styles/TextBoxes.xaml"/>
                 <ResourceDictionary Source="Resources/Styles/ProgressBars.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/DatagridCell.xaml"/>
                 <materialDesign:CustomColorTheme BaseTheme="Light" PrimaryColor="{StaticResource ColorValuePrimary}" SecondaryColor="Lime" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
