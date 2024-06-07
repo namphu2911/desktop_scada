@@ -29,8 +29,8 @@ namespace WEMBLEY.DemoApp.Core.Application.Store
             var station = dtos.SelectMany(dto => dto.Stations).FirstOrDefault(station => station.StationId == "IE-F3-BLO06");
             if (station != null)
             {
-                FSMin = (long)((station.MFCs.First(mfc => mfc.MFCName == "FS Min").Value));
-                FSMax = (long)((station.MFCs.First(mfc => mfc.MFCName == "FS Max").Value));
+                FSMin = (long)((station.MFCs.First(mfc => mfc.MFCName == "S1_PARA_FS_MIN").Value));
+                FSMax = (long)((station.MFCs.First(mfc => mfc.MFCName == "S1_PARA_FS_MAX").Value));
             }
         }
 

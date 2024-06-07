@@ -1,16 +1,14 @@
-﻿<UserControl x:Class="WEMBLEY.DemoApp.Views.Line2.StopperCappingMachine.StopperCappingMonitorView"
+﻿<UserControl x:Class="WEMBLEY.DemoApp.Views.Line2.NonStopperCappingMachine.NonStopperCappingMonitorView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:WEMBLEY.DemoApp.Views.Line2.StopperCappingMachine"
+             xmlns:local="clr-namespace:WEMBLEY.DemoApp.Views.Line2.NonStopperCappingMachine"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:Components="clr-namespace:WEMBLEY.DemoApp.Resources.Components" 
-             xmlns:vc="clr-namespace:WEMBLEY.DemoApp.ValueConverters" 
-             xmlns:stoppercappingmachine="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.StopperCappingMachine;assembly=WEMBLEY.DemoApp.Core" 
-             d:DataContext="{d:DesignInstance Type=stoppercappingmachine:StopperCappingMonitorViewModel}"
+             xmlns:vc="clr-namespace:WEMBLEY.DemoApp.ValueConverters" xmlns:nonstoppercappingmachine="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.NonStopperCappingMachine;assembly=WEMBLEY.DemoApp.Core" d:DataContext="{d:DesignInstance Type=nonstoppercappingmachine:NonStopperCappingMonitorViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="1260"
              Background="{StaticResource ColorBackground}"
@@ -88,7 +86,7 @@
                             <TextBlock 
                     Grid.Column="0" 
                     Style="{StaticResource LineTitle}"
-                    Text="Line 2: Trạm đóng nắp có nút cao su"/>
+                    Text="Line 2: Trạm đóng nắp không có nút cao su"/>
                         </Grid>
 
                         <materialDesign:Card 
@@ -182,7 +180,7 @@
                                 Margin="0,5,0,5">
                                         <TextBlock 
                                Style="{StaticResource LineLabel20}"
-                               Text="{Binding StopperCappingProductName}" />
+                               Text="{Binding NonStopperCappingProductName}" />
                                     </Border>
                                 </Grid>
 
@@ -209,7 +207,7 @@
                                 Width="auto">
                                         <TextBlock 
                                Style="{StaticResource LineValue}"
-                               Text="{Binding StopperCappingReferenceName}" />
+                               Text="{Binding NonStopperCappingReferenceName}" />
                                     </Border>
 
 
@@ -224,7 +222,7 @@
                                 Width="auto">
                                         <TextBlock 
                                Style="{StaticResource LineValue}"
-                               Text="{Binding StopperCappingLotId}" />
+                               Text="{Binding NonStopperCappingLotId}" />
                                     </Border>
 
                                     <TextBlock 
@@ -238,7 +236,7 @@
                                 Width="auto">
                                         <TextBlock 
                                Style="{StaticResource LineValue}"
-                               Text="{Binding StopperCappingLotSize}" />
+                               Text="{Binding NonStopperCappingLotSize}" />
                                     </Border>
                                 </Grid>
 
@@ -378,7 +376,7 @@
        Text="{Binding StyrofoamTrayQuantity}" />
                                 </Border>
                             </Grid>
-                            
+
                             <Grid Grid.Row="5">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
@@ -443,6 +441,9 @@ Margin="0,3,3,3">
                                 <RowDefinition Height="auto"/>
                                 <RowDefinition Height="auto"/>
                                 <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
 
                             <Grid Grid.Row="0">
@@ -501,9 +502,60 @@ Margin="0,3,3,3">
                                     </TextBlock>
                                 </Border>
                             </Grid>
+
+                            <Grid Grid.Row="4">
+                                <Border 
+Grid.Column="1" 
+BorderThickness="1" 
+BorderBrush="Black" 
+Background="{Binding ColorLiftMotor}"
+CornerRadius="15,15,15,15" 
+Width="230"
+Margin="0,3,3,3">
+                                    <TextBlock
+    Style="{StaticResource VisionStateLabel}">
+    <Run Text="Lift motor: "/>
+    <Run Text="{Binding LiftMotorEnable, Converter={vc:EnumToStringConverter}}"/>
+                                    </TextBlock>
+                                </Border>
+                            </Grid>
+
+                            <Grid Grid.Row="5">
+                                <Border 
+Grid.Column="1" 
+BorderThickness="1" 
+BorderBrush="Black" 
+Background="{Binding ColorPushTray}"
+CornerRadius="15,15,15,15" 
+Width="230"
+Margin="0,3,3,3">
+                                    <TextBlock
+    Style="{StaticResource VisionStateLabel}">
+    <Run Text="Push tray: "/>
+    <Run Text="{Binding PushTrayEnable, Converter={vc:EnumToStringConverter}}"/>
+                                    </TextBlock>
+                                </Border>
+                            </Grid>
+
+                            <Grid Grid.Row="6">
+                                <Border 
+Grid.Column="1" 
+BorderThickness="1" 
+BorderBrush="Black" 
+Background="{Binding ColorVision}"
+CornerRadius="15,15,15,15" 
+Width="230"
+Margin="0,3,3,3">
+                                    <TextBlock
+    Style="{StaticResource VisionStateLabel}">
+    <Run Text="Vision: "/>
+    <Run Text="{Binding VisionEnable, Converter={vc:EnumToStringConverter}}"/>
+                                    </TextBlock>
+                                </Border>
+                            </Grid>
                         </Grid>
                     </materialDesign:Card>
-                    
+
                     <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="2*"/>

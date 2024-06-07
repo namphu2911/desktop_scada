@@ -7,6 +7,7 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
     public class AuthenticationService : IAuthenticationService
     {
         public event EventHandler<string>? UserLoggedIn;
+        public event Action? LoggedInError;
 
         public async Task<string> LoginAsync(IBrowser browser)
         {

@@ -57,7 +57,7 @@
                     Margin="10"
                     Height="190"
                     Style="{StaticResource ButtonMachine}" 
-                    Background="{Binding ColorBack}"
+                    Background="{Binding ColorBackDosing}"
                     materialDesign:ButtonAssist.CornerRadius="10">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
@@ -72,7 +72,7 @@
                          Margin="10"
                          Height="190"
                          Style="{StaticResource ButtonMachine}" 
-                         Background="{Binding ColorBack}"
+                         Background="{Binding ColorBackStopper}"
                          materialDesign:ButtonAssist.CornerRadius="10">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
@@ -87,11 +87,11 @@
                          Margin="10"
                          Height="190"
                          Style="{StaticResource ButtonMachine}" 
-                         Background="{Binding ColorBack}"
+                         Background="{Binding ColorBackNonStopper}"
                          materialDesign:ButtonAssist.CornerRadius="10">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <prism:InvokeCommandAction Command="{Binding NavigateToDosingDryingMachineViewCommand}" />
+                                <prism:InvokeCommandAction Command="{Binding NavigateToNonStopperCappingViewCommand}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                         <TextBlock TextAlignment="Center" 

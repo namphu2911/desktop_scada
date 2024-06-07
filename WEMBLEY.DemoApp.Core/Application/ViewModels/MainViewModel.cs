@@ -24,11 +24,10 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels
             }
         }
 
-        public StopperMachineViewModel StopperMachine { get; set; }
         public ICommand LoadMainWindowCommand { get; set; }
         public ICommand RunSignalRCommand { get; set; }
 
-        public MainViewModel(IDatabaseSynchronizationService databaseSynchronizationService, INavigationService navigationService, ISignalRClient signalRClient, StopperMachineViewModel stopperMachine)
+        public MainViewModel(IDatabaseSynchronizationService databaseSynchronizationService, INavigationService navigationService, ISignalRClient signalRClient)
         {
             _databaseSynchronizationService = databaseSynchronizationService;
             NavigationService = navigationService;
@@ -36,7 +35,6 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels
             LoadMainWindowCommand = new RelayCommand(NavigationService.NavigateTo<HomeNavigationViewModel>);
             //LoadMainWindowCommand = new RelayCommand(NavigationService.NavigateTo<LoginViewModel>);
             RunSignalRCommand = new RelayCommand(InitialRunning);
-            StopperMachine = stopperMachine;
         }
 
         private async void InitialRunning()

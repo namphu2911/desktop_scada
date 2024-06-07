@@ -1,4 +1,5 @@
-﻿using WEMBLEY.DemoApp.Core.Domain.Dtos.DeviceReferences;
+﻿using WEMBLEY.DemoApp.Core.Domain.Dtos.ChemicalTray;
+using WEMBLEY.DemoApp.Core.Domain.Dtos.DeviceReferences;
 using WEMBLEY.DemoApp.Core.Domain.Dtos.Employees;
 using WEMBLEY.DemoApp.Core.Domain.Dtos.ErrorInformations;
 using WEMBLEY.DemoApp.Core.Domain.Dtos.Lines;
@@ -50,5 +51,7 @@ namespace WEMBLEY.DemoApp.Core.Domain.Services
         Task<IEnumerable<ShiftReportWithShotDto>> GetShiftReportWithShotByShiftIdAsync(int shiftReportId, int pageIndex, int pageSize);
         Task<IEnumerable<ShiftReportWithShotDto>> GetShiftReportWithShotByDateAsync(DateTime Date, int shiftNumber);
         Task<byte[]> DownloadShiftReportFileAsync(string deviceId, DateTime startDate, DateTime endDate);
+
+        Task<IEnumerable<ChemicalTrayDto>> GetChemicalTrayAsync(DateTime startDate);
     }
 }

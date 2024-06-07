@@ -1136,7 +1136,7 @@
                                             <TextBlock 
                                                 Grid.Column="0" 
                                                 Style="{StaticResource LineLabel20}"
-                                                Text="Page      " />    
+                                                Text="Page      " />
                                         </Grid>
 
                                         <Button Grid.Row="1"
@@ -1148,7 +1148,7 @@
                                             Width="50">
                                             <i:Interaction.Triggers>
                                                 <i:EventTrigger EventName="Click">
-                                                    <i:InvokeCommandAction Command="{Binding LoadHistory1Command}" />
+                                                    <i:InvokeCommandAction Command="{Binding LoadHistory1Command}" CommandParameter="1"/>
                                                 </i:EventTrigger>
                                             </i:Interaction.Triggers>
                                         </Button>
@@ -1162,7 +1162,7 @@
                                             Width="50">
                                             <i:Interaction.Triggers>
                                                 <i:EventTrigger EventName="Click">
-                                                    <i:InvokeCommandAction Command="{Binding LoadHistory2Command}" />
+                                                    <i:InvokeCommandAction Command="{Binding LoadHistory2Command}" CommandParameter="2"/>
                                                 </i:EventTrigger>
                                             </i:Interaction.Triggers>
                                         </Button>
@@ -1176,7 +1176,7 @@
                                             Width="50">
                                             <i:Interaction.Triggers>
                                                 <i:EventTrigger EventName="Click">
-                                                    <i:InvokeCommandAction Command="{Binding LoadHistory3Command}" />
+                                                    <i:InvokeCommandAction Command="{Binding LoadHistory3Command}" CommandParameter="3"/>
                                                 </i:EventTrigger>
                                             </i:Interaction.Triggers>
                                         </Button>
@@ -1190,7 +1190,7 @@
                                             Width="50">
                                             <i:Interaction.Triggers>
                                                 <i:EventTrigger EventName="Click">
-                                                    <i:InvokeCommandAction Command="{Binding LoadHistory4Command}" />
+                                                    <i:InvokeCommandAction Command="{Binding LoadHistory4Command}" CommandParameter="4"/>
                                                 </i:EventTrigger>
                                             </i:Interaction.Triggers>
                                         </Button>
@@ -1204,7 +1204,7 @@
                                             Width="50">
                                             <i:Interaction.Triggers>
                                                 <i:EventTrigger EventName="Click">
-                                                    <i:InvokeCommandAction Command="{Binding LoadHistory5Command}" />
+                                                    <i:InvokeCommandAction Command="{Binding LoadHistory5Command}" CommandParameter="5"/>
                                                 </i:EventTrigger>
                                             </i:Interaction.Triggers>
                                         </Button>
@@ -1481,8 +1481,6 @@
                                 </materialDesign:Card>
                             </Grid>
                         </Grid>
-
-                        
                     </materialDesign:Card>
 
                     <Grid Grid.Row="2">

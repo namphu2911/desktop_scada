@@ -18,7 +18,7 @@
         xmlns:initiation="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Initiation;assembly=WEMBLEY.DemoApp.Core" 
         xmlns:initiation1="clr-namespace:WEMBLEY.DemoApp.Views.Initiation" 
         xmlns:stoppercappingmachine="clr-namespace:WEMBLEY.DemoApp.Views.Line2.StopperCappingMachine" 
-        xmlns:stoppercappingmachine1="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.StopperCappingMachine;assembly=WEMBLEY.DemoApp.Core"
+        xmlns:stoppercappingmachine1="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.StopperCappingMachine;assembly=WEMBLEY.DemoApp.Core" xmlns:nonstoppercappingmachine="clr-namespace:WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.NonStopperCappingMachine;assembly=WEMBLEY.DemoApp.Core" xmlns:nonstoppercappingmachine1="clr-namespace:WEMBLEY.DemoApp.Views.Line2.NonStopperCappingMachine"
         d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
         Background="{StaticResource ColorBackground}"
         WindowStartupLocation="CenterScreen"
@@ -53,6 +53,9 @@
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type stoppercappingmachine1:StopperCappingMachineViewModel}">
                     <stoppercappingmachine:StopperCappingMachineView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type nonstoppercappingmachine:NonStopperCappingMachineViewModel}">
+                    <nonstoppercappingmachine1:NonStopperCappingMachineView/>
                 </DataTemplate>
             </ContentControl.Resources>
         </ContentControl>

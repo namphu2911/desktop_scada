@@ -69,10 +69,6 @@
     <ProjectReference Include="..\WEMBLEY.DemoApp.Core\WEMBLEY.DemoApp.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Line2\NonStopperCappingMachine\" />
-  </ItemGroup>
-
 	<PropertyGroup>
 		<_FunctionsSkipCleanOutput>true</_FunctionsSkipCleanOutput>
 	</PropertyGroup>

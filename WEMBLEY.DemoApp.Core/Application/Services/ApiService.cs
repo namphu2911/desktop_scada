@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using WEMBLEY.DemoApp.Core.Domain.Dtos;
+using WEMBLEY.DemoApp.Core.Domain.Dtos.ChemicalTray;
 using WEMBLEY.DemoApp.Core.Domain.Dtos.DeviceReferences;
 using WEMBLEY.DemoApp.Core.Domain.Dtos.Employees;
 using WEMBLEY.DemoApp.Core.Domain.Dtos.ErrorInformations;
@@ -22,7 +23,7 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
     {
         private readonly HttpClient _httpClient;
 
-        private const string serverUrl = "https://wembleyscada.azurewebsites.net";
+        private const string serverUrl = "https://wembleymedicalscada.azurewebsites.net";
         //private const string serverUrl2 = "https://wembleyscadacloud.azurewebsites.net";
 
         //http://10.0.70.45:81
@@ -530,6 +531,24 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
             response.EnsureSuccessStatusCode();
             var responseBody = await response.Content.ReadAsByteArrayAsync();
             return responseBody;
+        }
+
+        public async Task<IEnumerable<ChemicalTrayDto>> GetChemicalTrayAsync(DateTime startDate)
+        {
+            string startDateString = startDate.ToString("yyyy-MM-dd");
+            HttpResponseMessage response = await _httpClient.GetAsync($"{serverUrl}/api/ChemicalTrays?StartTime={startDateString}&EndTime={startDateString}&PageIndex=1&PageSize=5");
+
+            response.EnsureSuccessStatusCode();
+            string responseBody = await response.Content.ReadAsStringAsync();
+
+            var result = JsonConvert.DeserializeObject<IEnumerable<ChemicalTrayDto>>(responseBody);
+
+            if (result is null)
+            {
+                throw new Exception();
+            }
+
+            return result;
         }
     }
 }

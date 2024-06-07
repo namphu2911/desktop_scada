@@ -305,11 +305,14 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
                 var errorTags = AllTags.Where(i => i.TagId == "errorStatus");
                 foreach (var tag in errorTags)
                 {
-                    Error = $"{tag.TimeStamp:MM/dd/yyyy HH:mm:ss}: {(string)tag.TagValue}";
-                    if (!(Errors.Contains(Error)))
+                    if ((string)tag.TagValue != "Wifi disconnected")
                     {
-                        Errors.Add(Error);
-                        ErrorStrings = new(Errors);
+                        Error = $"{tag.TimeStamp:dd/MM/yyyy HH:mm:ss}: {(string)tag.TagValue}";
+                        if (!(Errors.Contains(Error)))
+                        {
+                            Errors.Add(Error);
+                            ErrorStrings = new(Errors);
+                        }
                     }
                 }
 
@@ -418,9 +421,19 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine
                         case "productCount": AllProductCount = Convert.ToInt64(tag.TagValue); break;
                         case "errorStatus":
                             {
-                                Error = $"{tag.TimeStamp:MM/dd/yyyy HH:mm:ss}: {(string)tag.TagValue}";
-                                Errors.Add(Error);
-                                ErrorStrings = new(Errors);
+                                if ((string)tag.TagValue == "Wifi disconnected")
+                                {
+                                    ShowErrorMessage("Rasberry Wifi disconnected");
+                                }
+                                else
+                                {
+                                    Error = $"{tag.TimeStamp:dd/MM/yyyy HH:mm:ss}: {(string)tag.TagValue}";
+                                    if (!(Errors.Contains(Error)))
+                                    {
+                                        Errors.Add(Error);
+                                        ErrorStrings = new(Errors);
+                                    }
+                                }
                                 break;
                             }
                         case "endErrorStatus":

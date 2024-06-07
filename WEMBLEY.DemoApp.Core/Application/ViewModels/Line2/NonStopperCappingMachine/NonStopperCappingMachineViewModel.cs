@@ -1,18 +1,24 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Home;
+using WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.StopperCappingMachine;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.SeedWork;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Shared.Report;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Shared;
 using WEMBLEY.DemoApp.Core.Domain.Services;
 
-namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.StopperCappingMachine
+namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.NonStopperCappingMachine
 {
-    public class StopperCappingMachineViewModel : BaseViewModel
+    public class NonStopperCappingMachineViewModel : BaseViewModel
     {
-        public StopperCappingMonitorViewModel StopperCappingMonitor { get; set; }
+        public NonStopperCappingMonitorViewModel NonStopperCappingMonitor { get; set; }
         public FaultHistoryViewModel FaultHistory { get; set; }
-        public StopperCappingParameterViewModel StopperCappingParameter { get; set; }
+        public NonStopperCappingParameterViewModel NonStopperCappingParameter { get; set; }
         public MFCSettingViewModel MFCSetting { get; set; }
         public int SeletedTabIndex { get; set; }
         public ReportLongTimeViewModel ReportLongTime { get; set; }
@@ -33,15 +39,15 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.StopperCappingMachin
         //
         //
         //
-        
-        public StopperCappingMachineViewModel(INavigationService navigationService, StopperCappingMonitorViewModel stopperCappingMonitor, FaultHistoryViewModel faultHistory, StopperCappingParameterViewModel stopperCappingParameter, MFCSettingViewModel mFCSetting, ReportLongTimeViewModel reportLongTime, ReportForShiftViewModel reportForShift, MachineStatusViewModel machineStatus)
+
+        public NonStopperCappingMachineViewModel(INavigationService navigationService, NonStopperCappingMonitorViewModel nonStopperCappingMonitor, FaultHistoryViewModel faultHistory, NonStopperCappingParameterViewModel nonStopperCappingParameter, MFCSettingViewModel mFCSetting, ReportLongTimeViewModel reportLongTime, ReportForShiftViewModel reportForShift, MachineStatusViewModel machineStatus)
         {
             NavigationService = navigationService;
             NavigateBackToHomeViewCommand = new RelayCommand(NavigationService.NavigateTo<HomeNavigationViewModel>);
 
-            StopperCappingMonitor = stopperCappingMonitor;
+            NonStopperCappingMonitor = nonStopperCappingMonitor;
             FaultHistory = faultHistory;
-            StopperCappingParameter = stopperCappingParameter;
+            NonStopperCappingParameter = nonStopperCappingParameter;
             MFCSetting = mFCSetting;
             ReportLongTime = reportLongTime;
             ReportForShift = reportForShift;

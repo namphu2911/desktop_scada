@@ -36,7 +36,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Shared.Report
         public ICommand ReportForShiftViewCommand { get; set; }
         //
         
-        private int interval = 50;
+        private int interval = 5;
         public int Interval
         {
             get
@@ -55,7 +55,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Shared.Report
         {
             _apiService = apiService;
             _idTransferStore = idTransferStore;
-            Intervals = new ObservableCollection<int>() {5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200};
+            Intervals = new ObservableCollection<int>() {1, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200};
             ReportForShiftViewCommand = new RelayCommand(ReportForShiftView);
 
             SeriesCollection = new SeriesCollection()
@@ -76,7 +76,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Shared.Report
         }
         private void ReportForShiftView()
         {
-            Interval = 30;
+            Interval = 5;
             OnPropertyChanged(nameof(Id));
             OnPropertyChanged(nameof(IsSeleted));
             OnPropertyChanged(nameof(OEERowVis));

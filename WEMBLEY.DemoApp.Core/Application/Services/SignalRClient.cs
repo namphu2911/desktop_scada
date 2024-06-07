@@ -17,7 +17,7 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
         public SignalRClient()
         {
             connection = new HubConnectionBuilder()
-                .WithUrl("https://wembleyscada.azurewebsites.net/NotificationHub")
+                .WithUrl("https://wembleymedicalscada.azurewebsites.net/NotificationHub")
                 .WithAutomaticReconnect()
                 .Build();
         }
@@ -27,7 +27,9 @@ namespace WEMBLEY.DemoApp.Core.Application.Services
             await connection.StartAsync();
             var a = connection.State;
             await connection.InvokeAsync("UpdateTopics", new List<string>() { "WembleyMedical/HCM/IE-F2-HCA01/Desktop",
-                                                                              "WembleyMedical/BTM/IE-F3-BLO06/Desktop"});
+                                                                              "WembleyMedical/BTM/IE-F3-BLO06/Desktop",
+                                                                              "WembleyMedical/BTM/IE-F3-BLO01/Desktop",
+                                                                              "WembleyMedical/BTM/IE-F3-BLO02/Desktop"});
         }
 
         public async Task<List<TagChangedNotification>> GetBufferList()

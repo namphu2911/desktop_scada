@@ -10,6 +10,7 @@ using WEMBLEY.DemoApp.Core.Application.ViewModels.Home;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Initiation;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Line1.StopperMachine;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine;
+using WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.NonStopperCappingMachine;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.StopperCappingMachine;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.MachinesInLine;
 using WEMBLEY.DemoApp.Core.Application.ViewModels.Shared;
@@ -55,6 +56,10 @@ namespace WEMBLEY.DemoApp.HostBuiders
                 services.AddTransient<StopperCappingMachineViewModel>();
                 services.AddTransient<StopperCappingMonitorViewModel>();
                 services.AddTransient<StopperCappingParameterViewModel>();
+
+                services.AddTransient<NonStopperCappingMachineViewModel>();
+                services.AddTransient<NonStopperCappingMonitorViewModel>();
+                services.AddTransient<NonStopperCappingParameterViewModel>();
                 //
 
                 services.AddTransient<MainViewModel>();

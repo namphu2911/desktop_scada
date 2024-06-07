@@ -275,15 +275,10 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine
         //
 
         public string currentPattern = @"S1_FS_CURRENT_(\d+)_(\d+)";
-        public string historyPattern = @"S1_FS_HISTORY_(\d+)_(\d+)_(\d+)";
 
         public long[,] DetectionCurrent { get; set; } = new long[10, 10];
-        public long[,] DetectionHistory1 { get; set; } = new long[10, 10];
-        public long[,] DetectionHistory2 { get; set; } = new long[10, 10];
-        public long[,] DetectionHistory3 { get; set; } = new long[10, 10];
-        public long[,] DetectionHistory4 { get; set; } = new long[10, 10];
-        public long[,] DetectionHistory5 { get; set; } = new long[10, 10];
-
+        //
+        public int[,] HistoryTray { get; set; } = new int[10, 10];
         //
         public ICommand LoadDosingDryingMonitorViewCommand { get; set; }
         public ICommand LoadApiOEECommand { get; set; }
@@ -328,11 +323,11 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine
             LoadDetectionCurrentCommand = new RelayCommand(LoadDetectionCurrent);
             LoadDetectionHistoryCommand = new RelayCommand(LoadDetectionHistory);
 
-            LoadHistory1Command = new RelayCommand(LoadHistory1);
-            LoadHistory2Command = new RelayCommand(LoadHistory2);
-            LoadHistory3Command = new RelayCommand(LoadHistory3);
-            LoadHistory4Command = new RelayCommand(LoadHistory4);
-            LoadHistory5Command = new RelayCommand(LoadHistory5);
+            LoadHistory1Command = new RelayCommand<object>((page) => LoadHistoryTraysAsync(page!));
+            LoadHistory2Command = new RelayCommand<object>((page) => LoadHistoryTraysAsync(page!));
+            LoadHistory3Command = new RelayCommand<object>((page) => LoadHistoryTraysAsync(page!));
+            LoadHistory4Command = new RelayCommand<object>((page) => LoadHistoryTraysAsync(page!));
+            LoadHistory5Command = new RelayCommand<object>((page) => LoadHistoryTraysAsync(page!));
 
 
             signalRClient.OnTagChanged += OnTagChanged;
@@ -353,8 +348,6 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine
             DateTimeFormatter = value => new DateTime((long)value).ToString("hh:mm:ss");
             ValueFormatter = value => value.ToString("0.00");
         }
-
-        
 
         private void LoadMainMonitor()
         {
@@ -388,6 +381,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine
             DetectionVis = Visibility.Visible;
             DetectionCurrentVis = Visibility.Collapsed;
             DetectionHistoryVis = Visibility.Visible;
+            LoadHistoryTraysAsync(1);
         }
 
         private async void LoadDosingDryingMonitorView()
@@ -429,11 +423,6 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine
                     for (int j = 0; j < 10; j++)
                     {
                         DetectionCurrent[i, j] = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F3-BLO06", $"S1_FS_CURRENT_{i}_{j}"));
-                        DetectionHistory1[i, j] = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F3-BLO06", $"S1_FS_HISTORY_1_{i}_{j}"));
-                        DetectionHistory2[i, j] = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F3-BLO06", $"S1_FS_HISTORY_2_{i}_{j}"));
-                        DetectionHistory3[i, j] = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F3-BLO06", $"S1_FS_HISTORY_3_{i}_{j}"));
-                        DetectionHistory4[i, j] = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F3-BLO06", $"S1_FS_HISTORY_4_{i}_{j}"));
-                        DetectionHistory5[i, j] = Convert.ToInt64(await _signalRClient.GetBufferValue("IE-F3-BLO06", $"S1_FS_HISTORY_5_{i}_{j}"));
                     }
                 }
 
@@ -503,7 +492,7 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine
                 }
 
                 LoadApiOEE();
-                var errorTags = AllTags.Where(i => i.TagId == "errorStatus");
+                var errorTags = AllTags.Where(i => i.TagId == "errorStatus" && i.StationId == "IE-F3-BLO06");
                 foreach (var tag in errorTags)
                 {
                     Error = $"{tag.TimeStamp:MM/dd/yyyy HH:mm:ss}: {(string)tag.TagValue}";
@@ -513,7 +502,6 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine
                         ErrorStrings = new(Errors);
                     }
                 }
-
                 OEEChanged();
             }
         }
@@ -633,8 +621,6 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine
                                 ErrorStrings = new(Errors);
                                 break;
                             }
-
-                        //
                         default:
                             {
                                 if (tag.TagId.StartsWith("S1_FS_CURRENT_"))
@@ -648,41 +634,6 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine
 
                                         DetectionCurrent[row, col] = Convert.ToInt64(tag.TagValue);
                                         DetectionChanged();
-                                    }
-                                }
-                                else if (tag.TagId.StartsWith("S1_FS_HISTORY_"))
-                                {
-                                    Match match = Regex.Match(tag.TagId, historyPattern);
-
-                                    if (match.Success)
-                                    {
-                                        int historyIndex = int.Parse(match.Groups[1].Value);
-                                        int row = int.Parse(match.Groups[2].Value);
-                                        int col = int.Parse(match.Groups[3].Value);
-
-                                        switch (historyIndex)
-                                        {
-                                            case 1:
-                                                DetectionHistory1[row, col] = Convert.ToInt64(tag.TagValue);
-                                                LoadHistory1();
-                                                break;
-                                            case 2:
-                                                DetectionHistory2[row, col] = Convert.ToInt64(tag.TagValue);
-                                                LoadHistory2();
-                                                break;
-                                            case 3:
-                                                DetectionHistory3[row, col] = Convert.ToInt64(tag.TagValue);
-                                                LoadHistory3();
-                                                break;
-                                            case 4:
-                                                DetectionHistory4[row, col] = Convert.ToInt64(tag.TagValue);
-                                                LoadHistory4();
-                                                break;
-                                            case 5:
-                                                DetectionHistory5[row, col] = Convert.ToInt64(tag.TagValue);
-                                                LoadHistory5();
-                                                break;
-                                        }
                                     }
                                 }
                                 break;
@@ -727,135 +678,42 @@ namespace WEMBLEY.DemoApp.Core.Application.ViewModels.Line2.DosingDryingMachine
             OnPropertyChanged(nameof(DetectionEntries));
         }
 
-        private void LoadHistory1()
+        private async void LoadHistoryTraysAsync(object page)
         {
-            DetectionHistoryEntries = new ObservableCollection<DetectionEntryViewModel>();
-            for (int i = 0; i < 10; i++)
+            try
             {
-                System.Windows.Application.Current.Dispatcher.Invoke((Action)delegate
+                var pageNumber = Convert.ToInt32(page);
+                var dtos = (await _apiService.GetChemicalTrayAsync(DateTime.Today.Date)).ToList();
+                var firstTray = dtos[pageNumber - 1];
+                foreach(var cell in firstTray.Cells)
                 {
-                    DetectionEntries.Add(new DetectionEntryViewModel
-                        ($"Row {10 - i}",
-                        DetectionCurrent[i, 0],
-                        DetectionCurrent[i, 1],
-                        DetectionCurrent[i, 2],
-                        DetectionCurrent[i, 3],
-                        DetectionCurrent[i, 4],
-                        DetectionCurrent[i, 5],
-                        DetectionCurrent[i, 6],
-                        DetectionCurrent[i, 7],
-                        DetectionCurrent[i, 8],
-                        DetectionCurrent[i, 9],
-                        Min,
-                        Max));
-                });
-            }
-            OnPropertyChanged(nameof(DetectionHistoryEntries));
-        }
+                    HistoryTray[cell.Row, cell.Column] = cell.Value;
+                }
 
-        private void LoadHistory2()
-        {
-            DetectionHistoryEntries = new ObservableCollection<DetectionEntryViewModel>();
-            for (int i = 0; i < 10; i++)
-            {
-                System.Windows.Application.Current.Dispatcher.Invoke((Action)delegate
+                DetectionHistoryEntries = new ObservableCollection<DetectionEntryViewModel>();
+                for (int i = 0; i < 10; i++)
                 {
-                    DetectionEntries.Add(new DetectionEntryViewModel
-                        ($"Row {10 - i}",
-                        DetectionCurrent[i, 0],
-                        DetectionCurrent[i, 1],
-                        DetectionCurrent[i, 2],
-                        DetectionCurrent[i, 3],
-                        DetectionCurrent[i, 4],
-                        DetectionCurrent[i, 5],
-                        DetectionCurrent[i, 6],
-                        DetectionCurrent[i, 7],
-                        DetectionCurrent[i, 8],
-                        DetectionCurrent[i, 9],
-                        Min,
-                        Max));
-                });
+                    DetectionHistoryEntries.Add(new DetectionEntryViewModel
+                            ($"Row {10 - i}",
+                            HistoryTray[i, 0],
+                            HistoryTray[i, 1],
+                            HistoryTray[i, 2],
+                            HistoryTray[i, 3],
+                            HistoryTray[i, 4],
+                            HistoryTray[i, 5],
+                            HistoryTray[i, 6],
+                            HistoryTray[i, 7],
+                            HistoryTray[i, 8],
+                            HistoryTray[i, 9],
+                            Min,
+                            Max));
+                }
                 OnPropertyChanged(nameof(DetectionHistoryEntries));
             }
-        }
-
-        private void LoadHistory3()
-        {
-            DetectionHistoryEntries = new ObservableCollection<DetectionEntryViewModel>();
-            for (int i = 0; i < 10; i++)
+            catch (HttpRequestException)
             {
-                System.Windows.Application.Current.Dispatcher.Invoke((Action)delegate
-                {
-                    DetectionEntries.Add(new DetectionEntryViewModel
-                        ($"Row {10 - i}",
-                        DetectionCurrent[i, 0],
-                        DetectionCurrent[i, 1],
-                        DetectionCurrent[i, 2],
-                        DetectionCurrent[i, 3],
-                        DetectionCurrent[i, 4],
-                        DetectionCurrent[i, 5],
-                        DetectionCurrent[i, 6],
-                        DetectionCurrent[i, 7],
-                        DetectionCurrent[i, 8],
-                        DetectionCurrent[i, 9],
-                        Min,
-                        Max));
-                });
-                OnPropertyChanged(nameof(DetectionHistoryEntries));
+                ShowErrorMessage("Đã có lỗi xảy ra: Mất kết nối với server.");
             }
         }
-
-        private void LoadHistory4()
-        {
-            DetectionHistoryEntries = new ObservableCollection<DetectionEntryViewModel>();
-            for (int i = 0; i < 10; i++)
-            {
-                System.Windows.Application.Current.Dispatcher.Invoke((Action)delegate
-                {
-                    DetectionEntries.Add(new DetectionEntryViewModel
-                        ($"Row {10 - i}",
-                        DetectionCurrent[i, 0],
-                        DetectionCurrent[i, 1],
-                        DetectionCurrent[i, 2],
-                        DetectionCurrent[i, 3],
-                        DetectionCurrent[i, 4],
-                        DetectionCurrent[i, 5],
-                        DetectionCurrent[i, 6],
-                        DetectionCurrent[i, 7],
-                        DetectionCurrent[i, 8],
-                        DetectionCurrent[i, 9],
-                        Min,
-                        Max));
-                });
-                OnPropertyChanged(nameof(DetectionHistoryEntries));
-            }
-        }
-
-        private void LoadHistory5()
-        {
-            DetectionHistoryEntries = new ObservableCollection<DetectionEntryViewModel>();
-            for (int i = 0; i < 10; i++)
-            {
-                System.Windows.Application.Current.Dispatcher.Invoke((Action)delegate
-                {
-                    DetectionEntries.Add(new DetectionEntryViewModel
-                        ($"Row {10 - i}",
-                        DetectionCurrent[i, 0],
-                        DetectionCurrent[i, 1],
-                        DetectionCurrent[i, 2],
-                        DetectionCurrent[i, 3],
-                        DetectionCurrent[i, 4],
-                        DetectionCurrent[i, 5],
-                        DetectionCurrent[i, 6],
-                        DetectionCurrent[i, 7],
-                        DetectionCurrent[i, 8],
-                        DetectionCurrent[i, 9],
-                        Min,
-                        Max));
-                });
-                OnPropertyChanged(nameof(DetectionHistoryEntries));
-            }
-        }
-
     }
 }
